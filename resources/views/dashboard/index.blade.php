@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<body>
+<div id="layoutSidenav_content">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <h1 class="mt-4">Dashboard</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+    </main>
+</div> 
+</body>
+</html>
