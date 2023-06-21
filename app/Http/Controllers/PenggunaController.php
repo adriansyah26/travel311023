@@ -14,10 +14,10 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        $pengguna = Pengguna::latest()->paginate(5);
+        $pengguna = Pengguna::latest()->paginate(100);
       
         return view('pengguna.index',compact('pengguna'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 100);
     }
 
     /**
@@ -47,7 +47,7 @@ class PenggunaController extends Controller
         Pengguna::create($request->all());
        
         return redirect()->route('pengguna.index')
-                        ->with('success','Pengguna created successfully.');
+                        ->with('success','Users created successfully.');
     }
 
     /**
@@ -90,7 +90,7 @@ class PenggunaController extends Controller
         $pengguna->update($request->all());
       
         return redirect()->route('pengguna.index')
-                        ->with('success','Pengguna updated successfully');
+                        ->with('success','Users updated successfully');
     }
 
     /**
@@ -104,6 +104,6 @@ class PenggunaController extends Controller
         $pengguna->delete();
        
         return redirect()->route('pengguna.index')
-                        ->with('success','Pengguna deleted successfully');
+                        ->with('success','Users deleted successfully');
     }
 }

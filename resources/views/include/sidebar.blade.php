@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-@include('include.title')
+<!-- sidebar -->
 
-<body>
-@include('include.navbar')
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -39,42 +35,14 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-<!-- content -->
-            <div class="container mt-3 px-4">
-                <div class="col-lg-12 margin-tb">
-                    <div>
-                        <h2> Show Users</h2>
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
                     </div>
-                    <div>
-                        <a class="btn btn-primary" href="{{ route('pengguna.index') }}"> Back</a>
-                    </div>
-                </div>
-            </div>     
-            <div class="container mt-3 px-4">
-                <div class="col-lg-12 margin-tb">
-                    <div class="form-group">
-                        <strong>Nama:</strong>
-                        {{ $pengguna->name }}
-                    </div>
-                </div>
-            </div>
-            <div class="container mt-3 px-4">
-                <div class="col-lg-12 margin-tb">
-                    <div class="form-group">
-                        <strong>Email:</strong>
-                        {{ $pengguna->email }}
-                    </div>
-                </div>
-            </div>
-            <div class="container mt-3 px-4">
-                <div class="col-lg-12 margin-tb">
-                    <div class="form-group">
-                        <strong>Phone:</strong>
-                        {{ $pengguna->phone }}
-                    </div>
-                </div>
-            </div>
-<!-- endcontent -->
+                </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -87,8 +55,5 @@
                         </div>
                     </div>
                 </footer>
-            </div>            
-        </div> 
-@include('include.script')
-</body>
-</html>
+            </div>
+        </div>
