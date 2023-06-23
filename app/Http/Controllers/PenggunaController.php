@@ -14,10 +14,10 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        $pengguna = Pengguna::latest()->paginate(100);
+        $pengguna = Pengguna::latest()->paginate(5);
       
         return view('pengguna.index',compact('pengguna'))
-            ->with('i', (request()->input('page', 1) - 1) * 100);
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**

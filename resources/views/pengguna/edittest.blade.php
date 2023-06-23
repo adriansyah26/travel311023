@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('include.title')
+
 <body>
 @include('include.navbar')
         <div id="layoutSidenav">
@@ -37,67 +38,63 @@
                     </div>
                 </nav>
             </div>
-<!-- content -->
             <div id="layoutSidenav_content">
+<!-- content -->
             <div class="container mt-3 px-4">
                 <div class="col-lg-12 margin-tb">
-                    <div class="float-start">
-                        <h2>Users</h2>
+                    <div>
+                        <h2>Edit Users</h2>
                     </div>
-                    <div class="container mt-3 px-4">
-                        <div class="col-lg-12 margin-tb">
-                            <div class="float-end">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalCreate">
-                                    Create New Users
-                                </button>
-                            </div>
-                        </div>
+                    <div>
+                        <a class="btn btn-primary" href="{{ route('pengguna.index') }}"> Back</a>
                     </div>
-@include('pengguna.create')
-            @if ($message = Session::get('success'))
-            <div class="alert alert-success container mt-3 px-4">
-                <p>{{ $message }}</p>
+                </div>
             </div>
-            @endif   
-            <table class="table table-bordered container mt-3 px-4" style="width: 1100px;">
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th width="280px">Action</th>
-                </tr>
-                @foreach ($pengguna as $pna)
-                <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $pna->name }}</td>
-                    <td>{{ $pna->email }}</td>
-                    <td>{{ $pna->phone }}</td>                                                       
-                    <td>
-                        <div class="d-flex">
-                            <a class="btn btn-info me-1" href="{{ route('pengguna.show',$pna->id) }}">Show</a>                          
-                            <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#exampleModalEdit-{{ $pna->id }}">
-                                Edit
-                            </button>
-@include('pengguna.edit')
-                            <form action="{{ route('pengguna.destroy',$pna->id) }}" method="POST">
-                                @csrf                           
-                                @method('DELETE') 
-                                <button type="submit" class="btn btn-danger me-1">Delete</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </table>
-            <div class="row text-center">
-                <nav aria label ="page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li>{!! $pengguna->links() !!}</li>
+   
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
-                </nav>
-            </div>
-<!-- endcontent -->
+                </div>
+            @endif
+  
+            <form action="{{ route('pengguna.update',$pengguna->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+        
+                <div class="container mt-3 px-4">
+                    <div class="col-lg-12 margin-tb">
+                        <div class="form-group">
+                            <strong>Nama:</strong>
+                            <input type="text" name="name" value="{{ $pengguna->name }}" class="form-control" placeholder="Nama">
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-3 px-4">
+                    <div class="col-lg-12 margin-tb">
+                        <div class="form-group">
+                            <strong>Email:</strong>
+                            <input class="form-control" name="email" placeholder="Email" value="{{ $pengguna->email }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-3 px-4">
+                    <div class="col-lg-12 margin-tb">
+                        <div class="form-group">
+                            <strong>Phone:</strong>
+                            <input class="form-control" name="phone" placeholder="Phone" value="{{ $pengguna->phone }}">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-3">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>   
+            </form>
+    <!-- endcontent -->
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -112,6 +109,5 @@
                 </footer>
             </div>
         </div> 
-@include('include.script')
+    @include('include.script')
 </body>
-</html>
