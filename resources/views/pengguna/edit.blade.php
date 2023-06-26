@@ -22,19 +22,33 @@
             <form action="{{ route('pengguna.update', $pna->id) }}" method="POST">
                 @csrf
                 @method('PUT')
+                
                 <div class="container px-4">
                     <div class="col-lg-12 margin-tb">
                         <div class="form-group">
-                            <strong>Nama:</strong>
-                            <input type="text" name="name" value="{{ $pna->name }}" class="form-control" placeholder="Nama">
+                            <strong>Title:</strong>
+                            <div class="input-group mb-3">
+                                <select class="form-select" name="title">
+                                    <option value="Mr">Mr</option>
+                                    <option value="Mrs">Mrs</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="container mt-3 px-4">
                     <div class="col-lg-12 margin-tb">
                         <div class="form-group">
-                            <strong>Email:</strong>
-                            <input class="form-control" name="email" placeholder="Email" value="{{ $pna->email }}">
+                            <strong>First Name:</strong>
+                            <input type="text" name="first_name" value="{{ $pna->first_name }}" class="form-control" placeholder="First Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-3 px-4">
+                    <div class="col-lg-12 margin-tb">
+                        <div class="form-group">
+                            <strong>Last Name:</strong>
+                            <input type="text" name="last_name" value="{{ $pna->last_name }}" class="form-control" placeholder="Last Name">
                         </div>
                     </div>
                 </div>
@@ -45,11 +59,23 @@
                             <input class="form-control" name="phone" placeholder="Phone" value="{{ $pna->phone }}">
                         </div>
                     </div>
-                </div>  
                 </div>
-                <div class="modal-footer px-4">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                <div class="container mt-3 px-4">
+                    <div class="col-lg-12 margin-tb">
+                        <div class="form-group">
+                            <strong>Email:</strong>
+                            <input class="form-control" name="email" placeholder="Email" value="{{ $pna->email }}">
+                        </div>
+                    </div>
+                </div>                  
+                </div>
+                <div class="container mt-1 px-4">
+                    <div class="col-lg-12 margin-tb">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
                 </div>
             </form>
     </div>

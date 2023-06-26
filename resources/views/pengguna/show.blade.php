@@ -49,20 +49,28 @@
                         <a class="btn btn-primary" href="{{ route('pengguna.index') }}"> Back</a>
                     </div>
                 </div>
-            </div>     
+            </div>
             <div class="container mt-3 px-4">
                 <div class="col-lg-12 margin-tb">
                     <div class="form-group">
-                        <strong>Nama:</strong>
-                        {{ $pengguna->name }}
+                        <strong>Title:</strong>
+                        {{ $pengguna->title }}
                     </div>
                 </div>
             </div>
             <div class="container mt-3 px-4">
                 <div class="col-lg-12 margin-tb">
                     <div class="form-group">
-                        <strong>Email:</strong>
-                        {{ $pengguna->email }}
+                        <strong>First Name:</strong>
+                        {{ $pengguna->first_name }}
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-3 px-4">
+                <div class="col-lg-12 margin-tb">
+                    <div class="form-group">
+                        <strong>Last Name:</strong>
+                        {{ $pengguna->last_name }}
                     </div>
                 </div>
             </div>
@@ -73,7 +81,15 @@
                         {{ $pengguna->phone }}
                     </div>
                 </div>
-            </div>
+            </div>     
+            <div class="container mt-3 px-4">
+                <div class="col-lg-12 margin-tb">
+                    <div class="form-group">
+                        <strong>Email:</strong>
+                        {{ $pengguna->email }}
+                    </div>
+                </div>
+            </div>            
 <!-- endcontent -->
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">

@@ -20,20 +20,33 @@
                         @endif
                         <form action="{{ route('pengguna.store') }}" method="POST">
                             @csrf
-                        
+
                             <div class="container px-4">
                                 <div class="col-lg-12 margin-tb">
                                     <div class="form-group">
-                                        <strong>Nama:</strong>
-                                        <input type="text" name="name" class="form-control" placeholder="Nama">
+                                    <strong>Title:</strong>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" name="title">
+                                                <option value="Mr">Mr</option>
+                                                <option value="Mrs">Mrs</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="container mt-3 px-4">
                                 <div class="col-lg-12 margin-tb">
                                     <div class="form-group">
-                                        <strong>Email:</strong>
-                                        <input class="form-control" name="email" placeholder="Email"></input>
+                                        <strong>First Name:</strong>
+                                        <input type="text" name="first_name" class="form-control" placeholder="First Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container mt-3 px-4">
+                                <div class="col-lg-12 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Last Name:</strong>
+                                        <input type="text" name="last_name" class="form-control" placeholder="Last Name">
                                     </div>
                                 </div>
                             </div>
@@ -44,12 +57,24 @@
                                         <input class="form-control" name="phone" placeholder="Phone"></input>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="container mt-3 px-4">
+                                <div class="col-lg-12 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Email:</strong>
+                                        <input class="form-control" name="email" placeholder="Email"></input>
+                                    </div>
+                                </div>
                             </div>                              
                 </div>
-                                    <div class="modal-footer px-4">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-success">Submit</button>
-                                    </div>                                               
+                                <div class="container mt-1 px-4">
+                                    <div class="col-lg-12 margin-tb">
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>                                               
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 @include('include.title')
 <body>
 @include('include.navbar')
-        <div id="layoutSidenav">
+<div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
@@ -14,21 +14,29 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">ANTARMUKA</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            <a class="nav-link" href="pengguna">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Invoice
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                                </nav>
-                            </div>
                             <a class="nav-link" href="pengguna">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Users
                             </a>
+                            <a class="nav-link" href="pengguna">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Customers
+                            </a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Master Data
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Product</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Type</a>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -54,25 +62,31 @@
                         </div>
                     </div>
 @include('pengguna.create')
+            <div class="row container mt-1 px-4">
             @if ($message = Session::get('success'))
-            <div class="alert alert-success container mt-3 px-4">
+            <div class="alert alert-success container mt-1 px-4">
                 <p>{{ $message }}</p>
             </div>
-            @endif   
+            @endif 
+            </div>  
             <table class="table table-bordered container mt-3 px-4" style="width: 1100px;">
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Email</th>
+                    <th>Title</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Phone</th>
+                    <th>Email</th>                    
                     <th width="280px">Action</th>
                 </tr>
                 @foreach ($pengguna as $pna)
                 <tr>
                     <td>{{ ++$i }}</td>
-                    <td>{{ $pna->name }}</td>
-                    <td>{{ $pna->email }}</td>
-                    <td>{{ $pna->phone }}</td>                                                       
+                    <td>{{ $pna->title }}</td>
+                    <td>{{ $pna->first_name }}</td>
+                    <td>{{ $pna->last_name }}</td>
+                    <td>{{ $pna->phone }}</td>
+                    <td>{{ $pna->email }}</td>                                                                           
                     <td>
                         <div class="d-flex">
                             <a class="btn btn-info me-1" href="{{ route('pengguna.show',$pna->id) }}">Show</a>                          
@@ -90,7 +104,7 @@
                 </tr>
                 @endforeach
             </table>
-            <div class="row text-center">
+            <div class="row text-center container mt-3 px-4">
                 <nav aria label ="page navigation example">
                     <ul class="pagination justify-content-center">
                         <li>{!! $pengguna->links() !!}</li>

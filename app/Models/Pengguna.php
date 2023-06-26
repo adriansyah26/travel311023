@@ -10,6 +10,7 @@ class Pengguna extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'phone'
+       'title', 'first_name', 'last_name', 'phone','email'  
     ];
+   
 }
