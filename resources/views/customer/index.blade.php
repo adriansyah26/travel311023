@@ -1,6 +1,9 @@
-<!-- sidebar -->
-
-        <div id="layoutSidenav">
+<!DOCTYPE html>
+<html lang="en">
+@include('include.title')
+<body>
+@include('include.navbar')
+<div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
@@ -42,15 +45,73 @@
                     </div>
                 </nav>
             </div>
+<!-- content -->
             <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
+            <div class="container mt-3 px-4">
+                <div class="col-lg-12 margin-tb">
+                    <div class="float-start">
+                        <h2>Customers</h2>
                     </div>
-                </main>
+                    <div class="container mt-3 px-4">
+                        <div class="col-lg-12 margin-tb">
+                            <div class="float-end">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalCreate">
+                                    Create New Customers
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+@include('customer.create')
+            <div class="row container mt-1 px-4">
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success container mt-1 px-4">
+                <p>{{ $message }}</p>
+            </div>
+            @endif 
+            </div>  
+            <table class="table table-bordered container mt-3 px-4" style="width: 1100px;">
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Type</th>                    
+                    <th width="200px">Action</th>
+                </tr>
+                @foreach ($customer as $cst)
+                <tr>
+                    <td>{{ ++$i }}</td>
+                    <td>{{ $cst->name }}</td>
+                    <td>{{ $cst->phone }}</td>
+                    <td>{{ $cst->email }}</td>
+                    <td>{{ $cst->address }}</td>
+                    <td>{{ $cst->type }}</td>                                                                           
+                    <td>
+                        <div class="d-flex">
+                            <!-- <a class="btn btn-info me-1" href="{{ route('customer.show',$cst->id) }}">Show</a>                           -->
+                            <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#exampleModalEdit-{{ $cst->id }}">
+                                Edit
+                            </button>
+@include('customer.edit')
+                            <form action="{{ route('customer.destroy',$cst->id) }}" method="POST">
+                                @csrf                           
+                                @method('DELETE') 
+                                <button type="submit" class="btn btn-danger me-1">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </table>
+            <div class="row text-center container mt-3 px-4">
+                <nav aria label ="page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li>{!! $customer->links() !!}</li>
+                    </ul>
+                </nav>
+            </div>
+<!-- endcontent -->
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -64,4 +125,7 @@
                     </div>
                 </footer>
             </div>
-        </div>
+        </div> 
+@include('include.script')
+</body>
+</html>

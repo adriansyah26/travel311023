@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengguna;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class PenggunaController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        $pengguna = Pengguna::latest()->paginate(10);
+        $customer = Customer::latest()->paginate(10);
       
-        return view('pengguna.index',compact('pengguna'))
+        return view('customer.index',compact('customer'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -27,7 +27,7 @@ class PenggunaController extends Controller
      */
     public function create()
     {
-        return view('pengguna.create');
+        return view('customer.create');
     }
 
     /**
@@ -39,75 +39,75 @@ class PenggunaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'name' => 'required',
             'phone' => 'required',
             'email' => 'required',
+            'address' => 'required',
+            'type' => 'required',
         ]);
       
-        Pengguna::create($request->all());
+        Customer::create($request->all());
        
-        return redirect()->route('pengguna.index')
-                        ->with('success','Users created successfully.');
+        return redirect()->route('customer.index')
+                        ->with('success','Customers created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pengguna  $pengguna
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Pengguna $pengguna)
+    public function show(Customer $customer)
     {
-        return view('pengguna.show',compact('pengguna'));
+        return view('customer.show',compact('customer')); 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pengguna  $pengguna
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pengguna $pengguna)
+    public function edit(Customer $customer)
     {
-        return view('pengguna.edit',compact('pengguna'));
+        return view('customer.edit',compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pengguna  $pengguna
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pengguna $pengguna)
+    public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'title' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'name' => 'required',
             'phone' => 'required',
             'email' => 'required',
+            'address' => 'required',
+            'type' => 'required',
         ]);
       
-        $pengguna->update($request->all());
+        $customer->update($request->all());
       
-        return redirect()->route('pengguna.index')
-                        ->with('success','Users updated successfully');
+        return redirect()->route('customer.index')
+                        ->with('success','Customers updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pengguna  $pengguna
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pengguna $pengguna)
+    public function destroy(Customer $customer)
     {
-        $pengguna->delete();
+        $customer->delete();
        
-        return redirect()->route('pengguna.index')
-                        ->with('success','Users deleted successfully');
+        return redirect()->route('customer.index')
+                        ->with('success','Customer deleted successfully');
     }
 }

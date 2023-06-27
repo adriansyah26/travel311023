@@ -9,7 +9,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">HALAMAN UTAMA</div>
-                            <a class="nav-link" href="dashboard.index">
+                            <a class="nav-link" href="dashboard">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
@@ -22,7 +22,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Users
                             </a>
-                            <a class="nav-link" href="pengguna">
+                            <a class="nav-link" href="customer">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Customers
                             </a>
@@ -77,7 +77,7 @@
                     <th>Last Name</th>
                     <th>Phone</th>
                     <th>Email</th>                    
-                    <th width="280px">Action</th>
+                    <th width="200px">Action</th>
                 </tr>
                 @foreach ($pengguna as $pna)
                 <tr>
