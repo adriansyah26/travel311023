@@ -61,9 +61,9 @@
                             <strong>Type:</strong>
                                 <div class="input-group mb-3">
                                     <select class="form-select" name="type">
-                                        <option value="Flight">Flight</option>
-                                        <option value="Train">Train</option>
-                                        <option value="Hotel">Hotel</option>
+                                        <option value="Personal">Personal</option>
+                                        <option value="Corporate">Corporate</option>
+                                        <option value="Goverenment">Goverenment</option>
                                     </select>
                                 </div>
                         </div>

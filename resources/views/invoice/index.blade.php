@@ -50,51 +50,59 @@
             <div class="container mt-3 px-4">
                 <div class="col-lg-12 margin-tb">
                     <div class="float-start">
-                        <h2>Customers</h2>
+                        <h2>Invoice</h2>
                     </div>
                     <div class="container mt-3 px-4">
                         <div class="col-lg-12 margin-tb">
                             <div class="float-end">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalCreate">
-                                    Create New Customers
+                                    Create New Invoice
                                 </button>
                             </div>
                         </div>
                     </div>
-@include('customer.create')
+@include('invoice.create')
             <div class="row container mt-1 px-4">
             @if ($message = Session::get('success'))
             <div class="alert alert-success container mt-1 px-4">
                 <p>{{ $message }}</p>
             </div>
             @endif 
-            </div>  
+            </div>
             <table class="table table-bordered container mt-3 px-4" style="width: 1100px;">
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Type</th>                    
-                    <th width="150px">Action</th>
+                    <th>Invoice Number</th>
+                    <th>Products</th>
+                    <th>Item</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th>Markup</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th width="200px">Action</th>
                 </tr>
-                @foreach ($customer as $cst)
+                @foreach ($invoice as $ive)
                 <tr>
                     <td>{{ ++$i }}</td>
-                    <td>{{ $cst->name }}</td>
-                    <td>{{ $cst->phone }}</td>
-                    <td>{{ $cst->email }}</td>
-                    <td>{{ $cst->address }}</td>
-                    <td>{{ $cst->type }}</td>                                                                           
+                    <td>{{ $ive->invoice_number }}</td>
+                    <td>{{ $ive->product }}</td>
+                    <td>{{ $ive->item }}</td>
+                    <td>{{ $ive->description }}</td>
+                    <td>{{ $ive->quantity }}</td>
+                    <td>{{ $ive->amount }}</td>
+                    <td>{{ $ive->markup }}</td>
+                    <td>{{ $ive->total }}</td>
+                    <td>{{ $ive->status }}</td>
                     <td>
                         <div class="d-flex">
-                            <!-- <a class="btn btn-info me-1" href="{{ route('customer.show',$cst->id) }}">Show</a>                           -->
-                            <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#exampleModalEdit-{{ $cst->id }}">
+                            <a class="btn btn-info me-1" href="{{ route('invoice.show',$ive->id) }}">Show</a>                          
+                            <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#exampleModalEdit-{{ $ive->id }}">
                                 Edit
                             </button>
-@include('customer.edit')
-                            <form action="{{ route('customer.destroy',$cst->id) }}" method="POST">
+@include('invoice.edit')
+                            <form action="{{ route('invoice.destroy',$ive->id) }}" method="POST">
                                 @csrf                           
                                 @method('DELETE') 
                                 <button type="submit" class="btn btn-danger me-1">Delete</button>
@@ -107,7 +115,7 @@
             <div class="row text-center container mt-3 px-4">
                 <nav aria label ="page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li>{!! $customer->links() !!}</li>
+                        <li>{!! $invoice->links() !!}</li>
                     </ul>
                 </nav>
             </div>
