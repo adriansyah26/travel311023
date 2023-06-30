@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,4 +44,6 @@ Route::resource('/dashboard', DashboardController::class)->middleware('auth');
 Route::resource('/invoice', InvoiceController::class)->middleware('auth');
 Route::resource('/pengguna', PenggunaController::class)->middleware('auth');
 Route::resource('/customer', CustomerController::class)->middleware('auth');
-
+// Master Data
+Route::resource('/product', ProductController::class)->middleware('auth');
+Route::resource('/type', TypeController::class)->middleware('auth');

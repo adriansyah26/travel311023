@@ -49,7 +49,7 @@ class CustomerController extends Controller
         Customer::create($request->all());
        
         return redirect()->route('customer.index')
-                        ->with('success','Customers created successfully.');
+                        ->with('success','Customers created successfully');
     }
 
     /**
