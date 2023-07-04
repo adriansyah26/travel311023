@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('item');
             $table->string('description');
             $table->integer('quantity');
-            $table->string('amount');
-            $table->string('markup');
-            $table->string('total');
+            $table->integer('amount');
+            $table->integer('markup');
+            $table->integer('total');
             $table->string('status');
             $table->timestamps();
         });

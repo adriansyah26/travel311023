@@ -38,10 +38,10 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'name' => 'required',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => ['required','email', 'unique:customers,email'],
             'address' => 'required',
             'type' => 'required',
         ]);
@@ -83,10 +83,10 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'name' => 'required',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => ['required',"unique:customers,email,$customer->id,id"],
             'address' => 'required',
             'type' => 'required',
         ]);

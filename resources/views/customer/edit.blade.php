@@ -27,7 +27,7 @@
                     <div class="col-lg-12 margin-tb">
                         <div class="form-group">
                             <strong>Name:</strong>
-                            <input type="text" name="name" value="{{ $cst->name }}" class="form-control" placeholder="Name">
+                            <input type="text" name="name" value="{{ $cst->name }}" class="form-control" placeholder="Name" value="{{ old('name') }}">
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="col-lg-12 margin-tb">
                         <div class="form-group">
                             <strong>Phone:</strong>
-                            <input class="form-control" name="phone" placeholder="Phone" value="{{ $cst->phone }}">
+                            <input class="form-control" name="phone" placeholder="Phone" type="number" value="{{ $cst->phone }}" value="{{ old('phone') }}">
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,13 @@
                     <div class="col-lg-12 margin-tb">
                         <div class="form-group">
                             <strong>Email:</strong>
-                            <input class="form-control" name="email" placeholder="Email" value="{{ $cst->email }}">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email"
+                                placeholder="name@example.com" value="{{ $cst->email }}" value="{{ old('email') }}">
+                            @error('email')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -51,7 +57,7 @@
                     <div class="col-lg-12 margin-tb">
                         <div class="form-group">
                             <strong>Address:</strong>
-                            <input type="text" name="address" value="{{ $cst->address }}" class="form-control" placeholder="Address">
+                            <input type="text" name="address" value="{{ $cst->address }}" class="form-control" placeholder="Address" value="{{ old('address') }}">
                         </div>
                     </div>
                 </div>
@@ -60,10 +66,10 @@
                         <div class="form-group">
                             <strong>Type:</strong>
                                 <div class="input-group mb-3">
-                                    <select class="form-select" name="type">
+                                    <select class="form-select" name="type" value="{{ old('type') }}">
                                         <option value="Personal">Personal</option>
                                         <option value="Corporate">Corporate</option>
-                                        <option value="Goverenment">Goverenment</option>
+                                        <option value="Goverment">Goverment</option>
                                     </select>
                                 </div>
                         </div>

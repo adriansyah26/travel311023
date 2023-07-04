@@ -38,12 +38,12 @@ class PenggunaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'title' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => ['required', 'email', 'unique:penggunas,email'],
         ]);
       
         Pengguna::create($request->all());
@@ -83,12 +83,12 @@ class PenggunaController extends Controller
      */
     public function update(Request $request, Pengguna $pengguna)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'title' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => ['required',"unique:penggunas,email,$pengguna->id,id"],
         ]);
       
         $pengguna->update($request->all());

@@ -65,6 +65,10 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         return view('invoice.show',compact('invoice'));
+
+        $pdf = PDF::loadView('invoice_pdf');
+
+        return $pdf->download('techsolutionstuff.pdf');
     }
 
     /**

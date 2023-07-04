@@ -97,7 +97,7 @@
                     <td>{{ $ive->status }}</td>
                     <td>
                         <div class="d-flex">
-                            <a class="btn btn-info me-1" href="{{ route('invoice.show',$ive->id) }}">Show</a>                          
+                            
                             <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#exampleModalEdit-{{ $ive->id }}">
                                 Edit
                             </button>
@@ -107,6 +107,7 @@
                                 @method('DELETE') 
                                 <button type="submit" class="btn btn-danger me-1">Delete</button>
                             </form>
+                            <a class="btn btn-info me-1" target="blank" href="{{ route('invoice.show',$ive->id) }}">Generate</a>
                         </div>
                     </td>
                 </tr>
