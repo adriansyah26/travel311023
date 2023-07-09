@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('invoice_number');
+            $table->string('invoice_number')->unique();
             $table->string('product');
             $table->string('item');
             $table->string('description');
             $table->integer('quantity');
-            $table->integer('amount');
-            $table->integer('markup');
-            $table->integer('total');
+            $table->biginteger('amount');
+            $table->biginteger('markup');
+            $table->biginteger('total');
             $table->string('status');
             $table->timestamps();
         });

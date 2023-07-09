@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 class InvoiceController extends Controller
 {
@@ -15,8 +17,8 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoice = Invoice::latest()->paginate(10);
-      
-        return view('invoice.index',compact('invoice'))
+
+        return view('invoice.index', compact('invoice'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -38,8 +40,8 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'invoice_number' => 'required',
+        $validRequest = $request->validate([
+            // 'invoice_number' => 'required',
             'product' => 'required',
             'item' => 'required',
             'description' => 'required',
@@ -49,11 +51,11 @@ class InvoiceController extends Controller
             'total' => 'required',
             'status' => 'required',
         ]);
-      
-        Invoice::create($request->all());
-       
+
+        Invoice::create($validRequest);
+
         return redirect()->route('invoice.index')
-                        ->with('success','Invoice created successfully.');
+            ->with('success', 'Invoice created successfully.');
     }
 
     /**
@@ -64,7 +66,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        return view('invoice.show',compact('invoice'));
+        return view('invoice.show', compact('invoice'));
 
         $pdf = PDF::loadView('invoice_pdf');
 
@@ -79,7 +81,7 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        return view('invoice.edit',compact('invoice'));
+        return view('invoice.edit', compact('invoice'));
     }
 
     /**
@@ -92,7 +94,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $request->validate([
-            'invoice_number' => 'required',
+            // 'invoice_number' => 'required',
             'product' => 'required',
             'item' => 'required',
             'description' => 'required',
@@ -102,11 +104,11 @@ class InvoiceController extends Controller
             'total' => 'required',
             'status' => 'required',
         ]);
-      
+
         $invoice->update($request->all());
-      
+
         return redirect()->route('invoice.index')
-                        ->with('success','Invoice updated successfully');
+            ->with('success', 'Invoice updated successfully');
     }
 
     /**
@@ -118,8 +120,8 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();
-       
+
         return redirect()->route('invoice.index')
-                        ->with('success','Invoice deleted successfully');
+            ->with('success', 'Invoice deleted successfully');
     }
 }
