@@ -15,8 +15,8 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::latest()->paginate(10);
-      
-        return view('master-data.product.index',compact('product'))
+
+        return view('master-data.product.index', compact('product'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('master-data.product.index');
+        return view('master-data.product.create');
     }
 
     /**
@@ -42,11 +42,11 @@ class ProductController extends Controller
             'code' => 'required',
             'name' => 'required',
         ]);
-      
+
         Product::create($request->all());
-       
+
         return redirect()->route('product.index')
-                        ->with('success','Product created successfully');
+            ->with('success', 'Product created successfully');
     }
 
     /**
@@ -68,7 +68,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('master-data.product.index',compact('product'));
+        return view('master-data.product.edit', compact('product'));
     }
 
     /**
@@ -84,11 +84,11 @@ class ProductController extends Controller
             'code' => 'required',
             'name' => 'required',
         ]);
-      
+
         $product->update($request->all());
-      
+
         return redirect()->route('product.index')
-                        ->with('success','Product updated successfully');
+            ->with('success', 'Product updated successfully');
     }
 
     /**
@@ -100,8 +100,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-       
+
         return redirect()->route('product.index')
-                        ->with('success','Product deleted successfully');
+            ->with('success', 'Product deleted successfully');
     }
 }

@@ -7,7 +7,7 @@ use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
@@ -18,6 +18,6 @@ class DashboardController extends Controller
         $totalInvoice = Invoice::sum('total');
         $monthInvoice = Invoice::wheremonth('created_at', $month)->sum('total');
 
-        return view('dashboard.index', compact('totalCustomer', 'totalInvoice', 'month', 'monthInvoice'));
+        return view('home', compact('totalCustomer', 'totalInvoice', 'month', 'monthInvoice'));
     }
 }

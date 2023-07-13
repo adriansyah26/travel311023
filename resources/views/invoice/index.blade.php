@@ -57,13 +57,11 @@
                         <div class="container mt-3 px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="float-end">
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalCreate">
-                                        Create New Invoice
-                                    </button>
+                                    <a class="btn btn-success" href="{{ route('invoice.create') }}"> Create New Invoice</a>
                                 </div>
                             </div>
                         </div>
-                        @include('invoice.create')
+
                         <div class="row container mt-1 px-4">
                             @if ($message = Session::get('success'))
                             <div class="alert alert-success container mt-1 px-4">
@@ -104,10 +102,7 @@
                                             <td>{{ $ive->status }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#exampleModalEdit-{{ $ive->id }}">
-                                                        Edit
-                                                    </button>
-                                                    @include('invoice.edit')
+                                                    <a class="btn btn-primary me-1" href="{{ route('invoice.edit',$ive->id) }}">Edit</a>
                                                     <form action="{{ route('invoice.destroy',$ive->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')

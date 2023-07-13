@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>TRAVEL</title>
+    <link rel="icon" href="/image/travellogo2.png">
+    <title>K - Tour & Travel</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -16,7 +17,8 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="home">TRAVEL</a>
+        <!-- <img src="/image/travellogo2.png" alt="image navbar" style="width:40px;height:30px;"> -->
+        <a class="navbar-brand ps-3" href="home">K - Tour & Travel</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
@@ -97,23 +99,27 @@
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
+                    <hr>
                     <div class="row">
                         <div class="col-xl-3 col-md-6">
-                            <div class="card bg-primary text-white mb-4">
-                                <div class="card-body">Customers</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
+                            <div class="card card-body bg-primary text-white mb-4">
+                                <label>Total Customers</label>
+                                <h1>{{$totalCustomer}}</h1>
+                                <a href="{{url('customer')}}" class="small text-white">View</a>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="card bg-warning text-white mb-4">
-                                <div class="card-body">Invoice</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
+                            <div class="card card-body bg-warning text-white mb-4">
+                                <label>Total Invoice</label>
+                                <h1>{{$totalInvoice}}</h1>
+                                <a href="{{url('invoice')}}" class="small text-white">View</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-body bg-success text-white mb-4">
+                                <label>Month Invoice</label>
+                                <h1>{{$monthInvoice}}</h1>
+                                <a href="{{url('invoice')}}" class="small text-white">View</a>
                             </div>
                         </div>
                     </div>

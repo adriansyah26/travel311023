@@ -57,13 +57,11 @@
                         <div class="container mt-3 px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="float-end">
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalCreate">
-                                        Create New Users
-                                    </button>
+                                    <a class="btn btn-success" href="{{ route('pengguna.create') }}"> Create New Users</a>
                                 </div>
                             </div>
                         </div>
-                        @include('pengguna.create')
+
                         <div class="row container mt-1 px-4">
                             @if ($message = Session::get('success'))
                             <div class="alert alert-success container mt-1 px-4">
@@ -97,10 +95,7 @@
                                             <td>
                                                 <div class="d-flex">
                                                     <a class="btn btn-info me-1" href="{{ route('pengguna.show',$pna->id) }}">Show</a>
-                                                    <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#exampleModalEdit-{{ $pna->id }}">
-                                                        Edit
-                                                    </button>
-                                                    @include('pengguna.edit')
+                                                    <a class="btn btn-primary me-1" href="{{ route('pengguna.edit',$pna->id) }}">Edit</a>
                                                     <form action="{{ route('pengguna.destroy',$pna->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')

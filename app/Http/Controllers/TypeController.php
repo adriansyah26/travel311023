@@ -15,8 +15,8 @@ class TypeController extends Controller
     public function index()
     {
         $type = Type::latest()->paginate(10);
-      
-        return view('master-data.type.index',compact('type'))
+
+        return view('master-data.type.index', compact('type'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -27,7 +27,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        return view('master-data.type.index');
+        return view('master-data.type.create');
     }
 
     /**
@@ -42,11 +42,11 @@ class TypeController extends Controller
             'code' => 'required',
             'name' => 'required',
         ]);
-      
+
         Type::create($request->all());
-       
+
         return redirect()->route('type.index')
-                        ->with('success','Type created successfully');
+            ->with('success', 'Type created successfully');
     }
 
     /**
@@ -68,7 +68,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        return view('master-data.type.index',compact('type'));
+        return view('master-data.type.edit', compact('type'));
     }
 
     /**
@@ -84,11 +84,11 @@ class TypeController extends Controller
             'code' => 'required',
             'name' => 'required',
         ]);
-      
+
         $type->update($request->all());
-      
+
         return redirect()->route('type.index')
-                        ->with('success','Type updated successfully');
+            ->with('success', 'Type updated successfully');
     }
 
     /**
@@ -100,8 +100,8 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         $type->delete();
-       
+
         return redirect()->route('type.index')
-                        ->with('success','Type deleted successfully');
+            ->with('success', 'Type deleted successfully');
     }
 }

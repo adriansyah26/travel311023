@@ -23,14 +23,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('home');
+    return redirect()->route('login');
 })->name('welcome');
 
 Route::view('/home', 'home')->name('home');
-Route::get('/register', [\App\Http\Controllers\RegisterController::class, 'create'])->name('register')->middleware('guest');
-Route::post('/register', [\App\Http\Controllers\RegisterController::class, 'store']);
-Route::get('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('login')->middleware('guest');
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'authenticate']);
+Route::get('/register', [RegisterController::class, 'create'])->name('register')->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store']);
+Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', function () {
     auth()->logout();
     request()->session()->invalidate();
@@ -40,6 +40,7 @@ Route::post('/logout', function () {
 })->name('logout')->middleware('auth');
 Route::view('/home', 'home')->name('home')->middleware('auth');
 
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
 Route::resource('/dashboard', DashboardController::class)->middleware('auth');
 Route::resource('/invoice', InvoiceController::class)->middleware('auth');
 Route::resource('/pengguna', PenggunaController::class)->middleware('auth');

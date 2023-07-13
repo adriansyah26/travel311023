@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -15,8 +16,9 @@ class CustomerController extends Controller
     public function index()
     {
         $customer = Customer::latest()->paginate(10);
-      
-        return view('customer.index',compact('customer'))
+        $types = Type::all();
+
+        return view('customer.index', compact('customer', 'types'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -27,7 +29,9 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('customer.create');
+        $types = Type::all();
+
+        return view('customer.create', compact('types'));
     }
 
     /**
@@ -41,15 +45,15 @@ class CustomerController extends Controller
         $validateData = $request->validate([
             'name' => 'required',
             'phone' => 'required',
-            'email' => ['required','email', 'unique:customers,email'],
+            'email' => ['required', 'email', 'unique:customers,email'],
             'address' => 'required',
             'type' => 'required',
         ]);
-      
+
         Customer::create($request->all());
-       
+
         return redirect()->route('customer.index')
-                        ->with('success','Customers created successfully');
+            ->with('success', 'Customers created successfully');
     }
 
     /**
@@ -60,7 +64,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return view('customer.show',compact('customer')); 
+        return view('customer.show', compact('customer'));
     }
 
     /**
@@ -71,7 +75,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return view('customer.edit',compact('customer'));
+        $types = Type::all();
+
+        return view('customer.edit', compact('customer', 'types'));
     }
 
     /**
@@ -86,15 +92,15 @@ class CustomerController extends Controller
         $validateData = $request->validate([
             'name' => 'required',
             'phone' => 'required',
-            'email' => ['required',"unique:customers,email,$customer->id,id"],
+            'email' => ['required', "unique:customers,email,$customer->id,id"],
             'address' => 'required',
             'type' => 'required',
         ]);
-      
+
         $customer->update($request->all());
-      
+
         return redirect()->route('customer.index')
-                        ->with('success','Customers updated successfully');
+            ->with('success', 'Customers updated successfully');
     }
 
     /**
@@ -106,8 +112,8 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $customer->delete();
-       
+
         return redirect()->route('customer.index')
-                        ->with('success','Customer deleted successfully');
+            ->with('success', 'Customer deleted successfully');
     }
 }
