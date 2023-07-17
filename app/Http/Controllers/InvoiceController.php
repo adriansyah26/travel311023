@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Illuminate\Support\Str;
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
@@ -29,7 +31,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoice.create');
+        $products = Product::all();
+
+        return view('invoice.create', compact('products'));
     }
 
     /**
@@ -66,7 +70,9 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        return view('invoice.show', compact('invoice'));
+        $customers = Customer::all();
+
+        return view('invoice.show', compact('invoice', 'customers'));
 
         $pdf = PDF::loadView('invoice_pdf');
 

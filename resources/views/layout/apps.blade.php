@@ -40,8 +40,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="#!">
+                    <li><a class="dropdown-item" href="#!">
                             <form action="{{ route('logout') }}" method="post">
                                 @csrf
                                 <input type="submit" class="btn btn-danger" value="Logout">
@@ -81,7 +80,7 @@
                             Master Data
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse show" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/product">Products</a>
                                 <a class="nav-link" href="/type">Type</a>
