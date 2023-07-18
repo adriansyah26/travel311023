@@ -32,6 +32,16 @@
                                 </div>
                                 <div class="col-lg-6 margin-tb px-4">
                                     <div class="form-group">
+                                        <strong>Customers_Name:</strong>
+                                        <select class="form-control" name="customer_id">
+                                            <option value="{{ $invoice->customer->id }}">{{ $invoice->customer->name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 margin-tb mt-3 px-4">
+                                    <div class="form-group">
                                         <strong>Products:</strong>
                                         <div class="input-group mb-3">
                                             <select class="form-select" name="product">
@@ -42,47 +52,48 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 margin-tb px-4">
+                                <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Item:</strong>
                                         <input type="text" name="item" value="{{ $invoice->item }}" class="form-control" placeholder="Item">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-6 margin-tb px-4">
                                     <div class="form-group">
                                         <strong>Quantity:</strong>
                                         <input class="form-control" name="quantity" placeholder="Quantity" type="number" value="{{ $invoice->quantity }}" onkeyup="edit();" id="qty">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 margin-tb mt-3 px-4">
+                                <div class="col-lg-6 margin-tb px-4">
                                     <div class="form-group">
                                         <strong>Amount:</strong>
                                         <input class="form-control" name="amount" placeholder="Amount" type="number" value="{{ $invoice->amount }}" onkeyup="edit();" id="amt">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Markup:</strong>
                                         <input class="form-control" name="markup" placeholder="Markup" type="number" value="{{ $invoice->markup }}" onkeyup="edit();" id="mkp">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Total:</strong>
                                         <input class="form-control" name="total" type="number" value="{{ $invoice->total }}" readonly onkeyup="edit();" id="ttl">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Status:</strong>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="status" value="True" checked>
+                                            <input type="hidden" name="status" value="False">
+                                            <input class="form-check-input" type="checkbox" id="mySwitchCheckbox" value="True">
                                         </div>
                                     </div>
                                 </div>
@@ -110,6 +121,20 @@
         </div>
     </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var switchCheckbox = document.getElementById('mySwitchCheckbox');
+        var switchInput = document.querySelector('input[name="status"]');
+
+        switchCheckbox.addEventListener('change', function() {
+            if (switchCheckbox.checked) {
+                switchInput.value = 'True';
+            } else {
+                switchInput.value = 'False';
+            }
+        });
+    });
+</script>
 
 <script>
     function edit() {

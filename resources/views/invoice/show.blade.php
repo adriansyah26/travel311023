@@ -37,10 +37,7 @@
                             <div class="col-xl-8">
                                 <ul class="list-unstyled">
                                     <li class="text">Customer</li>
-                                    <li class="text">Nama : @foreach ($customers as $customer)
-                                        <option value="{{ $customer->name }}">{{ $customer->name }}</option>
-                                        @endforeach
-                                    </li>
+                                    <li class="text">Nama : {{ $invoice->customer->name }}</li>
                                     <li class="text">Note :</li>
                                     <li class="text-muted"><i class="fas fa-phone"></i> 123-456-789</li>
                                 </ul>

@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class InvoiceController extends Controller
 {
@@ -18,6 +19,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
+
         $invoice = Invoice::latest()->paginate(10);
 
         return view('invoice.index', compact('invoice'))
@@ -31,9 +33,11 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        $customers = Customer::all();
+
         $products = Product::all();
 
-        return view('invoice.create', compact('products'));
+        return view('invoice.create', compact('products', 'customers'));
     }
 
     /**
@@ -46,6 +50,7 @@ class InvoiceController extends Controller
     {
         $validRequest = $request->validate([
             // 'invoice_number' => 'required',
+            'customer_id' => 'required',
             'product' => 'required',
             'item' => 'required',
             'description' => 'required',
@@ -55,6 +60,13 @@ class InvoiceController extends Controller
             'total' => 'required',
             'status' => 'required',
         ]);
+
+        $customerId = $request->input('customer_id');
+
+        // Cek apakah customer_id sudah memiliki invoice terkait
+        if (Invoice::where('customer_id', $customerId)->exists()) {
+            return redirect()->back()->withErrors('Customers_Name already has an invoice.');
+        }
 
         Invoice::create($validRequest);
 
@@ -70,13 +82,11 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        $customers = Customer::all();
-
-        return view('invoice.show', compact('invoice', 'customers'));
+        return view('invoice.show', compact('invoice'));
 
         $pdf = PDF::loadView('invoice_pdf');
 
-        return $pdf->download('techsolutionstuff.pdf');
+        return $pdf->download('invoice.pdf');
     }
 
     /**
@@ -101,6 +111,7 @@ class InvoiceController extends Controller
     {
         $request->validate([
             // 'invoice_number' => 'required',
+            'customer_id' => 'required',
             'product' => 'required',
             'item' => 'required',
             'description' => 'required',

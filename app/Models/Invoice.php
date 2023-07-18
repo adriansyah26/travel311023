@@ -10,7 +10,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'no', 'invoice_number', 'product', 'item', 'description', 'quantity', 'amount', 'markup', 'total', 'status',
+        'invoice_number', 'customer_id', 'product', 'item', 'description', 'quantity', 'amount', 'markup', 'total', 'status',
     ];
 
     public static function generateInvoiceNumber()
@@ -37,5 +37,10 @@ class Invoice extends Model
         self::creating(function ($model) {
             $model->invoice_number = self::generateInvoiceNumber();
         });
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

@@ -31,6 +31,18 @@
                                 </div>
                                 <div class="col-lg-6 margin-tb px-4">
                                     <div class="form-group">
+                                        <strong>Customers_Name:</strong>
+                                        <select class="form-select" name="customer_id">
+                                            @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{$customer->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 margin-tb mt-3 px-4">
+                                    <div class="form-group">
                                         <strong>Products:</strong>
                                         <div class="input-group mb-3">
                                             <select class="form-select" name="product">
@@ -41,44 +53,42 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 margin-tb px-4">
+                                <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Item:</strong>
                                         <input type="text" name="item" class="form-control" placeholder="Item" value="{{ old('item') }}">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 margin-tb px-4">
-                                    <div class="form-group">
-                                        <div class="form-outline">
-                                            <strong>Quantity:</strong>
-                                            <input class="form-control" name="quantity" placeholder="Quantity" type="number" value="{{ old('quantity') }}" onkeyup="create();" id="quantity"></input>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 margin-tb mt-3 px-4">
+                                <div class="col-lg-6 margin-tb px-4">
+                                    <div class="form-group">
+                                        <strong>Quantity:</strong>
+                                        <input class="form-control" name="quantity" placeholder="Quantity" type="number" value="{{ old('quantity') }}" onkeyup="create();" id="quantity"></input>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 margin-tb px-4">
                                     <div class="form-group">
                                         <strong>Amount:</strong>
                                         <input class="form-control" name="amount" placeholder="Amount" type="number" value="{{ old('amount') }}" onkeyup="create();" id="amount"></input>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Markup:</strong>
                                         <input class="form-control" name="markup" placeholder="Markup" type="number" value="{{ old('markup') }}" onkeyup="create();" id="markup"></input>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Total:</strong>
                                         <input class="form-control" name="total" placeholder="Total" type="number" value="{{ old('total') }}" readonly onkeyup="create();" id="total"></input>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-6 margin-tb mt-3 px-4">
                                     <div class="form-group">
                                         <strong>Status:</strong>

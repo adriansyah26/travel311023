@@ -28,6 +28,7 @@
                             <tr>
                                 <th width="50px">No</th>
                                 <th>Invoice Number</th>
+                                <th>Customers_Name</th>
                                 <th>Products</th>
                                 <th>Item</th>
                                 <th>Description</th>
@@ -44,6 +45,7 @@
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $ive->invoice_number }}</td>
+                                <td>{{ $ive->customer->name }}</td>
                                 <td>{{ $ive->product }}</td>
                                 <td>{{ $ive->item }}</td>
                                 <td>{{ $ive->description }}</td>
