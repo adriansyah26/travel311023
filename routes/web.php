@@ -43,6 +43,9 @@ Route::view('/home', 'home')->name('home')->middleware('auth');
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
 Route::resource('/dashboard', DashboardController::class)->middleware('auth');
 Route::resource('/invoice', InvoiceController::class)->middleware('auth');
+Route::post('/invoice/save-items', [InvoiceController::class, 'saveItems'])->name('invoice.saveItem')->middleware('auth');
+Route::get('/invoice/edit-items/{itemId}', [InvoiceController::class, 'editItems'])->name('invoice.editItem')->middleware('auth');
+Route::put('/invoice/update-items/{itemId}', [InvoiceController::class, 'updateItems'])->name('invoice.updateItem')->middleware('auth');
 Route::resource('/pengguna', PenggunaController::class)->middleware('auth');
 Route::resource('/customer', CustomerController::class)->middleware('auth');
 // Master Data

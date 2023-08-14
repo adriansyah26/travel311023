@@ -17,13 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('invoice_number')->unique();
             $table->unsignedBigInteger('customer_id');
-            $table->string('product');
-            $table->string('item');
-            $table->string('description');
-            $table->integer('quantity');
-            $table->biginteger('amount');
-            $table->biginteger('markup');
-            $table->biginteger('total');
             $table->string('status');
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

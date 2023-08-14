@@ -14,10 +14,9 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $type = Type::latest()->paginate(10);
+        $type = Type::latest()->get();
 
-        return view('master-data.type.index', compact('type'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+        return view('master-data.type.index', compact('type'));
     }
 
     /**
@@ -39,7 +38,7 @@ class TypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|max:4',
             'name' => 'required',
         ]);
 
@@ -81,7 +80,7 @@ class TypeController extends Controller
     public function update(Request $request, Type $type)
     {
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|max:4',
             'name' => 'required',
         ]);
 

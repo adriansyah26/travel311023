@@ -25,13 +25,9 @@
                         <div class="container px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="form-group">
-                                    <strong>Code:</strong>
+                                    <strong>Code</strong>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="code">
-                                            <option value="F001">F001</option>
-                                            <option value="T001">T001</option>
-                                            <option value="H001">H001</option>
-                                        </select>
+                                        <input type="text" name="code" value="{{ $product->code }}" class="form-control" placeholder="Code" required>
                                     </div>
                                 </div>
                             </div>
@@ -39,13 +35,9 @@
                         <div class="container mt-3 px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="form-group">
-                                    <strong>Name:</strong>
+                                    <strong>Name</strong>
                                     <div class="input-group mb-3">
-                                        <select class="form-select" name="name">
-                                            <option value="Flight">Flight</option>
-                                            <option value="Train">Train</option>
-                                            <option value="Hotel">Hotel</option>
-                                        </select>
+                                        <input type="text" name="name" value="{{ $product->name }}" class="form-control" placeholder="Name" required>
                                     </div>
                                 </div>
                             </div>

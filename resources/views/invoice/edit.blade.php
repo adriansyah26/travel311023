@@ -16,21 +16,21 @@
                 </ul>
             </div>
             @endif
-            <div class="card mb-4 mt-3 px-4 col-lg-12">
-                <div class="card-body">
-                    <form action="{{ route('invoice.update',$invoice->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
 
+            <form action="{{ route('invoice.update',$invoice->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="card mb-4 mt-3 px-4 col-lg-12">
+                    <div class="card-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-lg-6 margin-tb px-4">
+                                <div class="col-lg-4 margin-tb px-4">
                                     <div class="form-group">
                                         <strong>Invoice Number:</strong>
-                                        <input type="text" name="invoice_number" value="{{ $invoice->invoice_number }}" class="form-control" disabled>
+                                        <input type="text" name="invoice_number" value="{{ $invoice->invoice_number }}" class="form-control" readonly>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 margin-tb px-4">
+                                <div class="col-lg-4 margin-tb px-4">
                                     <div class="form-group">
                                         <strong>Customers_Name:</strong>
                                         <select class="form-control" name="customer_id">
@@ -38,87 +38,56 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 margin-tb mt-3 px-4">
+                                <div class="col-lg-2 margin-tb px-4">
                                     <div class="form-group">
-                                        <strong>Products:</strong>
-                                        <div class="input-group mb-3">
-                                            <select class="form-select" name="product">
-                                                <option value="Flight">Flight</option>
-                                                <option value="Train">Train</option>
-                                                <option value="Hotel">Hotel</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 margin-tb mt-3 px-4">
-                                    <div class="form-group">
-                                        <strong>Item:</strong>
-                                        <input type="text" name="item" value="{{ $invoice->item }}" class="form-control" placeholder="Item">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 margin-tb px-4">
-                                    <div class="form-group">
-                                        <strong>Quantity:</strong>
-                                        <input class="form-control" name="quantity" placeholder="Quantity" type="number" value="{{ $invoice->quantity }}" onkeyup="edit();" id="qty">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 margin-tb px-4">
-                                    <div class="form-group">
-                                        <strong>Amount:</strong>
-                                        <input class="form-control" name="amount" placeholder="Amount" type="number" value="{{ $invoice->amount }}" onkeyup="edit();" id="amt">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 margin-tb mt-3 px-4">
-                                    <div class="form-group">
-                                        <strong>Markup:</strong>
-                                        <input class="form-control" name="markup" placeholder="Markup" type="number" value="{{ $invoice->markup }}" onkeyup="edit();" id="mkp">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 margin-tb mt-3 px-4">
-                                    <div class="form-group">
-                                        <strong>Total:</strong>
-                                        <input class="form-control" name="total" type="number" value="{{ $invoice->total }}" readonly onkeyup="edit();" id="ttl">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 margin-tb mt-3 px-4">
-                                    <div class="form-group">
-                                        <strong>Status:</strong>
+                                        <strong>Status</strong>
                                         <div class="form-check form-switch">
-                                            <input type="hidden" name="status" value="False">
-                                            <input class="form-check-input" type="checkbox" id="mySwitchCheckbox" value="True">
+                                            <input class="form-check-input" type="checkbox" name="status" id="status" checked>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12 margin-tb mt-3 px-4">
-                                    <div class="form-group">
-                                        <strong>Description:</strong>
-                                        <textarea type="text" name="description" class="form-control" required>{{$invoice->description}}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container mt-3">
-                                <div class="col-lg-12 margin-tb">
-                                    <div style="margin-left: 806px;">
-                                        <a class="btn btn-primary" href="{{ route('invoice.index') }}"> Back</a>
-                                        <button type="submit" class="btn btn-success">Submit</button>
-                                    </div>
+                                <div class="col-lg-2 margin-tb mt-3 px-4">
+                                    <button type="button" class="btn btn-success" onclick="saveItemsAndSubmit()">Submit</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                <div class="card mb-4 mt-3 px-4 col-lg-12 ">
+                    <div class="card-body" style="overflow-x: auto;">
+                        <div class="container-fluid">
+                            <table id="itemTable" class="table table-bordered table-striped mt-3" style="margin-left: 10px; width: 950px; table-layout: fixed;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;">No</th>
+                                        <th style="width: 100px;">Products</th>
+                                        <th style="width: 300px;">Item</th>
+                                        <th style="width: 500px;">Description</th>
+                                        <th style="width: 90px;">Quantity</th>
+                                        <th style="width: 100px;">Amount</th>
+                                        <th style="width: 100px;">Markup</th>
+                                        <th style="width: 100px;">Total</th>
+                                        <th style="width: 70px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <meta name="csrf-token" content="{{ csrf_token() }}">
+                                <tbody id="itemRows">
+                                    <!-- <input type="hidden" name="items" id="itemData" /> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-3">
+                    <div class="col-lg-12 margin-tb">
+                        <div style="margin-left: 806px;">
+                            <a class="btn btn-primary" href="{{ route('invoice.index') }}">Back</a>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </div>
         </div>
+        </form>
     </div>
 </main>
 <script>

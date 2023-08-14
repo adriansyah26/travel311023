@@ -14,10 +14,9 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        $pengguna = Pengguna::latest()->paginate(10);
-      
-        return view('pengguna.index',compact('pengguna'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+        $pengguna = Pengguna::latest()->get();
+
+        return view('pengguna.index', compact('pengguna'));
     }
 
     /**
@@ -45,11 +44,11 @@ class PenggunaController extends Controller
             'phone' => 'required',
             'email' => ['required', 'email', 'unique:penggunas,email'],
         ]);
-      
+
         Pengguna::create($request->all());
-       
+
         return redirect()->route('pengguna.index')
-                        ->with('success','Users created successfully.');
+            ->with('success', 'Users created successfully.');
     }
 
     /**
@@ -60,7 +59,7 @@ class PenggunaController extends Controller
      */
     public function show(Pengguna $pengguna)
     {
-        return view('pengguna.show',compact('pengguna'));
+        return view('pengguna.show', compact('pengguna'));
     }
 
     /**
@@ -71,7 +70,7 @@ class PenggunaController extends Controller
      */
     public function edit(Pengguna $pengguna)
     {
-        return view('pengguna.edit',compact('pengguna'));
+        return view('pengguna.edit', compact('pengguna'));
     }
 
     /**
@@ -88,13 +87,13 @@ class PenggunaController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
-            'email' => ['required',"unique:penggunas,email,$pengguna->id,id"],
+            'email' => ['required', "unique:penggunas,email,$pengguna->id,id"],
         ]);
-      
+
         $pengguna->update($request->all());
-      
+
         return redirect()->route('pengguna.index')
-                        ->with('success','Users updated successfully');
+            ->with('success', 'Users updated successfully');
     }
 
     /**
@@ -106,8 +105,8 @@ class PenggunaController extends Controller
     public function destroy(Pengguna $pengguna)
     {
         $pengguna->delete();
-       
+
         return redirect()->route('pengguna.index')
-                        ->with('success','Users deleted successfully');
+            ->with('success', 'Users deleted successfully');
     }
 }

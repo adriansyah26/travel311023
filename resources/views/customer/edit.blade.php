@@ -25,7 +25,7 @@
                         <div class="container px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="form-group">
-                                    <strong>Name:</strong>
+                                    <strong>Name</strong>
                                     <input type="text" name="name" value="{{ $customer->name }}" class="form-control" placeholder="Name">
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                         <div class="container mt-3 px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="form-group">
-                                    <strong>Phone:</strong>
+                                    <strong>Phone</strong>
                                     <input class="form-control" name="phone" placeholder="Phone" type="number" value="{{ $customer->phone }}">
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                         <div class="container mt-3 px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="form-group">
-                                    <strong>Email:</strong>
+                                    <strong>Email</strong>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="name@example.com" value="{{ $customer->email }}">
                                     @error('email')
                                     <div class="invalid-feedback">
@@ -54,7 +54,7 @@
                         <div class="container mt-3 px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="form-group">
-                                    <strong>Address:</strong>
+                                    <strong>Address</strong>
                                     <input type="text" name="address" value="{{ $customer->address }}" class="form-control" placeholder="Address">
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                         <div class="container mt-3 px-4">
                             <div class="col-lg-12 margin-tb">
                                 <div class="form-group">
-                                    <strong>Type:</strong>
+                                    <strong>Type</strong>
                                     <div class="input-group mb-3">
                                         <select class="form-select" name="type">
                                             @foreach ($types as $type)

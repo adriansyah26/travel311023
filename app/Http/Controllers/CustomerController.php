@@ -15,11 +15,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = Customer::latest()->paginate(10);
+        $customer = Customer::latest()->get();
         $types = Type::all();
 
-        return view('customer.index', compact('customer', 'types'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+        return view('customer.index', compact('customer', 'types'));
     }
 
     /**

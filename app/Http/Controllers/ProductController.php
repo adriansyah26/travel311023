@@ -14,10 +14,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::latest()->paginate(10);
+        $product = Product::latest()->get();
 
-        return view('master-data.product.index', compact('product'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+        return view('master-data.product.index', compact('product'));
     }
 
     /**
@@ -39,7 +38,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|max:4',
             'name' => 'required',
         ]);
 
@@ -81,7 +80,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'code' => 'required',
+            'code' => 'required|max:4',
             'name' => 'required',
         ]);
 
