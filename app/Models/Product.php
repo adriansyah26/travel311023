@@ -12,4 +12,9 @@ class Product extends Model
     protected $fillable = [
         'code', 'name'
     ];
+
+    public function invoiceitem()
+    {
+        return $this->belongsTo(InvoiceItem::class);
+    }
 }

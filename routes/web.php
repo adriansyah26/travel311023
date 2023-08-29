@@ -42,10 +42,15 @@ Route::view('/home', 'home')->name('home')->middleware('auth');
 
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
 Route::resource('/dashboard', DashboardController::class)->middleware('auth');
+// page invoice
 Route::resource('/invoice', InvoiceController::class)->middleware('auth');
+// page create invoice
 Route::post('/invoice/save-items', [InvoiceController::class, 'saveItems'])->name('invoice.saveItem')->middleware('auth');
 Route::get('/invoice/edit-items/{itemId}', [InvoiceController::class, 'editItems'])->name('invoice.editItem')->middleware('auth');
 Route::put('/invoice/update-items/{itemId}', [InvoiceController::class, 'updateItems'])->name('invoice.updateItem')->middleware('auth');
+// page edit invoice
+Route::get('/invoice/edit-items-edit/{itemId}', [InvoiceController::class, 'editItemsedit'])->name('invoice.editItemedit')->middleware('auth');
+Route::put('/invoice/update-items-update/{itemId}', [InvoiceController::class, 'updateItemsupdate'])->name('invoice.updateItemupdate')->middleware('auth');
 Route::resource('/pengguna', PenggunaController::class)->middleware('auth');
 Route::resource('/customer', CustomerController::class)->middleware('auth');
 // Master Data

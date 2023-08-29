@@ -45,14 +45,23 @@ class CustomerController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'email' => ['required', 'email', 'unique:customers,email'],
+            'termin' => 'required',
             'address' => 'required',
-            'type' => 'required',
+            'type_id' => 'required',
         ]);
 
-        Customer::create($request->all());
+        // Pastikan validasi berhasil sebelum membuat entri customer
+        if ($validateData) {
+            Customer::create($request->all());
 
-        return redirect()->route('customer.index')
-            ->with('success', 'Customers created successfully');
+            return redirect()->route('customer.index')
+                ->with('success', 'Customers created successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan customer kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to create Customers')
+                ->withInput();
+        }
     }
 
     /**
@@ -92,14 +101,23 @@ class CustomerController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'email' => ['required', "unique:customers,email,$customer->id,id"],
+            'termin' => 'required',
             'address' => 'required',
-            'type' => 'required',
+            'type_id' => 'required',
         ]);
 
-        $customer->update($request->all());
+        // Pastikan validasi berhasil sebelum melakukan pembaruan customer
+        if ($validateData) {
+            $customer->update($request->all());
 
-        return redirect()->route('customer.index')
-            ->with('success', 'Customers updated successfully');
+            return redirect()->route('customer.index')
+                ->with('success', 'Customers updated successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan customer kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to update Customers')
+                ->withInput();
+        }
     }
 
     /**

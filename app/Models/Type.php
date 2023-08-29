@@ -16,6 +16,6 @@ class Type extends Model
 
     public function customer()
     {
-        return $this->hashMany(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 }

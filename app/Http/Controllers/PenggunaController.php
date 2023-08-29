@@ -45,10 +45,18 @@ class PenggunaController extends Controller
             'email' => ['required', 'email', 'unique:penggunas,email'],
         ]);
 
-        Pengguna::create($request->all());
+        // Pastikan validasi berhasil sebelum membuat entri pengguna
+        if ($validateData) {
+            Pengguna::create($request->all());
 
-        return redirect()->route('pengguna.index')
-            ->with('success', 'Users created successfully.');
+            return redirect()->route('pengguna.index')
+                ->with('success', 'Users created successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan pengguna kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to create users')
+                ->withInput();
+        }
     }
 
     /**
@@ -90,10 +98,18 @@ class PenggunaController extends Controller
             'email' => ['required', "unique:penggunas,email,$pengguna->id,id"],
         ]);
 
-        $pengguna->update($request->all());
+        // Pastikan validasi berhasil sebelum melakukan pembaruan pengguna
+        if ($validateData) {
+            $pengguna->update($request->all());
 
-        return redirect()->route('pengguna.index')
-            ->with('success', 'Users updated successfully');
+            return redirect()->route('pengguna.index')
+                ->with('success', 'Users updated successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan pengguna kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to update users')
+                ->withInput();
+        }
     }
 
     /**

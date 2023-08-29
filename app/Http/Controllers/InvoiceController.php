@@ -8,12 +8,9 @@ use App\Models\InvoiceItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Arr;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\JsonResponse;
 
 class InvoiceController extends Controller
 {
@@ -85,7 +82,7 @@ class InvoiceController extends Controller
 
             $invoice_number = $request->input('invoice_number');
             // Simpan data invoice items ke dalam database
-            $invoice = Invoice::create([
+            Invoice::create([
                 'invoice_number' => $request->input('invoice_number'),
                 'customer_id' => $request->input('customer_id'),
                 'status' => $request->input('status'),
@@ -107,89 +104,35 @@ class InvoiceController extends Controller
         }
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'invoice_number' => 'required',
-    //         'customer_id' => 'required',
-    //         'status' => 'required',
-    //         'product' => 'required|array',
-    //         'product.*' => 'exists:products,name',
-    //         'item' => 'required|array',
-    //         'description' => 'required|array',
-    //         'quantity' => 'required|array',
-    //         'quantity.*' => 'integer|min:1',
-    //         'amount' => 'required|array',
-    //         'amount.*' => 'numeric|min:0',
-    //         'markup' => 'required|array',
-    //         'markup.*' => 'numeric|min:0',
-    //         'total' => 'required|array',
-    //         'total.*' => 'numeric|min:0',
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return redirect()->back()
-    //             ->withErrors($validator)
-    //             ->withInput();
-    //     }
-
-    //     try {
-    //         DB::beginTransaction();
-
-    //         // Simpan data invoice items
-    //         $invoiceItemsData = [];
-    //         $products = $request->input('product');
-    //         $items = $request->input('item');
-    //         $descriptions = $request->input('description');
-    //         $quantities = $request->input('quantity');
-    //         $amounts = $request->input('amount');
-    //         $markups = $request->input('markup');
-    //         $totals = $request->input('total');
-
-    //         for ($i = 0; $i < count($products); $i++) {
-    //             $invoiceItemsData[] = [
-    //                 'product' => $products[$i],
-    //                 'item' => $items[$i],
-    //                 'description' => $descriptions[$i],
-    //                 'quantity' => $quantities[$i],
-    //                 'amount' => $amounts[$i],
-    //                 'markup' => $markups[$i],
-    //                 'total' => $totals[$i],
-    //             ];
-    //         }
-
-    //         // Simpan data invoice items ke dalam database
-    //         $invoice = Invoice::create([
-    //             'invoice_number' => $request->input('invoice_number'),
-    //             'customer_id' => $request->input('customer_id'),
-    //             'status' => $request->input('status', false),
-    //         ]);
-
-    //         $invoice->invoiceitem()->createMany($invoiceItemsData);
-
-    //         DB::commit();
-
-    //         return redirect()->route('invoice.index')
-    //             ->with('success', 'Invoice created successfully');
-    //     } catch (\Exception $e) {
-    //         DB::rollback();
-    //         return redirect()->back()
-    //             ->withErrors(['error' => 'Failed created invoice'])
-    //             ->withInput();
-    //     }
-    // }
-
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show($invoiceId)
     {
-        // return view('invoice.pdf', compact('invoice'));
+        // Ambil data invoice berdasarkan ID
+        $invoice = Invoice::findOrFail($invoiceId);
 
-        $pdf = FacadePdf::loadView('invoice.pdf', compact('invoice'));
+        // Ambil data item terkait dengan invoice
+        $invoiceItems = InvoiceItem::where('invoice_id', $invoiceId)->get();
+
+        // penjumlahan otomatis
+        $totalInvoice = InvoiceItem::where('invoice_id', $invoiceId)->get()->sum('total');
+
+        $products = Product::all();
+
+        // tanggal otomatis berdasrkan invoice dibuat
+        $tanggalInvoice = $invoice->created_at;
+
+        $bulan = [
+            1 => ' Januari ', ' Februari ', ' Maret ', ' April ', ' Mei ', ' Juni ', ' Juli ', ' Agustus ', ' September ', ' Oktober ', ' November ', ' Desember '
+        ];
+
+        $formattanggal = $tanggalInvoice->format('j') . $bulan[$tanggalInvoice->format('n')] . $tanggalInvoice->format('Y');
+
+        $pdf = FacadePdf::loadView('invoice.pdf', compact('invoice', 'invoiceItems', 'totalInvoice', 'formattanggal', 'products'));
         $pdf->setPaper('a4', 'portrait');
         return $pdf->stream();
 
@@ -202,9 +145,23 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoice $invoice)
+    public function edit($invoiceId)
     {
-        return view('invoice.edit', compact('invoice'));
+        try {
+            // Ambil data invoice berdasarkan ID
+            $invoice = Invoice::findOrFail($invoiceId);
+
+            // Ambil data item terkait dengan invoice
+            $invoiceItems = InvoiceItem::where('invoice_id', $invoiceId)->get();
+            $products = Product::all();
+            $customers = Customer::all();
+
+            // Kembalikan view edit dengan data invoice dan item yang terkait
+            return view('invoice.edit', compact('invoice', 'invoiceItems', 'products', 'customers'));
+        } catch (\Exception $e) {
+            // Tangani jika terjadi kesalahan
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat mengambil data invoice'])->withInput();
+        }
     }
 
     /**
@@ -214,25 +171,54 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(Request $request, $invoiceId)
     {
-        $request->validate([
+        // Validasi input
+        $validator = Validator::make($request->all(), [
             'invoice_number' => 'required',
             'customer_id' => 'required',
-            'product' => 'required',
-            'item' => 'required',
-            'description' => 'required',
-            'quantity' => 'required',
-            'amount' => 'required',
-            'markup' => 'required',
-            'total' => 'required',
-            'status' => 'required',
+            'status' => 'required'
         ]);
 
-        $invoice->update($request->all());
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        return redirect()->route('invoice.index')
-            ->with('success', 'Invoice updated successfully');
+        try {
+            DB::beginTransaction();
+
+            // Cari faktur berdasarkan ID
+            $invoice = Invoice::find($invoiceId);
+
+            if (!$invoice) {
+                return redirect()->back()
+                    ->withErrors(['error' => 'Invoice not found'])
+                    ->withInput();
+            }
+
+            // Perbarui propertinya
+            $invoice->invoice_number = $request->input('invoice_number');
+            $invoice->customer_id = $request->input('customer_id');
+            $invoice->status = $request->input('status');
+            $invoice->save();
+
+            DB::commit();
+
+            // Kembalikan respons JSON jika perlu
+            return response()->json([
+                'success' => true,
+                'messages' => "Invoice updated successfully"
+            ]);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi rollback
+            DB::rollback();
+
+            return redirect()->back()
+                ->withErrors(['error' => 'Failed to update invoice'])
+                ->withInput();
+        }
     }
 
     /**
@@ -249,13 +235,15 @@ class InvoiceController extends Controller
             ->with('success', 'Invoice deleted successfully');
     }
 
+    // untuk menyimpan invoiceitem dihalaman create
     public function saveItems(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'invoice_id' => 'required|exists:invoices,id',
-            'product' => 'required',
-            'product.*' => 'exists:products,name',
+            'product_id' => 'required',
+            'product_id.*' => 'exists:products,name',
             'item' => 'required',
+            'kode_booking' => 'required',
             'description' => 'required',
             'quantity' => 'required',
             'quantity.*' => 'numeric|min:1',
@@ -278,8 +266,9 @@ class InvoiceController extends Controller
             DB::beginTransaction();
 
             $invoiceId = $request->input('invoice_id');
-            $products = $request->input('product');
+            $productId = $request->input('product_id');
             $items = $request->input('item');
+            $kode_bookings = $request->input('kode_booking');
             $descriptions = $request->input('description');
             $quantities = $request->input('quantity');
             $amounts = $request->input('amount');
@@ -289,13 +278,14 @@ class InvoiceController extends Controller
             // Simpan data invoice items ke dalam database
             $invoiceItemsData = InvoiceItem::create([
                 'invoice_id' => $invoiceId,
-                'product' => $products,
+                'product_id' => $productId,
                 'item' => $items,
+                'kode_booking' => $kode_bookings,
                 'description' => $descriptions,
-                'quantity' => $quantities,
-                'amount' => $amounts,
-                'markup' => $markups,
-                'total' => $totals,
+                'quantity' => preg_replace('/[.,]/', '', $quantities),
+                'amount' => preg_replace('/[.,]/', '', $amounts),
+                'markup' => preg_replace('/[.,]/', '', $markups),
+                'total' => preg_replace('/[.,]/', '', $totals),
             ]);
             DB::commit();
 
@@ -305,11 +295,12 @@ class InvoiceController extends Controller
                 return response()->json([
                     'success' => true,
                     'items' => $invoice_item,
+                    'messages' => 'Invoice item created successfully',
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Failed to save items.',
+                    'messages' => 'Failed to save items.',
                 ]);
             }
         } catch (\Exception $e) {
@@ -320,6 +311,7 @@ class InvoiceController extends Controller
         }
     }
 
+    // untuk mengambil id table invoiceitem dihalaman create
     public function editItems($itemId)
     {
         $item = InvoiceItem::findOrFail($itemId);
@@ -337,16 +329,22 @@ class InvoiceController extends Controller
         ]);
     }
 
+    // untuk menyimpan update invoiceitem dihalaman create
     public function updateItems(Request $request, $itemId)
     {
         $validator = Validator::make($request->all(), [
-            'productedit' => 'required',
+            'product_id_edit' => 'required',
             'itemedit' => 'required',
+            'kode_bookingedit' => 'required',
             'descriptionedit' => 'required',
-            'quantityedit' => 'required|numeric|min:1',
-            'amountedit' => 'required|numeric|min:0',
-            'markupedit' => 'required|numeric|min:0',
-            'totaledit' => 'required|numeric|min:0',
+            'quantityedit' => 'required',
+            'quantityedit.*' => 'numeric|min:1',
+            'amountedit' => 'required',
+            'amountedit.*' => 'numeric|min:0',
+            'markupedit' => 'required',
+            'markupedit.*' => 'numeric|min:0',
+            'totaledit' => 'required',
+            'totaledit.*' => 'numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -361,13 +359,14 @@ class InvoiceController extends Controller
 
             $item = InvoiceItem::findOrFail($itemId);
 
-            $item->product = $request->input('productedit');
+            $item->product_id = $request->input('product_id_edit');
             $item->item = $request->input('itemedit');
+            $item->kode_booking = $request->input('kode_bookingedit');
             $item->description = $request->input('descriptionedit');
-            $item->quantity = $request->input('quantityedit');
-            $item->amount = $request->input('amountedit');
-            $item->markup = $request->input('markupedit');
-            $item->total = $request->input('totaledit');
+            $item->quantity = preg_replace('/[.,]/', '', $request->input('quantityedit'));
+            $item->amount = preg_replace('/[.,]/', '', $request->input('amountedit'));
+            $item->markup = preg_replace('/[.,]/', '', $request->input('markupedit'));
+            $item->total = preg_replace('/[.,]/', '', $request->input('totaledit'));
 
             $item->save();
 
@@ -377,7 +376,84 @@ class InvoiceController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Item updated successfully.',
+                'messages' => 'Invoice item updated successfully',
+                'item' => $updatedItem, // Include the updated item in the response
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update item: ' . $e->getMessage(),
+            ]);
+        }
+    }
+
+    // untuk mengambil id table invoiceitem dihalaman edit
+    public function editItemsedit($itemId)
+    {
+        $item = InvoiceItem::findOrFail($itemId);
+
+        if (!$item) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Item not found.',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'item' => $item,
+        ]);
+    }
+
+    // untuk menyimpan update invoiceitem dihalaman edit
+    public function updateItemsupdate(Request $request, $itemId)
+    {
+        // Validasi data yang diterima dari formulir jika diperlukan
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'item' => 'required',
+            'kode_booking' => 'required',
+            'description' => 'required',
+            'quantity' => 'required',
+            'quantity.*' => 'numeric|min:1',
+            'amount' => 'required',
+            'amount.*' => 'numeric|min:0',
+            'markup' => 'required',
+            'markup.*' => 'numeric|min:0',
+            'total' => 'required',
+            'total.*' => 'numeric|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $item = InvoiceItem::findOrFail($itemId);
+
+            $item->product_id = $request->input('product_id');
+            $item->item = $request->input('item');
+            $item->kode_booking = $request->input('kode_booking');
+            $item->description = $request->input('description');
+            $item->quantity = preg_replace('/[.,]/', '', $request->input('quantity'));
+            $item->amount = preg_replace('/[.,]/', '', $request->input('amount'));
+            $item->markup = preg_replace('/[.,]/', '', $request->input('markup'));
+            $item->total = preg_replace('/[.,]/', '', $request->input('total'));
+
+            $item->save();
+
+            DB::commit();
+
+            $updatedItem = InvoiceItem::findOrFail($itemId);
+
+            return response()->json([
+                'success' => true,
+                'messages' => 'Invoice item updated successfully',
                 'item' => $updatedItem, // Include the updated item in the response
             ]);
         } catch (\Exception $e) {

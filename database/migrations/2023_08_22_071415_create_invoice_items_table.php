@@ -16,15 +16,18 @@ return new class extends Migration
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('invoice_id');
-            $table->string('product');
+            $table->unsignedBigInteger('product_id');
             $table->string('item');
+            $table->string('kode_booking');
             $table->integer('quantity');
             $table->biginteger('amount');
             $table->biginteger('markup');
             $table->biginteger('total');
             $table->string('description');
             $table->timestamps();
+
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

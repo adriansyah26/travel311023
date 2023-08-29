@@ -37,15 +37,23 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'code' => 'required|max:4',
             'name' => 'required',
         ]);
 
-        Type::create($request->all());
+        // Pastikan validasi berhasil sebelum membuat entri type
+        if ($validateData) {
+            Type::create($request->all());
 
-        return redirect()->route('type.index')
-            ->with('success', 'Type created successfully');
+            return redirect()->route('type.index')
+                ->with('success', 'Type created successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan type kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to create type')
+                ->withInput();
+        }
     }
 
     /**
@@ -79,15 +87,23 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'code' => 'required|max:4',
             'name' => 'required',
         ]);
 
-        $type->update($request->all());
+        // Pastikan validasi berhasil sebelum melakukan pembaruan type
+        if ($validateData) {
+            $type->update($request->all());
 
-        return redirect()->route('type.index')
-            ->with('success', 'Type updated successfully');
+            return redirect()->route('type.index')
+                ->with('success', 'Type updated successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan type kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to update type')
+                ->withInput();
+        }
     }
 
     /**

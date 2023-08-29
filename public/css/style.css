@@ -47,6 +47,7 @@ header {
     text-align: right;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
+    font-weight: bold;
 }
 
 #details {
@@ -98,30 +99,35 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     margin-bottom: 20px;
-    border: 1px solid #777777;
+    border: 1px solid #000000;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
-table th,
-table td {
+table tr {
+    font-family: Arial, Helvetica, sans-serif;
+}
+table th {
     padding: 10px;
     background: #ffffff;
     text-align: center;
     border-bottom: 1px solid #000000;
-    border: 1px solid #777777;
-}
-
-table th {
-    white-space: nowrap;
-    font-weight: normal;
-    text-align: left;
-    border: 1px solid #777777;
+    border: 1px solid #000000;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
 table td {
+    padding: 10px;
+    background: #ffffff;
     text-align: left;
-    border: 1px solid #777777;
+    border-bottom: 1px solid #000000;
+    border: 1px solid #000000;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    vertical-align: text-top;
 }
 
 table td h3 {
@@ -222,17 +228,17 @@ footer {
 /* copy========================================================== */
 #rounded1 {
     border-radius: 25px;
-    border: 1px solid #777777;
+    border: 1px solid #00008b;
     padding: 28px;
     width: 250px;
-    height: 15px;
+    height: 60px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
 }
 
 #rounded2 {
     border-radius: 25px;
-    border: 1px solid #777777;
+    border: 1px solid #00008b;
     padding: 35px;
     width: 250px;
     height: 25px;

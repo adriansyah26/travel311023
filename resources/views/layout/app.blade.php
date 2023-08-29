@@ -23,27 +23,27 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="/home">K - Tour & Travel</a>
+        <a class="navbar-brand ps-3" href="/home"><img style="width: 40px;" src="/image/travellogo2.png"> K - Tour & Travel</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <!-- <div class="input-group">
+        <!-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
                     <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
                     <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div> -->
-        </form>
-        <a class="navbar-brand ps-3" href="/home">Selamat Datang {{ auth()->user()->name }}</a>
+                </div>
+        </form> -->
+        <a class="navbar-brand ps-3" href="/home">Welcome {{ auth()->user()->name }}</a>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 800px;"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <!-- <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                     <li>
                         <hr class="dropdown-divider" />
-                    </li>
+                    </li> -->
                     <li>
                         <a class="dropdown-item" href="#!">
                             <form action="{{ route('logout') }}" method="post">
@@ -62,22 +62,22 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">HALAMAN UTAMA</div>
+                        <div class="sb-sidenav-menu-heading">MAIN PAGE</div>
                         <a class="nav-link" href="/dashboard">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <div class="sb-sidenav-menu-heading">ANTARMUKA</div>
+                        <div class="sb-sidenav-menu-heading">INTERFACE</div>
                         <a class="nav-link" href="/invoice">
                             <div class="sb-nav-link-icon"><i class="bi bi-receipt"></i></div>
                             Invoice
                         </a>
                         <a class="nav-link" href="/pengguna">
-                            <div class="sb-nav-link-icon"><i class="bi bi-person"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                             Users
                         </a>
                         <a class="nav-link" href="/customer">
-                            <div class="sb-nav-link-icon"><i class="bi bi-people"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user-group" style="font-size: 12px;"></i></div>
                             Customers
                         </a>
                         <a class="nav-link collapsed" href="master-data" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">

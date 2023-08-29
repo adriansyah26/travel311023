@@ -37,15 +37,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'code' => 'required|max:4',
             'name' => 'required',
         ]);
 
-        Product::create($request->all());
+        // Pastikan validasi berhasil sebelum membuat entri product
+        if ($validateData) {
+            Product::create($request->all());
 
-        return redirect()->route('product.index')
-            ->with('success', 'Product created successfully');
+            return redirect()->route('product.index')
+                ->with('success', 'Product created successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan product kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to create product')
+                ->withInput();
+        }
     }
 
     /**
@@ -79,15 +87,23 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'code' => 'required|max:4',
             'name' => 'required',
         ]);
 
-        $product->update($request->all());
+        // Pastikan validasi berhasil sebelum melakukan pembaruan product
+        if ($validateData) {
+            $product->update($request->all());
 
-        return redirect()->route('product.index')
-            ->with('success', 'Product updated successfully');
+            return redirect()->route('product.index')
+                ->with('success', 'Product updated successfully');
+        } else {
+            // Jika validasi gagal, Anda dapat mengarahkan product kembali ke halaman sebelumnya dengan pesan kesalahan.
+            return redirect()->back()
+                ->withErrors('Failed to update product')
+                ->withInput();
+        }
     }
 
     /**

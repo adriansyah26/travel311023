@@ -16,74 +16,80 @@
                 </ul>
             </div>
             @endif
-            <div class="card mb-4 mt-3 px-4 col-lg-6 ">
-                <div class="card-body">
-                    <form action="{{ route('customer.update',$customer->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
 
-                        <div class="container px-4">
-                            <div class="col-lg-12 margin-tb">
-                                <div class="form-group">
-                                    <strong>Name</strong>
-                                    <input type="text" name="name" value="{{ $customer->name }}" class="form-control" placeholder="Name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container mt-3 px-4">
-                            <div class="col-lg-12 margin-tb">
-                                <div class="form-group">
-                                    <strong>Phone</strong>
-                                    <input class="form-control" name="phone" placeholder="Phone" type="number" value="{{ $customer->phone }}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container mt-3 px-4">
-                            <div class="col-lg-12 margin-tb">
-                                <div class="form-group">
-                                    <strong>Email</strong>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="name@example.com" value="{{ $customer->email }}">
-                                    @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
+            <form action="{{ route('customer.update',$customer->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="card mb-4 mt-3 px-4 col-lg-12">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-6 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Name</strong>
+                                        <input type="text" name="name" value="{{ $customer->name }}" class="form-control" placeholder="Name" required>
                                     </div>
-                                    @enderror
                                 </div>
-                            </div>
-                        </div>
-                        <div class="container mt-3 px-4">
-                            <div class="col-lg-12 margin-tb">
-                                <div class="form-group">
-                                    <strong>Address</strong>
-                                    <input type="text" name="address" value="{{ $customer->address }}" class="form-control" placeholder="Address">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container mt-3 px-4">
-                            <div class="col-lg-12 margin-tb">
-                                <div class="form-group">
-                                    <strong>Type</strong>
-                                    <div class="input-group mb-3">
-                                        <select class="form-select" name="type">
-                                            @foreach ($types as $type)
-                                            <option value="{{ $type->name }}">{{ $type->name }}</option>
-                                            @endforeach
-                                        </select>
+                                <div class="col-lg-6 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Phone</strong>
+                                        <input class="form-control" name="phone" placeholder="Phone" type="number" value="{{ $customer->phone }}" required>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mt-3">
+                                <div class="col-lg-6 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Email</strong>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="name@example.com" value="{{ $customer->email }}" required>
+                                        @error('email')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Termin</strong>
+                                        <input type="text" name="termin" class="form-control" placeholder="Termin" value="{{ $customer->termin }}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-lg-6 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Type</strong>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" name="type_id">
+                                                @foreach ($types as $type)
+                                                <option value="{{ $type->id }}" {{ $type->id == $customer->type_id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 margin-tb">
+                                    <div class="form-group">
+                                        <strong>Address</strong>
+                                        <textarea class="form-control" name="address" placeholder="Address" required>{{ $customer->address }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="container mt-3">
+                        <div class="row mt-3">
                             <div class="col-lg-12 margin-tb">
-                                <div style="margin-left: 280px;">
+                                <div style="margin-left: 843px;">
                                     <a class="btn btn-primary" href="{{ route('customer.index') }}"> Back</a>
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </main>

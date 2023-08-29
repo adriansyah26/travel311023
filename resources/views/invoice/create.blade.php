@@ -17,7 +17,7 @@
             </div>
             @endif
 
-            <form data-action="{{ route('invoice.store') }}" method="POST" enctype="multipart/form-data" id="createinvoice">
+            <form data-action="{{ route('invoice.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="card mb-4 mt-3 px-4 col-lg-12 ">
@@ -34,7 +34,7 @@
                                 <div class="col-lg-4 margin-tb px-4">
                                     <div class="form-group">
                                         <strong>Customers Name</strong>
-                                        <select class="form-select" name="customer_id" id="customer_id">
+                                        <select class="form-select" name="customer_name" id="customer_id">
                                             @foreach ($customers as $customer)
                                             <option value="{{ $customer->id }}" selected>{{$customer->name}}</option>
                                             @endforeach
@@ -57,8 +57,16 @@
                     </div>
                 </div>
                 <div class="card mb-4 mt-3 px-4 col-lg-12 ">
+                    <ul class="nav nav-underline mt-3" style="margin-left: 40px;">
+                        <li class="nav-item">
+                            <a class="nav-link active" style="color: #0d6efd;" href="/invoice/create">Invoice Item</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: #0d6efd;" href="/invoice/create-hotel">Invoice Item Hotel</a>
+                        </li>
+                    </ul>
+                    <button disabled type="button" class="btn btn-primary mt-4" style="margin-left: 40px; margin-bottom: -15px; width: 80px" data-bs-toggle="modal" data-bs-target="#invoiceItemModal"><i class="bi bi-file-earmark-plus"></i>Item</button>
                     <div class="card-body" style="overflow-x: auto;">
-                        <button type="button" class="btn btn-primary" style="margin-left: 21px;" data-bs-toggle="modal" data-bs-target="#invoiceItemModal"><i class="bi bi-file-earmark-plus"></i>Item</button>
                         <div class="container-fluid">
                             <table id="itemTable" class="table table-bordered table-striped mt-3" style="margin-left: 10px; width: 950px; table-layout: fixed;">
                                 <thead>
@@ -66,6 +74,7 @@
                                         <th style="width: 40px;">No</th>
                                         <th style="width: 100px;">Products</th>
                                         <th style="width: 300px;">Item</th>
+                                        <th style="width: 130px;">Kode Booking</th>
                                         <th style="width: 500px;">Description</th>
                                         <th style="width: 90px;">Quantity</th>
                                         <th style="width: 100px;">Amount</th>
@@ -103,9 +112,9 @@
                                             <div class="form-group">
                                                 <strong>Products</strong>
                                                 <div class="input-group mb-3">
-                                                    <select class="form-select" name="product" id="product">
+                                                    <select class="form-select" name="product_name" id="product_id" data-products="{{ json_encode($products) }}">
                                                         @foreach ($products as $product)
-                                                        <option value="{{ $product->name }}" selected>{{ $product->name }}</option>
+                                                        <option value="{{ $product->id }}" selected>{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -121,28 +130,34 @@
                                     <div class="row">
                                         <div class="col-lg-6 margin-tb px-4">
                                             <div class="form-group">
-                                                <strong>Quantity</strong>
-                                                <input class="form-control" name="quantity" placeholder="Quantity" type="number" value="{{ old('quantity') }}" onkeyup="create();" id="quantity" required></input>
+                                                <strong>Kode Booking</strong>
+                                                <input type="text" name="kode_booking" class="form-control" placeholder="Kode Booking" value="{{ old('kode_booking') }}" id="kode_booking" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 margin-tb px-4">
                                             <div class="form-group">
-                                                <strong>Amount</strong>
-                                                <input class="form-control" name="amount" placeholder="Amount" type="number" value="{{ old('amount') }}" onkeyup="create();" id="amount" required></input>
+                                                <strong>Markup</strong>
+                                                <input class="form-control" name="markup" placeholder="Markup" type="text" value="{{ old('markup') }}" onkeyup="validateDecimalcreate(this, 0);" id="markup" required></input>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 margin-tb mt-3 px-4">
+                                        <div class="col-lg-2 margin-tb mt-3 px-4">
                                             <div class="form-group">
-                                                <strong>Markup</strong>
-                                                <input class="form-control" name="markup" placeholder="Markup" type="number" value="{{ old('markup') }}" onkeyup="create();" id="markup" required></input>
+                                                <strong>Quantity</strong>
+                                                <input class="form-control" name="quantity" placeholder="Qty" type="text" value="{{ old('quantity') }}" onkeyup="validateDecimalcreate(this, 0);" id="quantity" required></input>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 margin-tb mt-3 px-4">
+                                            <div class="form-group">
+                                                <strong>Amount</strong>
+                                                <input class="form-control" name="amount" placeholder="Amount" type="text" value="{{ old('amount') }}" onkeyup="validateDecimalcreate(this, 0);" id="amount" required></input>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 margin-tb mt-3 px-4">
                                             <div class="form-group">
                                                 <strong>Total</strong>
-                                                <input class="form-control" name="total" placeholder="Total" type="number" value="{{ old('total') }}" readonly onkeyup="create();" id="total"></input>
+                                                <input class="form-control" name="total" placeholder="Total" type="text" value="{{ old('total') }}" readonly onkeyup="validateDecimalcreate(this, 0);" id="total"></input>
                                             </div>
                                         </div>
                                     </div>
@@ -186,9 +201,9 @@
                                             <div class="form-group">
                                                 <strong>Products</strong>
                                                 <div class="input-group mb-3">
-                                                    <select class="form-select" name="productedit" id="productedit">
+                                                    <select class="form-select" name="product_name_edit" id="product_id_edit" data-products-edit="{{ json_encode($products) }}">
                                                         @foreach ($products as $product)
-                                                        <option value="{{ $product->name }}" selected>{{ $product->name }}</option>
+                                                        <option value="{{ $product->id }}" selected>{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -204,28 +219,34 @@
                                     <div class="row">
                                         <div class="col-lg-6 margin-tb px-4">
                                             <div class="form-group">
-                                                <strong>Quantity</strong>
-                                                <input class="form-control" name="quantityedit" placeholder="Quantity" type="number" onkeyup="edit();" id="quantityedit" required></input>
+                                                <strong>Kode Booking</strong>
+                                                <input type="text" name="kode_bookingedit" class="form-control" placeholder="Kode Booking" id="kode_bookingedit" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 margin-tb px-4">
                                             <div class="form-group">
-                                                <strong>Amount</strong>
-                                                <input class="form-control" name="amountedit" placeholder="Amount" type="number" onkeyup="edit();" id="amountedit" required></input>
+                                                <strong>Markup</strong>
+                                                <input class="form-control" name="markupedit" placeholder="Markup" type="text" onkeyup="validateDecimaledit(this, 0);" id="markupedit" required></input>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6 margin-tb mt-3 px-4">
+                                        <div class="col-lg-2 margin-tb mt-3 px-4">
                                             <div class="form-group">
-                                                <strong>Markup</strong>
-                                                <input class="form-control" name="markupedit" placeholder="Markup" type="number" onkeyup="edit();" id="markupedit" required></input>
+                                                <strong>Quantity</strong>
+                                                <input class="form-control" name="quantityedit" placeholder="Qty" type="text" onkeyup="validateDecimaledit(this, 0);" id="quantityedit" required></input>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 margin-tb mt-3 px-4">
+                                            <div class="form-group">
+                                                <strong>Amount</strong>
+                                                <input class="form-control" name="amountedit" placeholder="Amount" type="text" onkeyup="validateDecimaledit(this, 0);" id="amountedit" required></input>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 margin-tb mt-3 px-4">
                                             <div class="form-group">
                                                 <strong>Total</strong>
-                                                <input class="form-control" name="totaledit" placeholder="Total" type="number" readonly onkeyup="edit();" id="totaledit"></input>
+                                                <input class="form-control" name="totaledit" placeholder="Total" type="text" readonly onkeyup="validateDecimaledit(this, 0);" id="totaledit"></input>
                                             </div>
                                         </div>
                                     </div>
@@ -251,54 +272,218 @@
         </div>
     </div>
 </main>
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var switchCheckbox = document.getElementById('status');
-        var switchInput = document.querySelector('input[name="status"]');
-
-        switchCheckbox.addEventListener('change', function() {
-            if (switchCheckbox.checked) {
-                switchInput.value = 'True';
-            } else {
-                switchInput.value = 'False';
-            }
-        });
-    });
-</script> -->
 
 <script>
-    // penambahan otomatis quantity * (amount + markup)
-    function create() {
-        var txtFirstNumberValue = document.getElementById('quantity').value;
-        var txtSecondNumberValue = document.getElementById('amount').value;
-        var txtThirdNumberValue = document.getElementById('markup').value;
-        var result = parseInt(txtFirstNumberValue) * (parseInt(txtSecondNumberValue) + parseInt(txtThirdNumberValue));
-        if (!isNaN(result)) {
-            document.getElementById('total').value = result;
+    // format penambahan perkalian quantity * (amount + markup) create
+    function addCommas(nStr) {
+        nStr += "";
+        x = nStr.split(".");
+        x1 = x[0];
+        x2 = x.length > 1 ? "." + x[1] : "";
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, "$1" + "." + "$2");
+        }
+        return x1 + x2;
+    }
+</script>
+
+<script>
+    const paramModal = {
+        quantity: 0,
+        amount: 0,
+        markup: 0,
+        total: 0,
+    }
+
+    let isNewDataAdded = false; // Tandai apakah data baru sudah ditambahkan
+
+    // Fungsi untuk memastikan nilai desimal minimal 0
+    function validateDecimalcreate(input, min) {
+        let validNumber = parseFloat(`${input.value}`.replace(/[^0-9]/g, ''));
+        let typeInputName = input.getAttribute('name');
+
+        if (typeof paramModal[typeInputName] !== 'undefined') {
+            paramModal[typeInputName] = isNaN(validNumber) ? 0 : validNumber;
+            paramModal.total = paramModal.quantity * paramModal.amount;
+
+            for (let k in paramModal) {
+                document.getElementsByName(k)[0].value = addCommas(paramModal[k]);
+            }
+        }
+    }
+
+    function markNewDataAdded() {
+        isNewDataAdded = true;
+    }
+
+    function resetInputFields() {
+        if (isNewDataAdded) {
+            for (let k in paramModal) {
+                paramModal[k] = 0;
+                document.getElementsByName(k)[0].value = addCommas(paramModal[k]);
+            }
+            isNewDataAdded = false; // Reset flag
         }
     }
 </script>
 
 <script>
-    // penambahan otomatis quantity * (amount + markup)
+    // format penambahan perkalian quantity * (amount + markup) edit
+    function addCommasedit(nStr) {
+        nStr += "";
+        x = nStr.split(".");
+        x1 = x[0];
+        x2 = x.length > 1 ? "." + x[1] : "";
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, "$1" + "." + "$2");
+        }
+        return x1 + x2;
+    }
+</script>
+
+<script>
+    const paramModaledit = {
+        quantityedit: 0,
+        amountedit: 0,
+        markupedit: 0,
+        totaledit: 0,
+    }
+
+    let isNewDataAddededit = false; // Tandai apakah data baru sudah ditambahkan
+
+    // Fungsi untuk memastikan nilai desimal minimal 0
+    function validateDecimaledit(input, min) {
+        let validNumberedit = parseFloat(`${input.value}`.replace(/[^0-9]/g, ''));
+        let typeInputNameedit = input.getAttribute('name');
+
+        if (typeof paramModaledit[typeInputNameedit] !== 'undefined') {
+            paramModaledit[typeInputNameedit] = isNaN(validNumberedit) ? 0 : validNumberedit;
+            paramModaledit.totaledit = paramModaledit.quantityedit * paramModaledit.amountedit;
+
+            for (let k in paramModaledit) {
+                document.getElementsByName(k)[0].value = addCommasedit(paramModaledit[k]);
+            }
+        }
+    }
+
+    function markNewDataAddededit() {
+        isNewDataAddededit = true;
+    }
+
+    function resetInputFieldsedit() {
+        if (isNewDataAddededit) {
+            for (let k in paramModaledit) {
+                paramModaledit[k] = 0;
+                document.getElementsByName(k)[0].value = addCommasedit(paramModaledit[k]);
+            }
+            isNewDataAddededit = false; // Reset flag
+        }
+    }
+</script>
+
+<!-- <script>
+    // Fungsi untuk menghapus tanda titik dan tanda koma dari string angka
+    function removeSeparators(input) {
+        return input.replace(/[.,]/g, '');
+    }
+
+    // // Fungsi untuk memformat angka dengan pemisah ribuan
+    // function formatNumber(number) {
+    //     return new Intl.NumberFormat('id-ID').format(number);
+    // }
+
+    // // Penambahan otomatis quantity * (amount + markup) dengan format ribuan
+    // function create() {
+    //     var txtFirstNumberValue = document.getElementById('quantity').value;
+    //     var txtSecondNumberValue = document.getElementById('amount').value;
+    //     var txtThirdNumberValue = document.getElementById('markup').value;
+
+    //     var quantity = parseFloat(removeSeparators(txtFirstNumberValue));
+    //     var amount = parseFloat(removeSeparators(txtSecondNumberValue));
+    //     var markup = parseFloat(removeSeparators(txtThirdNumberValue));
+
+    //     var total = quantity * (amount + markup);
+
+    //     if (!isNaN(total)) {
+
+    //         var formattedTotal = formatNumber(total);
+    //         var formattedQuantity = formatNumber(quantity);
+    //         var formattedAmount = formatNumber(amount);
+    //         var formattedMarkup = formatNumber(markup);
+    //         console.log(total, formattedTotal, formattedQuantity, formattedAmount, formattedMarkup)
+
+    //         document.getElementById('total').value = formattedTotal;
+    //         document.getElementById('quantity').value = formattedQuantity;
+    //         document.getElementById('amount').value = formattedAmount;
+    //         document.getElementById('markup').value = formattedMarkup;
+    //     }
+    // }
+
+    // // Memanggil fungsi create() saat halaman dimuat
+    // create();
+</script>
+
+<script>
+    // Fungsi untuk memastikan nilai desimal minimal 0
+    function validateDecimaledit(input, min) {
+        var value = parseFloat(input.value);
+        if (isNaN(value) || value < min) {
+            input.value = min;
+        }
+        edit(); // Panggil fungsi edit() untuk menghitung total
+    }
+
+    // Fungsi untuk menghapus tanda titik dan tanda koma dari string angka
+    function removeSeparators(input) {
+        return input.replace(/[.,]/g, '');
+    }
+
+    // Fungsi untuk memformat angka dengan pemisah ribuan
+    function formatNumber(number) {
+        return new Intl.NumberFormat('id-ID').format(number);
+    }
+
+    // Penambahan otomatis quantity * (amount + markup) dengan format ribuan
     function edit() {
         var txtFirstNumberValue = document.getElementById('quantityedit').value;
         var txtSecondNumberValue = document.getElementById('amountedit').value;
         var txtThirdNumberValue = document.getElementById('markupedit').value;
-        var result = parseInt(txtFirstNumberValue) * (parseInt(txtSecondNumberValue) + parseInt(txtThirdNumberValue));
-        if (!isNaN(result)) {
-            document.getElementById('totaledit').value = result;
+
+        var quantity = parseFloat(removeSeparators(txtFirstNumberValue));
+        var amount = parseFloat(removeSeparators(txtSecondNumberValue));
+        var markup = parseFloat(removeSeparators(txtThirdNumberValue));
+
+        var total = quantity * (amount + markup);
+
+        if (!isNaN(total)) {
+            var formattedTotal = formatNumber(total);
+            var formattedQuantity = formatNumber(quantity);
+            var formattedAmount = formatNumber(amount);
+            var formattedMarkup = formatNumber(markup);
+
+            document.getElementById('totaledit').value = formattedTotal;
+            document.getElementById('quantityedit').value = formattedQuantity;
+            document.getElementById('amountedit').value = formattedAmount;
+            document.getElementById('markupedit').value = formattedMarkup;
         }
     }
-</script>
+
+    // Memanggil fungsi create() saat halaman dimuat
+    edit();
+</script> -->
 
 <script>
+    // Ambil data produk dari tag HTML
+    const productsData = JSON.parse(document.getElementById('product_id').getAttribute('data-products'));
     // Fungsi untuk menyimpan item
     function saveItems() {
         // Kumpulkan data item dari form
         const invoiceId = document.getElementById('invoice_id').value;
-        const product = document.getElementById('product').value;
+        const productId = document.getElementById('product_id').value;
         const item = document.getElementById('item').value;
+        const kode_booking = document.getElementById('kode_booking').value;
         const description = document.getElementById('description').value;
         const quantity = document.getElementById('quantity').value;
         const amount = document.getElementById('amount').value;
@@ -308,8 +493,9 @@
         // Buat FormData untuk mengirim data ke server
         const formData = new FormData();
         formData.append('invoice_id', invoiceId); // Simpan sebagai nilai tunggal
-        formData.append('product', product);
+        formData.append('product_id', productId);
         formData.append('item', item);
+        formData.append('kode_booking', kode_booking);
         formData.append('description', description);
         formData.append('quantity', quantity);
         formData.append('amount', amount);
@@ -332,17 +518,25 @@
                     const itemRowsContainer = document.getElementById('itemRows');
                     itemRowsContainer.innerHTML = ''; // Kosongkan tabel sebelum mengisi ulang
                     items.forEach(item => {
+                        // merubah product_id menjadi product name
+                        const productName = productsData.find(product => product.id === parseInt(item.product_id))?.name || 'Products Tidak Tersedia';
+                        // Menampilkan angka dengan pemisah ribuan (titik) dalam bahasa Indonesia
+                        const quantityFormatted = item.quantity.toLocaleString('id-ID');
+                        const amountFormatted = item.amount.toLocaleString('id-ID');
+                        const markupFormatted = item.markup.toLocaleString('id-ID');
+                        const totalFormatted = item.total.toLocaleString('id-ID');
                         const itemRow = `<tr data-item-id="${item.id}">
                                 <td>${rowCount++}</td>
-                                <td>${item.product}</td>
+                                <td>${productName}</td>
                                 <td>${item.item}</td>
-                                <td>${item.description}</td>
-                                <td>${item.quantity}</td>
-                                <td>${item.amount}</td>
-                                <td>${item.markup}</td>
-                                <td>${item.total}</td>
+                                <td>${item.kode_booking}</td>
+                                <td>${item.description.replace(/\n/g, '<hr style="margin-left: -9px; margin-right: -9px;">')}</td>
+                                <td>${quantityFormatted}</td>
+                                <td>${amountFormatted}</td>
+                                <td>${markupFormatted}</td>
+                                <td>${totalFormatted}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editInvoiceItemModal" onclick="editInvoiceItemModal('${item.id}')">Edit</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editInvoiceItemModal" onclick="editInvoiceItemModal('${item.id}')"><i class="bi bi-pencil-square"></i></button>
                                 </td>
                             </tr>`;
                         itemRowsContainer.insertAdjacentHTML('beforeend', itemRow);
@@ -352,16 +546,28 @@
 
                         $('#invoiceItemModal').modal('hide');
 
-                        document.getElementById("product").value = "";
+                        document.getElementById("product_id").value = "";
                         document.getElementById("item").value = "";
+                        document.getElementById("kode_booking").value = "";
                         document.getElementById("description").value = "";
                         document.getElementById("quantity").value = "";
                         document.getElementById("amount").value = "";
                         document.getElementById("markup").value = "";
                         document.getElementById("total").value = "";
+
+                        Swal.fire({
+                            title: 'Good job!',
+                            text: response.data.messages,
+                            icon: 'success'
+                        });
                     });
                 } else {
                     // Handle jika ada kesalahan
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Failed created invoice item!',
+                    })
                     console.error('Gagal menyimpan item:', response.data.message);
                 }
             })
@@ -369,6 +575,8 @@
                 // Handle jika ada kesalahan koneksi atau server
                 console.error('Terjadi kesalahan:', error);
             });
+        markNewDataAdded(); // Tandai bahwa data baru ditambahkan
+        resetInputFields(); // Reset input fields
     }
 </script>
 
@@ -393,9 +601,19 @@
                 if (response.data.success) {
                     // Item berhasil disimpan, tampilkan di tabel
                     document.getElementById("invoice_id").value = response.data.items.id;
-                    alert(response.data.messages)
+                    $('button[data-bs-target="#invoiceItemModal"]').removeAttr('disabled')
+                    Swal.fire({
+                        title: 'Good job!',
+                        text: response.data.messages,
+                        icon: 'success'
+                    });
                 } else {
                     // Handle jika ada kesalahan
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Failed created invoice!',
+                    })
                     console.error('Gagal menyimpan item:', response.data.errors || response.data.message);
                 }
             })
@@ -412,14 +630,23 @@
             .then(response => {
                 if (response.data.success) {
                     const item = response.data.item;
-                    document.getElementById('productedit').value = item.product;
+                    document.getElementById('product_id_edit').value = item.product_id;
                     document.getElementById('itemedit').value = item.item;
+                    document.getElementById('kode_bookingedit').value = item.kode_booking;
                     document.getElementById('descriptionedit').value = item.description;
                     document.getElementById('quantityedit').value = item.quantity;
                     document.getElementById('amountedit').value = item.amount;
                     document.getElementById('markupedit').value = item.markup;
                     document.getElementById('totaledit').value = item.total;
-
+                    // Menampilkan angka dengan pemisah ribuan (titik) dalam bahasa Indonesia
+                    const quantityFormatted = item.quantity.toLocaleString('id-ID');
+                    const amountFormatted = item.amount.toLocaleString('id-ID');
+                    const markupFormatted = item.markup.toLocaleString('id-ID');
+                    const totalFormatted = item.total.toLocaleString('id-ID');
+                    document.getElementById('quantityedit').value = quantityFormatted;
+                    document.getElementById('amountedit').value = amountFormatted;
+                    document.getElementById('markupedit').value = markupFormatted;
+                    document.getElementById('totaledit').value = totalFormatted;
                     // ... Set other values if needed ...
                     // Simpan itemId dalam atribut data-item-id pada tombol "Edit" dalam modal
                     const updateInvoiceItemModal = document.getElementById('updateInvoiceItemModal');
@@ -440,8 +667,9 @@
     function updateInvoiceItemModal() {
         const itemId = document.getElementById('updateInvoiceItemModal').getAttribute('data-item-id'); // Dapatkan ID item yang akan diperbarui
 
-        const product = document.getElementById('productedit').value;
+        const product = document.getElementById('product_id_edit').value;
         const item = document.getElementById('itemedit').value;
+        const kode_booking = document.getElementById('kode_bookingedit').value;
         const description = document.getElementById('descriptionedit').value;
         const quantity = document.getElementById('quantityedit').value;
         const amount = document.getElementById('amountedit').value;
@@ -450,8 +678,9 @@
 
         const formData = new FormData();
         formData.append('_method', 'PUT');
-        formData.append('productedit', product);
+        formData.append('product_id_edit', product);
         formData.append('itemedit', item);
+        formData.append('kode_bookingedit', kode_booking);
         formData.append('descriptionedit', description);
         formData.append('quantityedit', quantity);
         formData.append('amountedit', amount);
@@ -477,519 +706,50 @@
                         console.error('Item yang diperbarui tidak memiliki ID yang valid.');
                     }
                     // Lakukan pembaruan data dalam tabel jika diperlukan
+                    Swal.fire({
+                        title: 'Good job!',
+                        text: response.data.messages,
+                        icon: 'success'
+                    });
                 } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Failed updated invoice item!',
+                    })
                     console.error('Gagal memperbarui item:', response.data.message);
                 }
             })
             .catch(error => {
                 console.error('Terjadi kesalahan:', error);
             });
+        markNewDataAddededit();
+        resetInputFieldsedit();
     }
 </script>
 
 <script>
+    // Ambil data produk dari tag HTML
+    const productsDataedit = JSON.parse(document.getElementById('product_id_edit').getAttribute('data-products-edit'));
     // mengubah table setelah diupdate
     function updateTableRow(updatedItem) {
         const itemRowsContainer = document.getElementById('itemRows');
         const updatedRow = itemRowsContainer.querySelector(`tr[data-item-id="${updatedItem.id}"]`);
         if (updatedRow) {
             const columns = updatedRow.querySelectorAll('td'); // Ambil seluruh kolom dalam baris
-            columns[1].textContent = updatedItem.product;
+            const productName = productsDataedit.find(product => product.id === parseInt(updatedItem.product_id))?.name || 'Products Tidak Tersedia';
+            columns[1].textContent = productName
             columns[2].textContent = updatedItem.item;
-            columns[3].textContent = updatedItem.description;
-            columns[4].textContent = updatedItem.quantity;
-            columns[5].textContent = updatedItem.amount;
-            columns[6].textContent = updatedItem.markup;
-            columns[7].textContent = updatedItem.total;
+            columns[3].textContent = updatedItem.kode_booking;
+            columns[4].innerHTML = updatedItem.description.replace(/\n/g, '<hr style="margin-left: -9px; margin-right: -9px; border: none; border-top: 1px solid #000;">');
+            columns[5].textContent = updatedItem.quantity.toLocaleString('id-ID');
+            columns[6].textContent = updatedItem.amount.toLocaleString('id-ID');
+            columns[7].textContent = updatedItem.markup.toLocaleString('id-ID');
+            columns[8].textContent = updatedItem.total.toLocaleString('id-ID');
         } else {
             console.error('Baris yang akan diperbarui tidak ditemukan.');
         }
     }
 </script>
-
-
-
-
-<!-- <script>
-    function saveItems() {
-        var items = [];
-
-        // Loop through table rows and gather item data
-        var rows = document.querySelectorAll('#itemTable tbody tr');
-        rows.forEach(function(row) {
-            var product = row.querySelector('.product').value;
-            var item = row.querySelector('.item').value;
-            var description = row.querySelector('.description').value;
-            var quantity = row.querySelector('.quantity').value;
-            var amount = row.querySelector('.amount').value;
-            var markup = row.querySelector('.markup').value;
-            var total = row.querySelector('.total').value;
-
-            items.push({
-                product: product,
-                item: item,
-                description: description,
-                quantity: quantity,
-                amount: amount,
-                markup: markup,
-                total: total
-            });
-        });
-
-        // Set the JSON data to the hidden input
-        document.getElementById('itemData').value = JSON.stringify(items);
-    }
-</script> -->
-
-
-<!-- <script>
-    // Mengatur penyimpanan item menggunakan Axios
-    var saveButton = document.getElementById('saveButton');
-    saveButton.addEventListener('click', saveItems);
-
-    function saveItems() {
-        // Mengumpulkan data dari input pada halaman
-        var product = document.getElementsByName('product[]');
-        var item = document.getElementsByName('item[]');
-        var description = document.getElementsByName('description[]');
-        var quantity = document.getElementsByName('quantity[]');
-        var amount = document.getElementsByName('amount[]');
-        var markup = document.getElementsByName('markup[]');
-        var total = document.getElementsByName('total[]');
-        var _token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        // Menggabungkan data ke dalam objek requestData
-        var requestData = {
-            _token: _token,
-            product: [],
-            item: [],
-            description: [],
-            quantity: [],
-            amount: [],
-            markup: [],
-            total: []
-        };
-
-        for (var i = 0; i < product.length; i++) {
-            requestData.product.push(product[i].value);
-            requestData.item.push(item[i].value);
-            requestData.description.push(description[i].value);
-            requestData.quantity.push(quantity[i].value);
-            requestData.amount.push(amount[i].value);
-            requestData.markup.push(markup[i].value);
-            requestData.total.push(total[i].value);
-        }
-
-        // Mengirim data ke server menggunakan Axios
-        axios.post('/invoice/saveItem', requestData)
-            .then(function(response) {
-                // Tampilkan pesan sukses atau lakukan aksi lain
-                console.log(response.data.message);
-
-                // Add the new row to the table here
-                for (var i = 0; i < product.length; i++) {
-                    var newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                    <td>${product[i].value}</td>
-                    <td>${item[i].value}</td>
-                    <td>${description[i].value}</td>
-                    <td>${quantity[i].value}</td>
-                    <td>${amount[i].value}</td>
-                    <td>${markup[i].value}</td>
-                    <td>${total[i].value}</td>
-                `;
-                    document.getElementById('itemRows').appendChild(newRow);
-                }
-            })
-            .catch(function(error) {
-                // Tangani kesalahan jika terjadi
-                console.error(error);
-            });
-    }
-</script> -->
-
-
-
-
-
-
-
-<!-- <script>
-    // Fungsi untuk menambahkan baris baru pada tabel
-    function addRow() {
-        var product = document.getElementById("product").value;
-        var item = document.getElementById("item").value;
-        var description = document.getElementById("description").value;
-        var quantity = document.getElementById("quantity").value;
-        var amount = document.getElementById("amount").value;
-        var markup = document.getElementById("markup").value;
-        var total = document.getElementById("total").value;
-        // var invoiceId = document.getElementById("invoice_id").value; // Ambil nilai invoice_id dari input tersembunyi
-
-        var table = document.getElementById("itemTable");
-        var row = table.insertRow(-1);
-
-        var cellNo = row.insertCell(0);
-        var cellProduct = row.insertCell(1);
-        var cellItem = row.insertCell(2);
-        var cellDescription = row.insertCell(3);
-        var cellQuantity = row.insertCell(4);
-        var cellAmount = row.insertCell(5);
-        var cellMarkup = row.insertCell(6);
-        var cellTotal = row.insertCell(7);
-
-        cellNo.innerHTML = table.rows.length - 1;
-        cellProduct.innerHTML = product;
-        cellItem.innerHTML = item;
-        cellDescription.innerHTML = description;
-        cellQuantity.innerHTML = quantity;
-        cellAmount.innerHTML = amount;
-        cellMarkup.innerHTML = markup;
-        cellTotal.innerHTML = total;
-
-        // Tambahkan input tersembunyi untuk menyimpan data item pada form
-        var itemDataInput = document.createElement('input');
-        itemDataInput.setAttribute('type', 'hidden');
-        itemDataInput.setAttribute('name', 'product[]');
-        itemDataInput.setAttribute('value', product);
-        row.appendChild(itemDataInput);
-
-        itemDataInput = document.createElement('input');
-        itemDataInput.setAttribute('type', 'hidden');
-        itemDataInput.setAttribute('name', 'item[]');
-        itemDataInput.setAttribute('value', item);
-        row.appendChild(itemDataInput);
-
-        itemDataInput = document.createElement('input');
-        itemDataInput.setAttribute('type', 'hidden');
-        itemDataInput.setAttribute('name', 'description[]');
-        itemDataInput.setAttribute('value', description);
-        row.appendChild(itemDataInput);
-
-        itemDataInput = document.createElement('input');
-        itemDataInput.setAttribute('type', 'hidden');
-        itemDataInput.setAttribute('name', 'quantity[]');
-        itemDataInput.setAttribute('value', quantity);
-        row.appendChild(itemDataInput);
-
-        itemDataInput = document.createElement('input');
-        itemDataInput.setAttribute('type', 'hidden');
-        itemDataInput.setAttribute('name', 'amount[]');
-        itemDataInput.setAttribute('value', amount);
-        row.appendChild(itemDataInput);
-
-        itemDataInput = document.createElement('input');
-        itemDataInput.setAttribute('type', 'hidden');
-        itemDataInput.setAttribute('name', 'markup[]');
-        itemDataInput.setAttribute('value', markup);
-        row.appendChild(itemDataInput);
-
-        itemDataInput = document.createElement('input');
-        itemDataInput.setAttribute('type', 'hidden');
-        itemDataInput.setAttribute('name', 'total[]');
-        itemDataInput.setAttribute('value', total);
-        row.appendChild(itemDataInput);
-
-        // itemDataInput = document.createElement('input');
-        // itemDataInput.setAttribute('type', 'hidden');
-        // itemDataInput.setAttribute('name', 'invoice_id[]');
-        // itemDataInput.setAttribute('value', invoiceId);
-        // row.appendChild(itemDataInput);
-
-        // Bersihkan input fields
-        document.getElementById("item").value = "";
-        document.getElementById("description").value = "";
-        document.getElementById("quantity").value = "";
-        document.getElementById("amount").value = "";
-        document.getElementById("markup").value = "";
-        document.getElementById("total").value = "";
-    }
-
-    // Fungsi untuk mengirimkan form ketika tombol Submit diklik
-    function submitInvoice() {
-        document.getElementById("createinvoice").submit();
-    }
-</script> -->
-
-
-<!-- <script>
-    function addRow() {
-        // ...
-        var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow(table.rows.length);
-        var cols = [];
-        for (var i = 0; i < 8; i++) {
-            cols[i] = newRow.insertCell(i);
-        }
-
-        // Tambahkan input element sesuai dengan kolom tabel item
-        cols[1].innerHTML = '<input type="text" name="items[' + table.rows.length + '][product]" class="form-control" placeholder="Product">';
-        cols[2].innerHTML = '<input type="text" name="items[' + table.rows.length + '][item]" class="form-control" placeholder="Item">';
-        cols[3].innerHTML = '<input type="text" name="items[' + table.rows.length + '][description]" class="form-control" placeholder="Description">';
-        cols[4].innerHTML = '<input type="number" name="items[' + table.rows.length + '][quantity]" class="form-control" placeholder="Quantity" onkeyup="calculateTotal(' + table.rows.length + ')">';
-        cols[5].innerHTML = '<input type="number" name="items[' + table.rows.length + '][amount]" class="form-control" placeholder="Amount" onkeyup="calculateTotal(' + table.rows.length + ')">';
-        cols[6].innerHTML = '<input type="number" name="items[' + table.rows.length + '][markup]" class="form-control" placeholder="Markup" onkeyup="calculateTotal(' + table.rows.length + ')">';
-        cols[7].innerHTML = '<input type="number" name="items[' + table.rows.length + '][total]" class="form-control" placeholder="Total" readonly>';
-
-        // Simpan data item dalam hidden input dengan name "items"
-        saveItemData();
-    }
-
-    function calculateTotal(rowNum) {
-        var quantityInput = document.getElementsByName('items[' + rowNum + '][quantity]')[0];
-        var amountInput = document.getElementsByName('items[' + rowNum + '][amount]')[0];
-        var markupInput = document.getElementsByName('items[' + rowNum + '][markup]')[0];
-        var totalInput = document.getElementsByName('items[' + rowNum + '][total]')[0];
-
-        var quantity = parseInt(quantityInput.value);
-        var amount = parseInt(amountInput.value);
-        var markup = parseInt(markupInput.value);
-
-        if (!isNaN(quantity) && !isNaN(amount) && !isNaN(markup)) {
-            var total = quantity * (amount + markup);
-            totalInput.value = total;
-        } else {
-            totalInput.value = '';
-        }
-    }
-
-    // Fungsi untuk menyimpan data item ke input hidden sebelum submit form
-    function saveItem() {
-        var items = [];
-        var table = document.getElementById("itemTable").getElementsByTagName('tbody')[0];
-        var rows = table.getElementsByTagName('tr');
-        for (var i = 0; i < rows.length; i++) {
-            var item = {
-                product: rows[i].cells[1].getElementsByTagName('input')[0].value,
-                item: rows[i].cells[2].getElementsByTagName('input')[0].value,
-                description: rows[i].cells[3].getElementsByTagName('input')[0].value,
-                quantity: rows[i].cells[4].getElementsByTagName('input')[0].value,
-                amount: rows[i].cells[5].getElementsByTagName('input')[0].value,
-                markup: rows[i].cells[6].getElementsByTagName('input')[0].value,
-                total: rows[i].cells[7].getElementsByTagName('input')[0].value,
-            };
-            items.push(item);
-        }
-        document.getElementById('itemData').value = JSON.stringify(items);
-    }
-
-    // Fungsi untuk submit form setelah data item disimpan di input hidden
-    function submitInvoice() {
-        saveItem();
-        document.getElementById('createinvoice').submit();
-    }
-</script>
-
-<script>
-    // Variabel untuk menghitung jumlah baris produk yang ditambahkan
-    let rowCount = 0;
-
-    // Fungsi untuk menambahkan baris produk baru
-    function addRow() {
-        rowCount++;
-
-        let row = `
-            <tr id="row${rowCount}">
-                <td>${rowCount}</td>
-                <td>
-                    <select class="form-select" name="product[]">
-                        @foreach ($products as $product)
-                        <option value="{{ $product->name }}">{{ $product->name }}</option>
-                        @endforeach
-                    </select>
-                </td>
-                <td><input type="text" name="item[]" class="form-control" placeholder="Item" required></td>
-                <td><textarea type="text" name="description[]" class="form-control" placeholder="Description" required></textarea></td>
-                <td><input type="number" name="quantity[]" class="form-control" placeholder="Quantity" onkeyup="calculateTotal(${rowCount})" required></td>
-                <td><input type="number" name="amount[]" class="form-control" placeholder="Amount" onkeyup="calculateTotal(${rowCount})" required></td>
-                <td><input type="number" name="markup[]" class="form-control" placeholder="Markup" onkeyup="calculateTotal(${rowCount})" required></td>
-                <td><input type="number" name="total[]" class="form-control" placeholder="Total" readonly></td>
-                <td><button type="button" class="btn btn-danger" onclick="removeRow(${rowCount})">Remove</button></td>
-            </tr>
-        `;
-
-        document.getElementById("itemRows").insertAdjacentHTML("beforeend", row);
-    }
-
-    // Fungsi untuk menghitung total setiap baris produk
-    function calculateTotal(rowNum) {
-        let quantity = parseFloat(document.getElementsByName("quantity[]")[rowNum - 1].value);
-        let amount = parseFloat(document.getElementsByName("amount[]")[rowNum - 1].value);
-        let markup = parseFloat(document.getElementsByName("markup[]")[rowNum - 1].value);
-        let total = quantity * (amount + markup);
-        if (!isNaN(total)) {
-            document.getElementsByName("total[]")[rowNum - 1].value = total;
-        }
-    }
-
-    // Fungsi untuk menghapus baris produk
-    function removeRow(rowNum) {
-        document.getElementById("row" + rowNum).remove();
-    }
-
-    // Fungsi untuk mengumpulkan data dan menyimpannya ke database melalui Ajax
-    function submitInvoice() {
-        let form = document.getElementById("createinvoice");
-        let formData = new FormData(form);
-
-        axios.post("{{ route('invoice.store') }}", formData)
-            .then(response => {
-                // Redirect ke halaman index atau lakukan apa yang diperlukan setelah penyimpanan berhasil
-                window.location.href = "{{ route('invoice.index') }}";
-            })
-            .catch(error => {
-                // Handle error jika ada
-            });
-    }
-</script> -->
-
-
-
-<!-- <script>
-    // simpan dilocal storage
-    document.getElementById('createinvoice').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const invoice_number = document.getElementById('invoice_number').value;
-        const customer_id = document.getElementById('customer_id').value;
-        const product = document.getElementById('product').value;
-        const item = document.getElementById('item').value;
-        const description = document.getElementById('description').value;
-        const quantity = document.getElementById('quantity').value;
-        const amount = document.getElementById('amount').value;
-        const markup = document.getElementById('markup').value;
-        const total = document.getElementById('total').value;
-        const status = document.getElementById('status').checked;
-
-        // Cek apakah sudah ada data di Local Storage
-        let data = JSON.parse(localStorage.getItem('data') || '[]');
-
-        // Hitung nomor urut untuk data baru
-        const newId = data.length + 1;
-
-        // Tambahkan data baru
-        data.push({
-            id: newId,
-            invoice_number: invoice_number,
-            customer_id: customer_id,
-            product: product,
-            item: item,
-            description: description,
-            quantity: quantity,
-            amount: amount,
-            markup: markup,
-            total: total,
-            status: status,
-        });
-
-        // Simpan data kembali ke Local Storage
-        localStorage.setItem('data', JSON.stringify(data));
-
-        // Reset form jika diperlukan
-        event.target.reset();
-
-        // Tampilkan data dari Local Storage
-        displayData();
-    });
-
-    // Function untuk menampilkan data dari Local Storage ke halaman
-    function displayData() {
-        const data = JSON.parse(localStorage.getItem('data') || '[]');
-        const tbody = document.querySelector('#dataTable tbody');
-        tbody.innerHTML = ''; // Clear existing data
-
-        data.forEach(item => {
-            const row = document.createElement('tr');
-
-            const idCell = document.createElement('td');
-            idCell.textContent = item.id;
-            row.appendChild(idCell);
-
-            const invoice_numberCell = document.createElement('td');
-            invoice_numberCell.textContent = item.invoice_number;
-            row.appendChild(invoice_numberCell);
-
-            const customer_idCell = document.createElement('td');
-            customer_idCell.textContent = item.customer_id;
-            row.appendChild(customer_idCell);
-
-            const productCell = document.createElement('td');
-            productCell.textContent = item.product;
-            row.appendChild(productCell);
-
-            const itemCell = document.createElement('td');
-            itemCell.textContent = item.item;
-            row.appendChild(itemCell);
-
-            const descriptionCell = document.createElement('td');
-            descriptionCell.textContent = item.description;
-            row.appendChild(descriptionCell);
-
-            const quantityCell = document.createElement('td');
-            quantityCell.textContent = item.quantity;
-            row.appendChild(quantityCell);
-
-            const amountCell = document.createElement('td');
-            amountCell.textContent = item.amount;
-            row.appendChild(amountCell);
-
-            const markupCell = document.createElement('td');
-            markupCell.textContent = item.markup;
-            row.appendChild(markupCell);
-
-            const totalCell = document.createElement('td');
-            totalCell.textContent = item.total;
-            row.appendChild(totalCell);
-
-            const statusCell = document.createElement('td');
-            statusCell.textContent = item.status ? 'True' : 'False';
-            row.appendChild(statusCell);
-
-            // Tambahkan sel data lain sesuai kebutuhan
-
-            tbody.appendChild(row);
-        });
-    }
-    // clear data ketika direfresh atau pergi kehalaman lainnya
-    localStorage.clear()
-
-    // menyimpan kedatabase dari local storage
-    function saveToDatabase() {
-        const data = JSON.parse(localStorage.getItem('data') || '[]');
-
-        // Ubah nilai status dari "true" dan "false" menjadi boolean (true dan false)
-        data.forEach(item => {
-            item.status = item.status ? 'True' : 'False';
-        });
-
-        fetch("{{ route('invoice.store') }}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Reset local storage karena data telah berhasil disimpan
-                    localStorage.removeItem('data');
-                    // Redirect ke halaman indeks atau lakukan tindakan lain yang Anda butuhkan
-                    window.location.href = "{{ route('invoice.index') }}";
-                } else {
-                    // Tangani respons error
-                    return response.json().then(errorData => {
-                        console.error('Error:', errorData);
-                        // Anda bisa menampilkan pesan error kepada pengguna atau lakukan tindakan lain
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Gagal menyimpan data:', error);
-            });
-    }
-</script> -->
-
-
 
 @endsection

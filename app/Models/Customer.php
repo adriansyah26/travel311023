@@ -11,16 +11,16 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'phone', 'email', 'address', 'type'
+        'name', 'phone', 'email', 'termin', 'address', 'type_id'
     ];
-
-    public function type()
-    {
-        return $this->belongsTo(Type::class);
-    }
 
     public function invoice()
     {
         return $this->hasMany(Invoice::class);
+    }
+
+    public function type()
+    {
+        return $this->hasMany(Type::class);
     }
 }

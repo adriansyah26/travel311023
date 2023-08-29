@@ -30,32 +30,34 @@
                                 <th style="width: 150px;">Name</th>
                                 <th style="width: 100px;">Phone</th>
                                 <th style="width: 200px;">Email</th>
+                                <th style="width: 70px;">Termin</th>
                                 <th style="width: 250px;">Address</th>
                                 <th style="width: 80px;">Type</th>
                                 <th style="width: 70px;">Action</th>
                             </tr>
                         </thead>
-                        </tbody>
-                        @foreach ($customer as $i => $cst)
-                        <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>{{ $cst->name }}</td>
-                            <td>{{ $cst->phone }}</td>
-                            <td>{{ $cst->email }}</td>
-                            <td>{{ $cst->address }}</td>
-                            <td>{{ $cst->type }}</td>
-                            <td>
-                                <div class="d-flex">
-                                    <a class="btn btn-primary me-1" href="{{ route('customer.edit',$cst->id) }}"><i class="bi bi-pencil-square"></i></a>
-                                    <form action="{{ route('customer.destroy',$cst->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger me-1"><i class="bi bi-trash"></i></button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
+                        <tbody>
+                            @foreach ($customer as $i => $cst)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $cst->name }}</td>
+                                <td>{{ $cst->phone }}</td>
+                                <td>{{ $cst->email }}</td>
+                                <td>{{ $cst->termin }}</td>
+                                <td>{{ $cst->address }}</td>
+                                <td>{{ $cst->type_id ? $types->find($cst->type_id)->name : 'Nama tidak ditemukan' }}</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a class="btn btn-primary me-1" href="{{ route('customer.edit',$cst->id) }}"><i class="bi bi-pencil-square"></i></a>
+                                        <form action="{{ route('customer.destroy',$cst->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger me-1"><i class="bi bi-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

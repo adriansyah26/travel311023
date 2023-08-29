@@ -28,14 +28,7 @@
                             <tr>
                                 <th style="width: 30px;">No</th>
                                 <th style="width: 150px;">Invoice Number</th>
-                                <th>Customers Name</th>
-                                <!-- <th style="width: 70px;">Products</th>
-                                <th style="width: 300px;">Item</th>
-                                <th style="width: 300px;">Description</th>
-                                <th style="width: 70px;">Quantity</th>
-                                <th style="width: 70px;">Amount</th>
-                                <th style="width: 70px;">Markup</th>
-                                <th style="width: 70px;">Total</th> -->
+                                <th style="width: 465px;">Customers Name</th>
                                 <th style="width: 50px;">Status</th>
                                 <th style="width: 120px;">Action</th>
                             </tr>
@@ -46,13 +39,6 @@
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $ive->invoice_number }}</td>
                                 <td>{{ $ive->customer->name }}</td>
-                                <!-- <td>{{ $ive->product }}</td>
-                                <td>{{ $ive->item }}</td>
-                                <td>{{ $ive->description }}</td>
-                                <td>{{ $ive->quantity }}</td>
-                                <td>{{ $ive->amount }}</td>
-                                <td>{{ $ive->markup }}</td>
-                                <td>{{ $ive->total }}</td> -->
                                 <td>{{ $ive->status }}</td>
                                 <td>
                                     <div class="d-flex">
