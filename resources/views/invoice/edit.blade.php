@@ -61,15 +61,16 @@
                         <div class="container-fluid">
                             <table id="itemTable" class="table table-bordered table-striped mt-3" style="margin-left: 10px; width: 950px; table-layout: fixed;">
                                 <thead>
-                                    <tr>
+                                    <tr style="text-align: center;">
                                         <th style="width: 40px;">No</th>
                                         <th style="width: 100px;">Products</th>
                                         <th style="width: 300px;">Item</th>
                                         <th style="width: 130px;">Kode Booking</th>
                                         <th style="width: 500px;">Description</th>
+                                        <th style="width: 100px;">Markup</th>
                                         <th style="width: 90px;">Quantity</th>
                                         <th style="width: 100px;">Amount</th>
-                                        <th style="width: 100px;">Markup</th>
+                                        <th style="width: 105px;">Service Fee</th>
                                         <th style="width: 100px;">Total</th>
                                         <th style="width: 70px;">Action</th>
                                     </tr>
@@ -85,9 +86,10 @@
                                         <td>{!! str_replace("\n", '
                                             <hr style="margin-left: -9px; margin-right: -9px;">', e($item->description)) !!}
                                         </td>
+                                        <td>{{ number_format($item->markup, 0, ',', '.') }}</td>
                                         <td>{{ number_format($item->quantity, 0, ',', '.') }}</td>
                                         <td>{{ number_format($item->amount, 0, ',', '.') }}</td>
-                                        <td>{{ number_format($item->markup, 0, ',', '.') }}</td>
+                                        <td>{{ number_format($item->service_fee, 0, ',', '.') }}</td>
                                         <td>{{ number_format($item->total, 0, ',', '.') }}</td>
                                         <td>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editInvoiceItemModaledit" onclick="editInvoiceItemModaledit('{{ $item->id }}')"><i class="bi bi-pencil-square"></i></button>
@@ -117,7 +119,7 @@
                             <div class="card-body">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-lg-6 margin-tb px-4">
+                                        <div class="col-lg-4 margin-tb px-4">
                                             <div class="form-group">
                                                 <strong>Products</strong>
                                                 <div class="input-group mb-3">
@@ -129,44 +131,50 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 margin-tb px-4">
+                                        <div class="col-lg-4 margin-tb px-4">
                                             <div class="form-group">
                                                 <strong>Item</strong>
                                                 <input type="text" name="item" class="form-control" placeholder="Item" id="item" required>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 margin-tb px-4">
+                                        <div class="col-lg-4 margin-tb px-4">
                                             <div class="form-group">
                                                 <strong>Kode Booking</strong>
                                                 <input type="text" name="kode_booking" class="form-control" placeholder="Kode Booking" id="kode_booking" required>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 margin-tb px-4">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 margin-tb px-4">
                                             <div class="form-group">
                                                 <strong>Markup</strong>
-                                                <input class="form-control" name="markup" placeholder="Markup" type="text" onkeyup="validateDecimaledit(this, 0);" id="markup" required></input>
+                                                <input class="form-control" name="markup" placeholder="Markup" type="text" onkeyup="validateDecimalcreate(this, 0);" id="markup" required></input>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 margin-tb px-4">
+                                            <div class="form-group">
+                                                <strong>Quantity</strong>
+                                                <input class="form-control" name="quantity" placeholder="Qty" type="text" onkeyup="validateDecimalcreate(this, 0);" id="quantity" required></input>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 margin-tb px-4">
+                                            <div class="form-group">
+                                                <strong>Amount</strong>
+                                                <input class="form-control" name="amount" placeholder="Amount" type="text" onkeyup="validateDecimalcreate(this, 0);" id="amount" required></input>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-2 margin-tb mt-3 px-4">
+                                        <div class="col-lg-4 margin-tb mt-3 px-4">
                                             <div class="form-group">
-                                                <strong>Quantity</strong>
-                                                <input class="form-control" name="quantity" placeholder="Qty" type="text" onkeyup="validateDecimaledit(this, 0);" id="quantity" required></input>
+                                                <strong>Service Fee</strong>
+                                                <input class="form-control" name="service_fee" placeholder="Service Fee" type="text" onkeyup="validateDecimalcreate(this, 0);" id="service_fee" required></input>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 margin-tb mt-3 px-4">
                                             <div class="form-group">
-                                                <strong>Amount</strong>
-                                                <input class="form-control" name="amount" placeholder="Amount" type="text" onkeyup="validateDecimaledit(this, 0);" id="amount" required></input>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 margin-tb mt-3 px-4">
-                                            <div class="form-group">
                                                 <strong>Total</strong>
-                                                <input class="form-control" name="total" placeholder="Total" type="text" readonly onkeyup="validateDecimaledit(this, 0);" id="total"></input>
+                                                <input class="form-control" name="total" placeholder="Total" type="text" readonly onkeyup="validateDecimalcreate(this, 0);" id="total"></input>
                                             </div>
                                         </div>
                                     </div>
@@ -214,12 +222,13 @@
         amount: 0,
         markup: 0,
         total: 0,
+        service_fee: 0,
     }
 
     let isNewDataAdded = false; // Tandai apakah data baru sudah ditambahkan
 
     // Fungsi untuk memastikan nilai desimal minimal 0
-    function validateDecimaledit(input, min) {
+    function validateDecimalcreate(input, min) {
         let validNumber = parseFloat(`${input.value}`.replace(/[^0-9]/g, ''));
         let typeInputName = input.getAttribute('name');
 
@@ -299,16 +308,18 @@
                 document.getElementById('product_id').value = item.product_id;
                 document.getElementById('item').value = item.item;
                 document.getElementById('kode_booking').value = item.kode_booking;
+                document.getElementById('description').value = item.description;
                 // Menampilkan angka dengan pemisah ribuan (titik) dalam bahasa Indonesia
                 const quantityFormatted = item.quantity.toLocaleString('id-ID');
                 const amountFormatted = item.amount.toLocaleString('id-ID');
                 const markupFormatted = item.markup.toLocaleString('id-ID');
+                const service_feeFormatted = item.service_fee.toLocaleString('id-ID');
                 const totalFormatted = item.total.toLocaleString('id-ID');
                 document.getElementById('quantity').value = quantityFormatted;
                 document.getElementById('amount').value = amountFormatted;
                 document.getElementById('markup').value = markupFormatted;
+                document.getElementById('service_fee').value = service_feeFormatted;
                 document.getElementById('total').value = totalFormatted;
-                document.getElementById('description').value = item.description;
                 // Show the modal
 
                 // Simpan itemId dalam atribut data-item-id pada tombol "Edit" dalam modal
@@ -334,6 +345,7 @@
         const quantity = document.getElementById('quantity').value;
         const amount = document.getElementById('amount').value;
         const markup = document.getElementById('markup').value;
+        const service_fee = document.getElementById('service_fee').value;
         const total = document.getElementById('total').value;
 
         const formData = new FormData();
@@ -345,6 +357,7 @@
         formData.append('quantity', quantity);
         formData.append('amount', amount);
         formData.append('markup', markup);
+        formData.append('service_fee', service_fee);
         formData.append('total', total);
 
         axios.post(`/invoice/update-items-update/${itemId}`, formData, {
@@ -401,10 +414,11 @@
             columns[2].textContent = updatedItem.item;
             columns[3].textContent = updatedItem.kode_booking;
             columns[4].innerHTML = updatedItem.description.replace(/\n/g, '<hr style="margin-left: -9px; margin-right: -9px;">');
-            columns[5].textContent = updatedItem.quantity.toLocaleString('id-ID');
-            columns[6].textContent = updatedItem.amount.toLocaleString('id-ID');
-            columns[7].textContent = updatedItem.markup.toLocaleString('id-ID');
-            columns[8].textContent = updatedItem.total.toLocaleString('id-ID');
+            columns[5].textContent = updatedItem.markup.toLocaleString('id-ID');
+            columns[6].textContent = updatedItem.quantity.toLocaleString('id-ID');
+            columns[7].textContent = updatedItem.amount.toLocaleString('id-ID');
+            columns[8].textContent = updatedItem.service_fee.toLocaleString('id-ID');
+            columns[9].textContent = updatedItem.total.toLocaleString('id-ID');
         } else {
             console.error('Baris yang akan diperbarui tidak ditemukan.');
         }

@@ -48,11 +48,12 @@
                                     <div class="d-flex">
                                         <!-- <a class="btn btn-info me-1" href="{{ route('pengguna.show',$pna->id) }}">Show</a> -->
                                         <a class="btn btn-primary me-1" href="{{ route('pengguna.edit',$pna->id) }}"><i class="bi bi-pencil-square"></i></a>
-                                        <form action="{{ route('pengguna.destroy',$pna->id) }}" method="POST">
+                                        <form action="{{ route('pengguna.destroy',$pna->id) }}" method="POST" class="delete-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger me-1"><i class="bi bi-trash"></i></button>
                                         </form>
+
                                     </div>
                                 </td>
                             </tr>
@@ -64,5 +65,32 @@
         </div>
     </div>
 </main>
+
+<script>
+    // Menggunakan SweetAlert2 untuk konfirmasi penghapusan
+    document.addEventListener('DOMContentLoaded', function() {
+        let deleteForms = document.querySelectorAll('form.delete-form');
+
+        deleteForms.forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Data will be permanently deleted!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 
 @endsection

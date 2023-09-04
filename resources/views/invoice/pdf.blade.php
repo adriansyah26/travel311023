@@ -83,25 +83,36 @@
                     <td style="border: 1px solid #000;">{{ number_format($item->total, 0, ',', '.') }}</td>
                 </tr>
                 @endforeach
+                @if($servicefeeInvoice > 0)
                 <tr>
-                    <td colspan="5" style="text-align: right; font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Total</td>
-                    <td style="font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($totalInvoice, 0, ',', '.') }}</td>
+                    <td colspan="5" style="text-align: right; font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">SUBTOTAL</td>
+                    <td style="font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($subtotalInvoice, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="text-align: right; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif; font-style: italic;">Service Fee</td>
+                    <td style="font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($servicefeeInvoice, 0, ',', '.') }}</td>
+                </tr>
+                @endif
+                <tr>
+                    <td colspan="5" style="text-align: right; font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">GRANDTOTAL</td>
+                    <td style="font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($grandtotalInvoice, 0, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>
-
-        <div id="rounded2" style="margin-top: 80px; margin-bottom: 10px; page-break-before: always;">
-            <div style="margin-left: 70px; margin-top: -20px;">Payment Detail</div>
-            <div style="margin-left: -25px;">Silahkan melakukan pembayaran ke rekening bank berikut : </div>
-            <div style="margin-left: -25px; font-weight:bold;">Bank BRI (IDR Account) </div>
-            <div style="margin-left: -25px;">Nama Pemilik Rekening : PT KAMAIRA SOLUSI PRATAMA</div>
-            <div style="margin-left: -25px; margin-bottom: 10px; font-weight:bold;">Account No : 2020-01-000336-30-0</div>
-        </div>
-        <div style="margin-left: 500px; margin-top: -110px; font-family: Arial, Helvetica, sans-serif; font-size: 10px;">
-            <div>Jakarta, {{$formattanggal}}</div>
-            <div style="margin-bottom: 130px;">Thank You for Your Payment</div>
-            <div style="margin-left: 30px;">RIZKY FAUZIA</div>
-            <div style="margin-left: 45px;">Direktur</div>
+        <div style="page-break-inside: avoid; margin-top: 50px;">
+            <div id="rounded2" style="margin-bottom: 10px;">
+                <div style="margin-left: 70px; margin-top: -20px;">Payment Detail</div>
+                <div style="margin-left: -25px;">Silahkan melakukan pembayaran ke rekening bank berikut : </div>
+                <div style="margin-left: -25px; font-weight:bold;">Bank BRI (IDR Account) </div>
+                <div style="margin-left: -25px;">Nama Pemilik Rekening : PT KAMAIRA SOLUSI PRATAMA</div>
+                <div style="margin-left: -25px; margin-bottom: 10px; font-weight:bold;">Account No : 2020-01-000336-30-0</div>
+            </div>
+            <div style="margin-left: 500px; margin-top: -110px; font-family: Arial, Helvetica, sans-serif; font-size: 10px;">
+                <div>Jakarta, {{$formattanggal}}</div>
+                <div style="margin-bottom: 130px;">Thank You for Your Payment</div>
+                <div style="margin-left: 30px;">RIZKY FAUZIA</div>
+                <div style="margin-left: 45px;">Direktur</div>
+            </div>
         </div>
     </main>
 </body>

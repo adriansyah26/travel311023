@@ -66,7 +66,7 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                Last 10 DataTable
+                Last 10 DataTable Invoice
             </div>
             <div class="card-body" style="overflow-x: auto;">
                 <table id="table" class="table  table-striped table-bordered" style="table-layout: fixed;">
@@ -136,28 +136,31 @@
                     data: [10, 15, 20, 25, 30],
                     backgroundColor: 'rgba(0, 0, 255, 1)', // Biru
                     borderColor: 'rgba(0, 0, 255, 1)', // Biru
-                    borderWidth: 1
+                    borderWidth: 1,
+                    fill: false
                 },
                 {
                     label: 'Train',
                     data: [5, 10, 15, 20, 25],
                     backgroundColor: 'rgba(255, 255, 0, 1)', // Kuning
                     borderColor: 'rgba(255, 255, 0, 1)', // Kuning
-                    borderWidth: 1
+                    borderWidth: 1,
+                    fill: false
                 },
                 {
                     label: 'Hotel',
                     data: [15, 20, 25, 30, 35],
                     backgroundColor: 'rgba(255, 0, 0, 1)', // Merah
                     borderColor: 'rgba(255, 0, 0, 1)', // Merah
-                    borderWidth: 1
+                    borderWidth: 1,
+                    fill: false
                 }
             ]
         },
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: false
                 }
             }
         }

@@ -119,7 +119,9 @@ class InvoiceController extends Controller
         $invoiceItems = InvoiceItem::where('invoice_id', $invoiceId)->get();
 
         // penjumlahan otomatis
-        $totalInvoice = InvoiceItem::where('invoice_id', $invoiceId)->get()->sum('total');
+        $subtotalInvoice = InvoiceItem::where('invoice_id', $invoiceId)->get()->sum('total');
+        $servicefeeInvoice = InvoiceItem::where('invoice_id', $invoiceId)->get()->sum('service_fee');
+        $grandtotalInvoice = InvoiceItem::where('invoice_id', $invoiceId)->sum(DB::raw('total + service_fee'));
 
         $products = Product::all();
 
@@ -132,7 +134,7 @@ class InvoiceController extends Controller
 
         $formattanggal = $tanggalInvoice->format('j') . $bulan[$tanggalInvoice->format('n')] . $tanggalInvoice->format('Y');
 
-        $pdf = FacadePdf::loadView('invoice.pdf', compact('invoice', 'invoiceItems', 'totalInvoice', 'formattanggal', 'products'));
+        $pdf = FacadePdf::loadView('invoice.pdf', compact('invoice', 'invoiceItems', 'formattanggal', 'products', 'subtotalInvoice', 'servicefeeInvoice', 'grandtotalInvoice'));
         $pdf->setPaper('a4', 'portrait');
         return $pdf->stream();
 
@@ -245,12 +247,14 @@ class InvoiceController extends Controller
             'item' => 'required',
             'kode_booking' => 'required',
             'description' => 'required',
+            'markup' => 'required',
+            'markup.*' => 'numeric|min:0',
             'quantity' => 'required',
             'quantity.*' => 'numeric|min:1',
             'amount' => 'required',
             'amount.*' => 'numeric|min:0',
-            'markup' => 'required',
-            'markup.*' => 'numeric|min:0',
+            'service_fee' => 'required',
+            'service_fee.*' => 'numeric|min:0',
             'total' => 'required',
             'total.*' => 'numeric|min:0',
         ]);
@@ -273,6 +277,7 @@ class InvoiceController extends Controller
             $quantities = $request->input('quantity');
             $amounts = $request->input('amount');
             $markups = $request->input('markup');
+            $service_fees = $request->input('service_fee');
             $totals = $request->input('total');
 
             // Simpan data invoice items ke dalam database
@@ -285,6 +290,7 @@ class InvoiceController extends Controller
                 'quantity' => preg_replace('/[.,]/', '', $quantities),
                 'amount' => preg_replace('/[.,]/', '', $amounts),
                 'markup' => preg_replace('/[.,]/', '', $markups),
+                'service_fee' => preg_replace('/[.,]/', '', $service_fees),
                 'total' => preg_replace('/[.,]/', '', $totals),
             ]);
             DB::commit();
@@ -337,12 +343,14 @@ class InvoiceController extends Controller
             'itemedit' => 'required',
             'kode_bookingedit' => 'required',
             'descriptionedit' => 'required',
+            'markupedit' => 'required',
+            'markupedit.*' => 'numeric|min:0',
             'quantityedit' => 'required',
             'quantityedit.*' => 'numeric|min:1',
             'amountedit' => 'required',
             'amountedit.*' => 'numeric|min:0',
-            'markupedit' => 'required',
-            'markupedit.*' => 'numeric|min:0',
+            'service_feeedit' => 'required',
+            'service_feeedit.*' => 'numeric|min:0',
             'totaledit' => 'required',
             'totaledit.*' => 'numeric|min:0',
         ]);
@@ -366,6 +374,7 @@ class InvoiceController extends Controller
             $item->quantity = preg_replace('/[.,]/', '', $request->input('quantityedit'));
             $item->amount = preg_replace('/[.,]/', '', $request->input('amountedit'));
             $item->markup = preg_replace('/[.,]/', '', $request->input('markupedit'));
+            $item->service_fee = preg_replace('/[.,]/', '', $request->input('service_feeedit'));
             $item->total = preg_replace('/[.,]/', '', $request->input('totaledit'));
 
             $item->save();
@@ -420,6 +429,8 @@ class InvoiceController extends Controller
             'amount.*' => 'numeric|min:0',
             'markup' => 'required',
             'markup.*' => 'numeric|min:0',
+            'service_fee' => 'required',
+            'service_fee.*' => 'numeric|min:0',
             'total' => 'required',
             'total.*' => 'numeric|min:0',
         ]);
@@ -443,6 +454,7 @@ class InvoiceController extends Controller
             $item->quantity = preg_replace('/[.,]/', '', $request->input('quantity'));
             $item->amount = preg_replace('/[.,]/', '', $request->input('amount'));
             $item->markup = preg_replace('/[.,]/', '', $request->input('markup'));
+            $item->service_fee = preg_replace('/[.,]/', '', $request->input('service_fee'));
             $item->total = preg_replace('/[.,]/', '', $request->input('total'));
 
             $item->save();

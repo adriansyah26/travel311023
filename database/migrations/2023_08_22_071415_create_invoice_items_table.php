@@ -19,9 +19,10 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('item');
             $table->string('kode_booking');
+            $table->biginteger('markup');
             $table->integer('quantity');
             $table->biginteger('amount');
-            $table->biginteger('markup');
+            $table->biginteger('service_fee');
             $table->biginteger('total');
             $table->string('description');
             $table->timestamps();

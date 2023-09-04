@@ -22,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -47,17 +47,23 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 800px;"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <!-- <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li> -->
-                    <!-- <li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li>
                         <hr class="dropdown-divider" />
                     </li> -->
-                    <li><a class="dropdown-item" href="#!">
+                    <li>
+                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                    <!-- <li><a class="dropdown-item" href="#!">
                             <form action="{{ route('logout') }}" method="post">
                                 @csrf
                                 <input type="submit" class="btn btn-danger" value="Logout">
                             </form>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </li>
         </ul>
