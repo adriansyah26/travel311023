@@ -30,7 +30,7 @@
             </div>
             <div class="col-xl-4 col-md-6">
                 <div class="card card-body bg-success text-white mb-4">
-                    <label>Month Invoice</label>
+                    <label>Total Month Invoice</label>
                     <div>
                         <i class="fa-solid fa-money-bills" style="display: inline-block; vertical-align: middle; font-size: 30px;"></i>
                         <h3 id="formattedMonthInvoice" style="display: inline-block; vertical-align: middle;"></h3>

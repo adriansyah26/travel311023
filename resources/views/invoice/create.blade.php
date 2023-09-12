@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="card mb-4 mt-3 px-4 col-lg-12 ">
-                    <button type="button" class="btn btn-primary mt-4" style="margin-left: 40px; margin-bottom: -15px; width: 80px" data-bs-toggle="modal" data-bs-target="#invoiceItemModal"><i class="bi bi-file-earmark-plus"></i>Item</button>
+                    <button type="button" class="btn btn-primary mt-4" style="margin-left: 40px; margin-bottom: -15px; width: 80px" data-bs-toggle="modal" data-bs-target="#invoiceItemModal" disabled><i class="bi bi-file-earmark-plus"></i>Item</button>
                     <div class="card-body" style="overflow-x: auto;">
                         <div class="container-fluid">
                             <table id="itemTable" class="table table-bordered table-striped mt-3" style="margin-left: 10px; width: 950px; table-layout: fixed;">

@@ -9,7 +9,7 @@
             <div class="container mt-3 px-4">
                 <div class="col-lg-12 margin-tb">
                     <div class="float-end">
-                        <a class="btn btn-success" href="{{ route('pengguna.create') }}"><i class="bi bi-file-earmark-plus"></i> New Users</a>
+                        <a class="btn btn-success" href="{{ route('user.create') }}"><i class="bi bi-file-earmark-plus"></i> New Users</a>
                     </div>
                 </div>
             </div>
@@ -36,19 +36,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pengguna as $i => $pna)
+                            @foreach ($users as $i => $user)
                             <tr>
                                 <td>{{ $i + 1 }}</td>
-                                <td>{{ $pna->title }}</td>
-                                <td>{{ $pna->first_name }}</td>
-                                <td>{{ $pna->last_name }}</td>
-                                <td>{{ $pna->phone }}</td>
-                                <td>{{ $pna->email }}</td>
+                                <td>{{ $user->title }}</td>
+                                <td>{{ $user->first_name }}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->phone }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <!-- <a class="btn btn-info me-1" href="{{ route('pengguna.show',$pna->id) }}">Show</a> -->
-                                        <a class="btn btn-primary me-1" href="{{ route('pengguna.edit',$pna->id) }}"><i class="bi bi-pencil-square"></i></a>
-                                        <form action="{{ route('pengguna.destroy',$pna->id) }}" method="POST" class="delete-form">
+                                        <!-- <a class="btn btn-info me-1" href="{{ route('user.show',$user->id) }}">Show</a> -->
+                                        <a class="btn btn-primary me-1" href="{{ route('user.edit',$user->id) }}"><i class="bi bi-pencil-square"></i></a>
+                                        <form action="{{ route('user.destroy',$user->id) }}" method="POST" class="delete-form">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger me-1"><i class="bi bi-trash"></i></button>
@@ -91,6 +91,5 @@
         });
     });
 </script>
-
 
 @endsection

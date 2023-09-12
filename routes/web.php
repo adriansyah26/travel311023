@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,22 +27,28 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->name('welcome');
 
-Route::view('/home', 'home')->name('home');
-Route::get('/register', [RegisterController::class, 'create'])->name('register')->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store']);
+// Route::get('/register', [RegisterController::class, 'create'])->name('register')->middleware('guest');
+// Route::post('/register', [RegisterController::class, 'store']);
 Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
+Route::get('/forgot-password', [ForgotPasswordController::class, 'forgotPasswordView'])->name('password.request')->middleware('guest');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPasswordSendEmail'])->name('password.email')->middleware('guest');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordView'])->name('password.reset')->middleware('guest');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPasswordNew'])->name('password.update')->middleware('guest');
+// if don't have a token, redirect to password.request
+Route::get('/reset-password', function () {
+    return redirect()->route('password.request');
+})->name('password.reset.redirect');
+
 Route::post('/logout', function () {
     auth()->logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-
     return redirect('/');
 })->name('logout')->middleware('auth');
-Route::view('/home', 'home')->name('home')->middleware('auth');
 
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
-Route::resource('/dashboard', DashboardController::class)->middleware('auth');
+// page dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 // page invoice
 Route::resource('/invoice', InvoiceController::class)->middleware('auth');
 // page create invoice
@@ -51,8 +58,11 @@ Route::put('/invoice/update-items/{itemId}', [InvoiceController::class, 'updateI
 // page edit invoice
 Route::get('/invoice/edit-items-edit/{itemId}', [InvoiceController::class, 'editItemsedit'])->name('invoice.editItemedit')->middleware('auth');
 Route::put('/invoice/update-items-update/{itemId}', [InvoiceController::class, 'updateItemsupdate'])->name('invoice.updateItemupdate')->middleware('auth');
-Route::resource('/pengguna', PenggunaController::class)->middleware('auth');
+// page user
+Route::resource('/user', UserController::class)->middleware('auth');
+Route::post('/user/update-change-password', [UserController::class, 'updatechangePassword'])->name('user.updatechangePassword')->middleware('auth');
+// page customer
 Route::resource('/customer', CustomerController::class)->middleware('auth');
-// Master Data
+// page master Data
 Route::resource('/product', ProductController::class)->middleware('auth');
 Route::resource('/type', TypeController::class)->middleware('auth');

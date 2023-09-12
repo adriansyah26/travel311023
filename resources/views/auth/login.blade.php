@@ -23,19 +23,30 @@
                   <h3 class="text-center font-weight-light my-4"><img style="width: 60px;" src="/image/travellogo2.png"> Login</h3>
                 </div>
                 <div class="card-body">
+
+                  @if ($errors->any ())
+                  <div class="alert alert-danger">
+                    <ul>
+                      @foreach($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                      @endforeach
+                    </ul>
+                  </div>
+                  @endif
+                  @if (session()->has('status'))
+                  <div class="alert alert-success" role="alert">
+                    {{ session()->get('status') }}
+                  </div>
+                  @endif
+
                   <form action="{{ route('login') }}" method="post">
                     @csrf
                     <div class="form-floating mb-3">
                       <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="name@example.com" value="{{ old('email') }}" required>
-                      @error('email')
-                      <div class="invalid-feedback">
-                        {{ $message }}
-                      </div>
-                      @enderror
                       <label for="inputEmail">Email address</label>
                     </div>
                     <div class="form-floating mb-3">
-                      <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="password" required>
+                      <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="password" required autocomplete="off">
                       @error('password')
                       <div class="invalid-feedback">
                         {{ $message }}
@@ -45,12 +56,12 @@
                       <span id="togglePassword" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; margin-left: 390px;"></span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                      <input type="submit" class="btn btn-primary" style="margin-left: 353px;" value="Login">
+                      <button type="submit" class="btn btn-primary" style="margin-left: 353px;">Login</button>
                     </div>
                   </form>
                 </div>
                 <div class="card-footer text-center py-3">
-                  <div class="small"><a href="register">Forgot Your Password?</a></div>
+                  <div class="small"><a href="/forgot-password">Forgot Your Password?</a></div>
                 </div>
               </div>
             </div>
