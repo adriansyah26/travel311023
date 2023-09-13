@@ -128,7 +128,7 @@
 <script>
     var ctx = document.getElementById('linechart').getContext('2d');
     var linechart = new Chart(ctx, {
-        type: 'line',
+        type: 'pie',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
             datasets: [{

@@ -22,9 +22,4 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact('totalCustomer', 'totalInvoice', 'month', 'monthInvoice', 'invoices'));
     }
-
-    public function show($id)
-    {
-        abort(404);
-    }
 }

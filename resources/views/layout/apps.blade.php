@@ -138,7 +138,7 @@
                                                         <input type="hidden" name="user_id" value="">
                                                         <strong>Old Password</strong>
                                                         <div class="input-group mb-3">
-                                                            <input type="password" name="old_password" class="form-control" placeholder="8 Characters" value="{{ old('old_password') }}" id="old_password" required autocomplete="off">
+                                                            <input type="password" name="old_password" class="form-control" placeholder="Min 8 Characters" value="{{ old('old_password') }}" id="old_password" required autocomplete="off">
                                                             <span class="input-group-text toggle-password" data-target-change-password="old_password">
                                                                 <i class="bi bi-eye" style="cursor: pointer;"></i>
                                                             </span>
@@ -151,7 +151,7 @@
                                                     <div class="form-group">
                                                         <strong>New Password</strong>
                                                         <div class="input-group mb-3">
-                                                            <input type="password" name="new_password" class="form-control" placeholder="8 Characters" value="{{ old('new_password') }}" id="new_password" required autocomplete="off">
+                                                            <input type="password" name="new_password" class="form-control" placeholder="Min 8 Characters" value="{{ old('new_password') }}" id="new_password" required autocomplete="off">
                                                             <span class="input-group-text toggle-password" data-target-change-password="new_password">
                                                                 <i class="bi bi-eye" style="cursor: pointer;"></i>
                                                             </span>
@@ -164,7 +164,7 @@
                                                     <div class="form-group">
                                                         <strong>Confirm New Password</strong>
                                                         <div class="input-group mb-3">
-                                                            <input type="password" name="confirm_new_password" class="form-control" placeholder="8 Characters" value="{{ old('confirm_new_password') }}" id="confirm_new_password" required autocomplete="off">
+                                                            <input type="password" name="confirm_new_password" class="form-control" placeholder="Same New Password" value="{{ old('confirm_new_password') }}" id="confirm_new_password" required autocomplete="off">
                                                             <span class="input-group-text toggle-password" data-target-change-password="confirm_new_password">
                                                                 <i class="bi bi-eye" style="cursor: pointer;"></i>
                                                             </span>
@@ -254,15 +254,14 @@
             modal.find('input[name="user_id"]').val(userId);
         });
 
-        // Tambahkan skrip Ajax untuk mengirimkan permintaan perubahan password
+        // Tambahkan skrip Axios untuk mengirimkan permintaan perubahan password
         function saveChangePassword() {
             var form = $('#change_password_form');
-            $.ajax({
-                type: 'POST',
-                url: '{{ route("user.updatechangePassword") }}',
-                data: form.serialize(), // Kirim data formulir
-                success: function(response) {
-                    if (response.success) {
+            var formData = new FormData(form[0]); // Dapatkan data formulir
+
+            axios.post('{{ route("user.updatechangePassword") }}', formData)
+                .then(function(response) {
+                    if (response.data.success) {
                         // Tutup modal jika perubahan password berhasil
                         $('#changepassword').modal('hide');
                         // Tampilkan pesan sukses dengan SweetAlert2
@@ -272,7 +271,7 @@
                             text: 'Password change successfully',
                         });
 
-                        // Reset formulir setelah gagal mengganti kata sandi
+                        // Reset formulir setelah berhasil mengganti kata sandi
                         form.trigger('reset');
                     } else {
                         // Tampilkan pesan kesalahan dengan SweetAlert2
@@ -285,8 +284,11 @@
                         // Reset formulir setelah gagal mengganti kata sandi
                         form.trigger('reset');
                     }
-                }
-            });
+                })
+                .catch(function(error) {
+                    // Tangani kesalahan jika terjadi
+                    console.error(error);
+                });
         }
     </script>
 
