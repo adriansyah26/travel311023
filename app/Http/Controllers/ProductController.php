@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -26,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('master-data.product.create');
+        abort(404); // Menghasilkan "Not Found" jika product tidak ditemukan
     }
 
     /**
@@ -35,24 +37,36 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            'code' => 'required|max:4',
-            'name' => 'required',
+        $validator = Validator::make($request->all(), [
+            'code' => 'required|max:4|unique:products',
+            'name' => 'required|unique:products',
         ]);
-
-        // Pastikan validasi berhasil sebelum membuat entri product
-        if ($validateData) {
-            Product::create($request->all());
-
-            return redirect()->route('product.index')
-                ->with('success', 'Product created successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan product kembali ke halaman sebelumnya dengan pesan kesalahan.
+        if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors('Failed to create product')
+                ->withErrors($validator)
                 ->withInput();
+        }
+
+        try {
+            // Simpan data ke database
+            $product = Product::create([
+                'code' => $request->input('code'),
+                'name' => $request->input('name'),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Products created successfully',
+                'product' => $product,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to created products'
+            ], 500);
         }
     }
 
@@ -64,7 +78,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        abort(404); // Menghasilkan "Not Found" jika product tidak ditemukan
     }
 
     /**
@@ -75,7 +89,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('master-data.product.edit', compact('product'));
+        abort(404); // Menghasilkan "Not Found" jika product tidak ditemukan
     }
 
     /**
@@ -87,23 +101,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $validateData = $request->validate([
-            'code' => 'required|max:4',
-            'name' => 'required',
-        ]);
-
-        // Pastikan validasi berhasil sebelum melakukan pembaruan product
-        if ($validateData) {
-            $product->update($request->all());
-
-            return redirect()->route('product.index')
-                ->with('success', 'Product updated successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan product kembali ke halaman sebelumnya dengan pesan kesalahan.
-            return redirect()->back()
-                ->withErrors('Failed to update product')
-                ->withInput();
-        }
+        //
     }
 
     /**
@@ -118,5 +116,66 @@ class ProductController extends Controller
 
         return redirect()->route('product.index')
             ->with('success', 'Product deleted successfully');
+    }
+
+    public function editProduct($productId)
+    {
+        $product = Product::findOrFail($productId);
+
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product not found.',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'product' => $product,
+        ]);
+    }
+
+    public function updateProduct(Request $request, $productId)
+    {
+        $validator = Validator::make($request->all(), [
+            'codeedit' => ['required', 'max:4', Rule::unique('products', 'code')->ignore($productId)],
+            'nameedit' => ['required', Rule::unique('products', 'name')->ignore($productId)],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+            ], 400);
+        }
+
+        try {
+            // Mencari Product berdasarkan ID
+            $product = Product::findOrFail($productId);
+
+            // Jika Product tidak ditemukan, kirim respons error
+            if (!$product) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found',
+                ], 404);
+            }
+
+            // Memperbarui data Product
+            $product->code = $request->input('codeedit');
+            $product->name = $request->input('nameedit');
+            $product->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Products updated successfully',
+                'product' => $product,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update products',
+            ], 500);
+        }
     }
 }

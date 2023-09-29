@@ -3,9 +3,6 @@
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Dashboard</h1>
-        <!-- <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Dashboard</li>
-        </ol> -->
         <hr>
         <div class="row">
             <div class="col-xl-4 col-md-6">
@@ -43,29 +40,31 @@
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-chart-area me-1"></i>
-                        Line Chart
+                        <i class="fa-solid fa-chart-pie"></i>
+                        Pie Chart Total Invoice Items
                     </div>
-                    <div style="width: 100%; margin: 0 auto;">
-                        <canvas id="linechart"></canvas>
+                    <div style="width: 100%;">
+                        <div class="card-body"><canvas id="piechart"></canvas></div>
+                        <div class="card-footer small text-muted">Updated {{ $formattedLastUpdated }}</div>
                     </div>
                 </div>
             </div>
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-chart-bar me-1"></i>
-                        Bar Chart
+                        <i class="fa-solid fa-chart-bar"></i>
+                        Bar Chart Total Invoice Items For the Last 6 Months
                     </div>
-                    <div style="width: 100%; margin: 0 auto;">
-                        <canvas id="barchart"></canvas>
+                    <div style="width: 100%;">
+                        <div class="card-body"><canvas id="barchart"></canvas></div>
+                        <div class="card-footer small text-muted">Updated {{ $formattedLastUpdated }}</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card mb-4">
             <div class="card-header">
-                <i class="fas fa-table me-1"></i>
+                <i class="fa-solid fa-table"></i>
                 Last 10 DataTable Invoice
             </div>
             <div class="card-body" style="overflow-x: auto;">
@@ -97,8 +96,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var totalInvoice = <?php echo $totalInvoice; ?>; // Ambil nilai $totalInvoice dari Laravel
-        var formattedTotalInvoice = totalInvoice.toLocaleString('id-ID', {
+        const totalInvoice = <?php echo $totalInvoice; ?>; // Ambil nilai $totalInvoice dari Laravel
+        const formattedTotalInvoice = totalInvoice.toLocaleString('id-ID', {
             style: 'currency',
             currency: 'IDR',
             minimumFractionDigits: 0,
@@ -112,8 +111,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var monthInvoice = <?php echo $monthInvoice; ?>; // Ambil nilai $monthInvoice dari Laravel
-        var formattedMonthInvoice = monthInvoice.toLocaleString('id-ID', {
+        const monthInvoice = <?php echo $monthInvoice; ?>; // Ambil nilai $monthInvoice dari Laravel
+        const formattedMonthInvoice = monthInvoice.toLocaleString('id-ID', {
             style: 'currency',
             currency: 'IDR',
             minimumFractionDigits: 0,
@@ -126,70 +125,55 @@
 </script>
 
 <script>
-    var ctx = document.getElementById('linechart').getContext('2d');
-    var linechart = new Chart(ctx, {
+    const ctxpie = document.getElementById("piechart");
+    const flightCount = <?php echo $flightCount; ?>;
+    const trainCount = <?php echo $trainCount; ?>;
+    const hotelCount = <?php echo $hotelCount; ?>;
+
+    const piechart = new Chart(ctxpie, {
         type: 'pie',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            labels: ['Flight', 'Train', 'Hotels'],
             datasets: [{
-                    label: 'Flight',
-                    data: [10, 15, 20, 25, 30],
-                    backgroundColor: 'rgba(0, 0, 255, 1)', // Biru
-                    borderColor: 'rgba(0, 0, 255, 1)', // Biru
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'Train',
-                    data: [5, 10, 15, 20, 25],
-                    backgroundColor: 'rgba(255, 255, 0, 1)', // Kuning
-                    borderColor: 'rgba(255, 255, 0, 1)', // Kuning
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'Hotel',
-                    data: [15, 20, 25, 30, 35],
-                    backgroundColor: 'rgba(255, 0, 0, 1)', // Merah
-                    borderColor: 'rgba(255, 0, 0, 1)', // Merah
-                    borderWidth: 1,
-                    fill: false
-                }
-            ]
+                data: [flightCount, trainCount, hotelCount],
+                backgroundColor: ['rgba(0, 0, 255, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)'],
+                hoverBorderColor: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0)'], // Ubah warna border hover menjadi transparan
+            }],
         },
         options: {
             scales: {
                 y: {
-                    beginAtZero: false
+                    beginAtZero: true
                 }
             }
         }
     });
 </script>
 
+
 <script>
-    var ctx = document.getElementById('barchart').getContext('2d');
-    var barchart = new Chart(ctx, {
+    const ctxbar = document.getElementById('barchart');
+    const barchart = new Chart(ctxbar, {
         type: 'bar',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            labels: <?= json_encode($monthLabels) ?>, // Menggunakan label bulan yang telah diambil dari PHP
             datasets: [{
                     label: 'Flight',
-                    data: [10, 15, 20, 25, 30],
+                    data: <?= json_encode($flightCounts) ?>, // Menggunakan data jumlah produk Flight
                     backgroundColor: 'rgba(0, 0, 255, 1)', // Biru
                     borderColor: 'rgba(0, 0, 255, 1)', // Biru
                     borderWidth: 1
                 },
                 {
                     label: 'Train',
-                    data: [5, 10, 15, 20, 25],
+                    data: <?= json_encode($trainCounts) ?>, // Menggunakan data jumlah produk Train
                     backgroundColor: 'rgba(255, 255, 0, 1)', // Kuning
                     borderColor: 'rgba(255, 255, 0, 1)', // Kuning
                     borderWidth: 1
                 },
                 {
-                    label: 'Hotel',
-                    data: [15, 20, 25, 30, 35],
+                    label: 'Hotels',
+                    data: <?= json_encode($hotelCounts) ?>, // Menggunakan data jumlah produk Hotel
                     backgroundColor: 'rgba(255, 0, 0, 1)', // Merah
                     borderColor: 'rgba(255, 0, 0, 1)', // Merah
                     borderWidth: 1
@@ -205,7 +189,5 @@
         }
     });
 </script>
-
-
 
 @endsection

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
@@ -28,9 +30,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $types = Type::all();
-
-        return view('customer.create', compact('types'));
+        abort(404); // Menghasilkan "Not Found" jika customer tidak ditemukan
     }
 
     /**
@@ -39,9 +39,10 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        $validateData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'phone' => 'required',
             'email' => ['required', 'email', 'unique:customers,email'],
@@ -49,18 +50,33 @@ class CustomerController extends Controller
             'address' => 'required',
             'type_id' => 'required',
         ]);
-
-        // Pastikan validasi berhasil sebelum membuat entri customer
-        if ($validateData) {
-            Customer::create($request->all());
-
-            return redirect()->route('customer.index')
-                ->with('success', 'Customers created successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan customer kembali ke halaman sebelumnya dengan pesan kesalahan.
+        if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors('Failed to create Customers')
+                ->withErrors($validator)
                 ->withInput();
+        }
+
+        try {
+            // Simpan data ke database
+            $customer = Customer::create([
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
+                'termin' => $request->input('termin'),
+                'address' => $request->input('address'),
+                'type_id' => $request->input('type_id'),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customers created successfully',
+                'customer' => $customer,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to created customers'
+            ], 500);
         }
     }
 
@@ -72,7 +88,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return view('customer.show', compact('customer'));
+        abort(404); // Menghasilkan "Not Found" jika customer tidak ditemukan
     }
 
     /**
@@ -83,9 +99,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        $types = Type::all();
-
-        return view('customer.edit', compact('customer', 'types'));
+        abort(404); // Menghasilkan "Not Found" jika customer tidak ditemukan
     }
 
     /**
@@ -97,27 +111,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        $validateData = $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => ['required', "unique:customers,email,$customer->id,id"],
-            'termin' => 'required',
-            'address' => 'required',
-            'type_id' => 'required',
-        ]);
-
-        // Pastikan validasi berhasil sebelum melakukan pembaruan customer
-        if ($validateData) {
-            $customer->update($request->all());
-
-            return redirect()->route('customer.index')
-                ->with('success', 'Customers updated successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan customer kembali ke halaman sebelumnya dengan pesan kesalahan.
-            return redirect()->back()
-                ->withErrors('Failed to update Customers')
-                ->withInput();
-        }
+        //
     }
 
     /**
@@ -132,5 +126,74 @@ class CustomerController extends Controller
 
         return redirect()->route('customer.index')
             ->with('success', 'Customer deleted successfully');
+    }
+
+    public function editCustomer($customerId)
+    {
+        $customer = Customer::findOrFail($customerId);
+
+        if (!$customer) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Customer not found.',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'customer' => $customer,
+        ]);
+    }
+
+    public function updateCustomer(Request $request, $customerId)
+    {
+        $validator = Validator::make($request->all(), [
+            'nameedit' => 'required',
+            'phoneedit' => 'required',
+            'emailedit' => ['required', 'email', Rule::unique('customers', 'email')->ignore($customerId)],
+            'terminedit' => 'required',
+            'addressedit' => 'required',
+            'type_id_edit' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+            ], 400);
+        }
+
+        try {
+            // Mencari Customer berdasarkan ID
+            $customer = Customer::findOrFail($customerId);
+
+            // Jika customer tidak ditemukan, kirim respons error
+            if (!$customer) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Customer not found',
+                ], 404);
+            }
+
+            // Memperbarui data customer
+            $customer->name = $request->input('nameedit');
+            $customer->phone = $request->input('phoneedit');
+            $customer->email = $request->input('emailedit');
+            $customer->termin = $request->input('terminedit');
+            $customer->address = $request->input('addressedit');
+            $customer->type_id = $request->input('type_id_edit');
+            $customer->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customers updated successfully',
+                'customer' => $customer,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update customers',
+            ], 500);
+        }
     }
 }

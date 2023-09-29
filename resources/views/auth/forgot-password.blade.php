@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="icon" href="/image/travellogo2.png">
-    <title>K - Tour & Travel</title>
+    <title>Forgot Password</title>
 </head>
 
 <body class="bg-white">
@@ -53,7 +53,7 @@
                                     </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="/login">Back Login</a></div>
+                                    <div class="small"><a href="/login">Back To Login</a></div>
                                 </div>
                             </div>
                         </div>

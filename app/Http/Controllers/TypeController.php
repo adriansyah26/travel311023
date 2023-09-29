@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TypeController extends Controller
 {
@@ -26,7 +28,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        return view('master-data.type.create');
+        abort(404); // Menghasilkan "Not Found" jika type tidak ditemukan
     }
 
     /**
@@ -35,24 +37,36 @@ class TypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            'code' => 'required|max:4',
+        $validator = Validator::make($request->all(), [
+            'code' => 'required|max:4|unique:types',
             'name' => 'required',
         ]);
-
-        // Pastikan validasi berhasil sebelum membuat entri type
-        if ($validateData) {
-            Type::create($request->all());
-
-            return redirect()->route('type.index')
-                ->with('success', 'Type created successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan type kembali ke halaman sebelumnya dengan pesan kesalahan.
+        if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors('Failed to create type')
+                ->withErrors($validator)
                 ->withInput();
+        }
+
+        try {
+            // Simpan data ke database
+            $type = Type::create([
+                'code' => $request->input('code'),
+                'name' => $request->input('name'),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Type created successfully',
+                'type' => $type,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to created type'
+            ], 500);
         }
     }
 
@@ -64,7 +78,7 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        //
+        abort(404); // Menghasilkan "Not Found" jika type tidak ditemukan
     }
 
     /**
@@ -75,7 +89,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        return view('master-data.type.edit', compact('type'));
+        abort(404); // Menghasilkan "Not Found" jika type tidak ditemukan
     }
 
     /**
@@ -87,23 +101,7 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
-        $validateData = $request->validate([
-            'code' => 'required|max:4',
-            'name' => 'required',
-        ]);
-
-        // Pastikan validasi berhasil sebelum melakukan pembaruan type
-        if ($validateData) {
-            $type->update($request->all());
-
-            return redirect()->route('type.index')
-                ->with('success', 'Type updated successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan type kembali ke halaman sebelumnya dengan pesan kesalahan.
-            return redirect()->back()
-                ->withErrors('Failed to update type')
-                ->withInput();
-        }
+        //
     }
 
     /**
@@ -118,5 +116,66 @@ class TypeController extends Controller
 
         return redirect()->route('type.index')
             ->with('success', 'Type deleted successfully');
+    }
+
+    public function editType($typeId)
+    {
+        $type = Type::findOrFail($typeId);
+
+        if (!$type) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Type not found.',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'type' => $type,
+        ]);
+    }
+
+    public function updateType(Request $request, $typeId)
+    {
+        $validator = Validator::make($request->all(), [
+            'codeedit' => ['required', 'max:4', Rule::unique('types', 'code')->ignore($typeId)],
+            'nameedit' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+            ], 400);
+        }
+
+        try {
+            // Mencari Type berdasarkan ID
+            $type = Type::findOrFail($typeId);
+
+            // Jika Type tidak ditemukan, kirim respons error
+            if (!$type) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Type not found',
+                ], 404);
+            }
+
+            // Memperbarui data Type
+            $type->code = $request->input('codeedit');
+            $type->name = $request->input('nameedit');
+            $type->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Type updated successfully',
+                'type' => $type,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update type',
+            ], 500);
+        }
     }
 }

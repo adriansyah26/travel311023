@@ -60,9 +60,19 @@ Route::get('/invoice/edit-items-edit/{itemId}', [InvoiceController::class, 'edit
 Route::put('/invoice/update-items-update/{itemId}', [InvoiceController::class, 'updateItemsupdate'])->name('invoice.updateItemupdate')->middleware('auth');
 // page user
 Route::resource('/user', UserController::class)->middleware('auth');
+Route::get('/user/edit-user/{userId}', [UserController::class, 'editUser'])->name('user.editUser')->middleware('auth');
+Route::put('/user/update-user/{userId}', [UserController::class, 'updateUser'])->name('user.updateUser')->middleware('auth');
 Route::post('/user/update-change-password', [UserController::class, 'updatechangePassword'])->name('user.updatechangePassword')->middleware('auth');
 // page customer
 Route::resource('/customer', CustomerController::class)->middleware('auth');
+Route::get('/customer/edit-customer/{customerId}', [CustomerController::class, 'editCustomer'])->name('customer.editCustomer')->middleware('auth');
+Route::put('/customer/update-customer/{customerId}', [CustomerController::class, 'updateCustomer'])->name('customer.updateCustomer')->middleware('auth');
 // page master Data
+// page product
 Route::resource('/product', ProductController::class)->middleware('auth');
+Route::get('/product/edit-product/{productId}', [ProductController::class, 'editProduct'])->name('product.editProduct')->middleware('auth');
+Route::put('/product/update-product/{productId}', [ProductController::class, 'updateProduct'])->name('product.updateProduct')->middleware('auth');
+// page type
 Route::resource('/type', TypeController::class)->middleware('auth');
+Route::get('/type/edit-type/{typeId}', [TypeController::class, 'editType'])->name('type.editType')->middleware('auth');
+Route::put('/type/update-type/{typeId}', [TypeController::class, 'updateType'])->name('type.updateType')->middleware('auth');

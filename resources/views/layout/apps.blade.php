@@ -215,7 +215,9 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        new DataTable('#table');
+        $(document).ready(function() {
+            $('#table').DataTable(); // Ganti "#table" dengan ID atau selektor yang sesuai untuk tabel Anda.
+        });
     </script>
 
     <!-- sweetalert -->
@@ -267,8 +269,8 @@
                         // Tampilkan pesan sukses dengan SweetAlert2
                         Swal.fire({
                             icon: 'success',
-                            title: 'Good job!',
-                            text: 'Password change successfully',
+                            title: 'Success',
+                            text: 'Password changed successfully',
                         });
 
                         // Reset formulir setelah berhasil mengganti kata sandi
@@ -278,7 +280,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Failed!',
-                            text: 'Password change failed please try again',
+                            text: 'Password changed failed, please try again',
                         });
 
                         // Reset formulir setelah gagal mengganti kata sandi

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -27,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        abort(404); // Menghasilkan "Not Found" jika user tidak ditemukan
     }
 
     /**
@@ -36,34 +39,73 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+    //     $validateData = $request->validate([
+    //         'title' => 'required',
+    //         'first_name' => 'required',
+    //         'last_name' => 'required',
+    //         'phone' => 'required',
+    //         'email' => ['required', 'email', 'unique:users,email'],
+    //     ]);
+
+    //     // Pastikan validasi berhasil sebelum membuat entri user
+    //     if ($validateData) {
+    //         User::create([
+    //             'title' => $request->title,
+    //             'first_name' => $request->first_name,
+    //             'last_name' => $request->last_name,
+    //             'phone' => $request->phone,
+    //             'email' => $request->email,
+    //             'password' => Hash::make('admin123'), // Set password default di sini
+    //         ]);
+
+    //         return redirect()->route('user.index')
+    //             ->with('success', 'Users created successfully');
+    //     } else {
+    //         // Jika validasi gagal, Anda dapat mengarahkan user kembali ke halaman sebelumnya dengan pesan kesalahan.
+    //         return redirect()->back()
+    //             ->withErrors('Failed to create users')
+    //             ->withInput();
+    //     }
+    // }
+
     public function store(Request $request)
     {
-        $validateData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
             'email' => ['required', 'email', 'unique:users,email'],
         ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        // Pastikan validasi berhasil sebelum membuat entri user
-        if ($validateData) {
-            User::create([
-                'title' => $request->title,
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'phone' => $request->phone,
-                'email' => $request->email,
+        try {
+            // Simpan data ke database
+            $user = User::create([
+                'title' => $request->input('title'),
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
                 'password' => Hash::make('admin123'), // Set password default di sini
             ]);
 
-            return redirect()->route('user.index')
-                ->with('success', 'Users created successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan user kembali ke halaman sebelumnya dengan pesan kesalahan.
-            return redirect()->back()
-                ->withErrors('Failed to create users')
-                ->withInput();
+            return response()->json([
+                'success' => true,
+                'message' => 'Users created successfully',
+                'user' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to created users'
+            ], 500);
         }
     }
 
@@ -76,7 +118,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(404); // Menghasilkan "Not Found" jika user tidak ditemukan
     }
 
     /**
@@ -87,7 +129,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        abort(404); // Menghasilkan "Not Found" jika user tidak ditemukan
     }
 
     /**
@@ -99,33 +141,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $validateData = $request->validate([
-            'title' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required',
-            'email' => ['required', "unique:users,email,$user->id,id"],
-        ]);
-
-        // Pastikan validasi berhasil sebelum mengupdate user
-        if ($validateData) {
-
-            $user->update([
-                'title' => $request->title,
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'phone' => $request->phone,
-                'email' => $request->email,
-            ]);
-
-            return redirect()->route('user.index')
-                ->with('success', 'User updated successfully');
-        } else {
-            // Jika validasi gagal, Anda dapat mengarahkan pengguna kembali ke halaman sebelumnya dengan pesan kesalahan.
-            return redirect()->back()
-                ->withErrors('Failed to update user')
-                ->withInput();
-        }
+        //
     }
 
     /**
@@ -136,10 +152,79 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        if ($user->delete()) {
+            Session::flash('success', 'Users deleted successfully');
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Failed to delete user']);
+        }
+    }
 
-        return redirect()->route('user.index')
-            ->with('success', 'Users deleted successfully');
+    public function editUser($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Users not found',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+        ]);
+    }
+
+    public function updateUser(Request $request, $userId)
+    {
+        $validator = Validator::make($request->all(), [
+            'titleedit' => 'required',
+            'first_name_edit' => 'required',
+            'last_name_edit' => 'required',
+            'phoneedit' => 'required',
+            'emailedit' => ['required', 'email', Rule::unique('users', 'email')->ignore($userId)],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+            ], 400);
+        }
+
+        try {
+            // Mencari User berdasarkan ID
+            $user = User::findOrFail($userId);
+
+            // Jika user tidak ditemukan, kirim respons error
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found',
+                ], 404);
+            }
+
+            // Memperbarui data user
+            $user->title = $request->input('titleedit');
+            $user->first_name = $request->input('first_name_edit');
+            $user->last_name = $request->input('last_name_edit');
+            $user->phone = $request->input('phoneedit');
+            $user->email = $request->input('emailedit');
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Users updated successfully',
+                'user' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update users',
+            ], 500);
+        }
     }
 
     public function updatechangePassword(Request $request)
