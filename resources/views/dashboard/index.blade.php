@@ -83,7 +83,7 @@
                             <td>{{ $i + 1 }}</td>
                             <td>{{ $invoice->invoice_number }}</td>
                             <td>{{ $invoice->customer->name }}</td>
-                            <td>{{ number_format($invoice->invoiceitem->sum('total'), 0, ',', '.') }}</td>
+                            <td>{{ number_format($invoice->invoiceitem->sum('total') + $invoice->invoiceitem->sum('service_fee'), 0, ',', '.') }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -129,14 +129,15 @@
     const flightCount = <?php echo $flightCount; ?>;
     const trainCount = <?php echo $trainCount; ?>;
     const hotelCount = <?php echo $hotelCount; ?>;
+    const rentalCount = <?php echo $rentalCount; ?>;
 
     const piechart = new Chart(ctxpie, {
         type: 'pie',
         data: {
-            labels: ['Flight', 'Train', 'Hotels'],
+            labels: ['Flight', 'Train', 'Hotels', 'Rental'],
             datasets: [{
-                data: [flightCount, trainCount, hotelCount],
-                backgroundColor: ['rgba(0, 0, 255, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)'],
+                data: [flightCount, trainCount, hotelCount, rentalCount],
+                backgroundColor: ['rgba(0, 0, 255, 1)', 'rgba(255, 255, 0, 1)', 'rgba(255, 0, 0, 1)', 'rgba(0, 128, 0, 1)'], //warna flight->biru, train->kuning, hotel->merah, rental-hijau
                 hoverBorderColor: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0)'], // Ubah warna border hover menjadi transparan
             }],
         },
@@ -176,6 +177,13 @@
                     data: <?= json_encode($hotelCounts) ?>, // Menggunakan data jumlah produk Hotel
                     backgroundColor: 'rgba(255, 0, 0, 1)', // Merah
                     borderColor: 'rgba(255, 0, 0, 1)', // Merah
+                    borderWidth: 1
+                },
+                {
+                    label: 'Rental',
+                    data: <?= json_encode($rentalCounts) ?>, // Menggunakan data jumlah produk Rental
+                    backgroundColor: 'rgba(0, 128, 0, 1)', // Merah
+                    borderColor: 'rgba(0, 128, 0, 1)', // Merah
                     borderWidth: 1
                 }
             ]

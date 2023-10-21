@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <link rel="icon" href="/image/travellogo2.png">
+    <link rel="icon" href="/image/titledanmenu.png">
     <title>K - Tour & Travel</title>
     <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> -->
     <link href="/css/styles.css" rel="stylesheet" />
@@ -33,7 +33,7 @@
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <!-- <a class="navbar-brand ps-3" href="/home">K - Tour & Travel</a> -->
-        <a class="navbar-brand ps-3" href="/dashboard"><img style="width: 40px;" src="/image/travellogo2.png"> K - Tour & Travel</a>
+        <a class="navbar-brand ps-3" href="/dashboard"><img style="width: 40px;" src="/image/titledanmenu.png"> K - Tour & Travel</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
@@ -108,10 +108,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="sb-sidenav-footer">
+                <!-- <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
                     Start Bootstrap
-                </div>
+                </div> -->
             </nav>
         </div>
         <div id="layoutSidenav_content">
@@ -199,12 +199,12 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
+                        <div class="text-muted">Copyright &copy; PT KAMAIRA SOLUSI PRATAMA 2023, Casa Verde Building 4rd Floor, Jl Mampang Prapatan Nomor 17 K Jakarta Selatan, 12790 Indonesia</div>
+                        <!-- <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
                             <a href="#">Terms &amp; Conditions</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </footer>

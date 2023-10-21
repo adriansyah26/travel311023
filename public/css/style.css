@@ -99,34 +99,34 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     margin-bottom: 20px;
-    border: 1px solid #000000;
+    border: none;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-left: none;
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 table tr {
     font-family: Arial, Helvetica, sans-serif;
 }
 table th {
-    padding: 10px;
+    padding: 5px;
     background: #ffffff;
     text-align: center;
-    border-bottom: 1px solid #000000;
-    border: 1px solid #000000;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-left: 1px solid rgba(0, 0, 0, 0.5);
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 table td {
-    padding: 10px;
+    padding: 5px;
     background: #ffffff;
     text-align: left;
-    border-bottom: 1px solid #000000;
-    border: 1px solid #000000;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-bottom: none;
+    border: none;
+    border-left: none;;
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
     vertical-align: text-top;
 }
 

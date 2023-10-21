@@ -167,6 +167,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-4 margin-tb mt-5">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="service_fee_persen" type="checkbox" id="service_fee_persen" onchange="updateTotalWithServiceFee()">
+                                            <strong class="form-check-label" for="service_fee_persen">
+                                                3% Service Fee
+                                            </strong>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-4 margin-tb mt-3">
                                         <div class="form-group">
                                             <strong>Total</strong>
@@ -278,6 +286,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-4 margin-tb mt-5">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="service_fee_persenedit" type="checkbox" id="service_fee_persenedit" onchange="updateTotalWithServiceFeeEdit()">
+                                            <strong class="form-check-label" for="service_fee_persenedit">
+                                                3% Service Fee
+                                            </strong>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-4 margin-tb mt-3">
                                         <div class="form-group">
                                             <strong>Total</strong>
@@ -296,8 +312,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="input-group">
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -309,6 +323,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </main>
 
 <script>
@@ -363,6 +379,17 @@
                 document.getElementsByName(k)[0].value = addCommas(paramModal[k]);
             }
             isNewDataAdded = false; // Reset flag
+        }
+    }
+
+    function updateTotalWithServiceFee() {
+        if (document.getElementById('service_fee_persen').checked) {
+            let serviceFeePercentage = 0.03; // 3%
+            paramModal.service_fee = paramModal.total * serviceFeePercentage;
+            document.getElementById('service_fee').value = addCommas(paramModal.service_fee);
+        } else {
+            paramModal.service_fee = 0;
+            document.getElementById('service_fee').value = addCommas(paramModal.service_fee);
         }
     }
 </script>
@@ -421,98 +448,18 @@
             isNewDataAddededit = false; // Reset flag
         }
     }
-</script>
 
-<!-- <script>
-    // Fungsi untuk menghapus tanda titik dan tanda koma dari string angka
-    function removeSeparators(input) {
-        return input.replace(/[.,]/g, '');
-    }
-
-    // // Fungsi untuk memformat angka dengan pemisah ribuan
-    // function formatNumber(number) {
-    //     return new Intl.NumberFormat('id-ID').format(number);
-    // }
-
-    // // Penambahan otomatis quantity * (amount + markup) dengan format ribuan
-    // function create() {
-    //     var txtFirstNumberValue = document.getElementById('quantity').value;
-    //     var txtSecondNumberValue = document.getElementById('amount').value;
-    //     var txtThirdNumberValue = document.getElementById('markup').value;
-
-    //     var quantity = parseFloat(removeSeparators(txtFirstNumberValue));
-    //     var amount = parseFloat(removeSeparators(txtSecondNumberValue));
-    //     var markup = parseFloat(removeSeparators(txtThirdNumberValue));
-
-    //     var total = quantity * (amount + markup);
-
-    //     if (!isNaN(total)) {
-
-    //         var formattedTotal = formatNumber(total);
-    //         var formattedQuantity = formatNumber(quantity);
-    //         var formattedAmount = formatNumber(amount);
-    //         var formattedMarkup = formatNumber(markup);
-    //         console.log(total, formattedTotal, formattedQuantity, formattedAmount, formattedMarkup)
-
-    //         document.getElementById('total').value = formattedTotal;
-    //         document.getElementById('quantity').value = formattedQuantity;
-    //         document.getElementById('amount').value = formattedAmount;
-    //         document.getElementById('markup').value = formattedMarkup;
-    //     }
-    // }
-
-    // // Memanggil fungsi create() saat halaman dimuat
-    // create();
-</script>
-
-<script>
-    // Fungsi untuk memastikan nilai desimal minimal 0
-    function validateDecimaledit(input, min) {
-        var value = parseFloat(input.value);
-        if (isNaN(value) || value < min) {
-            input.value = min;
-        }
-        edit(); // Panggil fungsi edit() untuk menghitung total
-    }
-
-    // Fungsi untuk menghapus tanda titik dan tanda koma dari string angka
-    function removeSeparators(input) {
-        return input.replace(/[.,]/g, '');
-    }
-
-    // Fungsi untuk memformat angka dengan pemisah ribuan
-    function formatNumber(number) {
-        return new Intl.NumberFormat('id-ID').format(number);
-    }
-
-    // Penambahan otomatis quantity * (amount + markup) dengan format ribuan
-    function edit() {
-        var txtFirstNumberValue = document.getElementById('quantityedit').value;
-        var txtSecondNumberValue = document.getElementById('amountedit').value;
-        var txtThirdNumberValue = document.getElementById('markupedit').value;
-
-        var quantity = parseFloat(removeSeparators(txtFirstNumberValue));
-        var amount = parseFloat(removeSeparators(txtSecondNumberValue));
-        var markup = parseFloat(removeSeparators(txtThirdNumberValue));
-
-        var total = quantity * (amount + markup);
-
-        if (!isNaN(total)) {
-            var formattedTotal = formatNumber(total);
-            var formattedQuantity = formatNumber(quantity);
-            var formattedAmount = formatNumber(amount);
-            var formattedMarkup = formatNumber(markup);
-
-            document.getElementById('totaledit').value = formattedTotal;
-            document.getElementById('quantityedit').value = formattedQuantity;
-            document.getElementById('amountedit').value = formattedAmount;
-            document.getElementById('markupedit').value = formattedMarkup;
+    function updateTotalWithServiceFeeEdit() {
+        if (document.getElementById('service_fee_persenedit').checked) {
+            const serviceFeePercentage = 0.03; // 3%
+            paramModaledit.service_feeedit = paramModaledit.totaledit * serviceFeePercentage;
+            document.getElementById('service_feeedit').value = addCommasedit(paramModaledit.service_feeedit);
+        } else {
+            paramModaledit.service_feeedit = 0;
+            document.getElementById('service_feeedit').value = addCommasedit(paramModaledit.service_feeedit);
         }
     }
-
-    // Memanggil fungsi create() saat halaman dimuat
-    edit();
-</script> -->
+</script>
 
 <script>
     // Ambil data produk dari tag HTML
@@ -529,6 +476,10 @@
         const amount = document.getElementById('amount').value;
         const markup = document.getElementById('markup').value;
         const service_fee = document.getElementById('service_fee').value;
+        const serviceFeePersenCheckbox = document.getElementById('service_fee_persen');
+        if (!isNewDataAdded) {
+            serviceFeePersenCheckbox.checked = false;
+        }
         const total = document.getElementById('total').value;
 
         // Buat FormData untuk mengirim data ke server
@@ -718,6 +669,10 @@
         const amount = document.getElementById('amountedit').value;
         const markup = document.getElementById('markupedit').value;
         const service_fee = document.getElementById('service_feeedit').value;
+        const serviceFeePersenCheckbox = document.getElementById('service_fee_persenedit');
+        if (!isNewDataAddededit) {
+            serviceFeePersenCheckbox.checked = false;
+        }
         const total = document.getElementById('totaledit').value;
 
         const formData = new FormData();

@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -16,10 +17,11 @@ class DashboardController extends Controller
         $totalCustomer = Customer::count();
 
         // Ambil total invoiceitem
-        $totalInvoice = InvoiceItem::sum('total');
+        $totalInvoice = InvoiceItem::sum(DB::raw('total + service_fee'));
+
         // Ambil total invoiceitem berdasarkan bulan
         $month = Carbon::now()->format('n');
-        $monthInvoice = InvoiceItem::wheremonth('created_at', $month)->sum('total');
+        $monthInvoice = InvoiceItem::wheremonth('created_at', $month)->sum(DB::raw('total + service_fee'));
 
         // Ambil table invoice 10 terakhir
         $invoices = Invoice::latest()->take(10)->get();
@@ -31,6 +33,7 @@ class DashboardController extends Controller
         $flightCount = 0;
         $trainCount = 0;
         $hotelCount = 0;
+        $rentalCount = 0;
 
         // Hitung jumlah produk berdasarkan nama produk yang mengandung "FLIGHT," "TRAIN," atau "HOTEL"
         foreach ($invoiceItems as $item) {
@@ -53,6 +56,11 @@ class DashboardController extends Controller
                 if (stripos($productName, 'HOTELS') !== false || stripos($productName, 'HOTEL') !== false) {
                     $hotelCount++;
                 }
+
+                // Pencarian kata "RENTAL" atau "SEWA"
+                if (stripos($productName, 'RENTAL') !== false || stripos($productName, 'SEWA') !== false) {
+                    $rentalCount++;
+                }
             }
         }
 
@@ -65,6 +73,7 @@ class DashboardController extends Controller
         $flightCounts = [];
         $trainCounts = [];
         $hotelCounts = [];
+        $rentalCounts = [];
         $monthLabels = [];
 
         while ($startDate->lte($endDate)) { // Loop sampai tanggal awal lebih besar dari tanggal akhir
@@ -78,6 +87,7 @@ class DashboardController extends Controller
             $flightCountMonth = 0;
             $trainCountMonth = 0;
             $hotelCountMonth = 0;
+            $rentalCountMonth = 0;
 
             foreach ($invoiceItemsMonth as $itemMonth) {
                 $product = Product::find($itemMonth->product_id);
@@ -99,12 +109,18 @@ class DashboardController extends Controller
                     if (stripos($productNameMonth, 'HOTELS') !== false || stripos($productNameMonth, 'HOTEL') !== false) {
                         $hotelCountMonth++;
                     }
+
+                    // Pencarian kata "RENTAL" atau "SEWA"
+                    if (stripos($productNameMonth, 'RENTAL') !== false || stripos($productNameMonth, 'SEWA') !== false) {
+                        $rentalCountMonth++;
+                    }
                 }
             }
 
             $flightCounts[] = $flightCountMonth;
             $trainCounts[] = $trainCountMonth;
             $hotelCounts[] = $hotelCountMonth;
+            $rentalCounts[] = $rentalCountMonth;
 
             // Lanjutkan ke bulan berikutnya
             $startDate->addMonth();
@@ -120,6 +136,6 @@ class DashboardController extends Controller
             $formattedLastUpdated = 'N/A'; // Tampilkan 'N/A' jika tidak ada invoiceitem
         }
 
-        return view('dashboard.index', compact('totalCustomer', 'totalInvoice', 'month', 'monthInvoice', 'invoices', 'flightCount', 'trainCount', 'hotelCount', 'flightCounts', 'trainCounts', 'hotelCounts', 'monthLabels', 'formattedLastUpdated'));
+        return view('dashboard.index', compact('totalCustomer', 'totalInvoice', 'month', 'monthInvoice', 'invoices', 'flightCount', 'trainCount', 'hotelCount', 'rentalCount', 'flightCounts', 'trainCounts', 'hotelCounts', 'rentalCounts', 'monthLabels', 'formattedLastUpdated'));
     }
 }

@@ -186,6 +186,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-4 margin-tb mt-5">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="service_fee_persen" type="checkbox" id="service_fee_persen" onchange="updateTotalWithServiceFee()">
+                                            <strong class="form-check-label" for="service_fee_persen">
+                                                3% Service Fee
+                                            </strong>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-4 margin-tb mt-3">
                                         <div class="form-group">
                                             <strong>Total</strong>
@@ -271,6 +279,17 @@
                 document.getElementsByName(k)[0].value = addCommas(paramModal[k]);
             }
             isNewDataAdded = false; // Reset flag
+        }
+    }
+
+    function updateTotalWithServiceFee() {
+        if (document.getElementById('service_fee_persen').checked) {
+            let serviceFeePercentage = 0.03; // 3%
+            paramModal.service_fee = paramModal.total * serviceFeePercentage;
+            document.getElementById('service_fee').value = addCommas(paramModal.service_fee);
+        } else {
+            paramModal.service_fee = 0;
+            document.getElementById('service_fee').value = addCommas(paramModal.service_fee);
         }
     }
 </script>
@@ -364,6 +383,10 @@
         const amount = document.getElementById('amount').value;
         const markup = document.getElementById('markup').value;
         const service_fee = document.getElementById('service_fee').value;
+        const serviceFeePersenCheckbox = document.getElementById('service_fee_persen');
+        if (!isNewDataAdded) {
+            serviceFeePersenCheckbox.checked = false;
+        }
         const total = document.getElementById('total').value;
 
         const formData = new FormData();

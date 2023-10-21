@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <link rel="icon" href="/image/travellogo2.png">
+  <link rel="icon" href="/image/titledanmenu.png">
   <title>Login</title>
 </head>
 
@@ -20,7 +20,7 @@
             <div class="col-lg-5">
               <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header">
-                  <h3 class="text-center font-weight-light my-4"><img style="width: 60px;" src="/image/travellogo2.png"> Login</h3>
+                  <h3 class="text-center font-weight-light my-4"><img style="width: 60px;" src="/image/titledanmenu.png"> Login</h3>
                 </div>
                 <div class="card-body">
 

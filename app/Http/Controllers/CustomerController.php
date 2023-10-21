@@ -44,12 +44,25 @@ class CustomerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'phone' => 'required',
-            'email' => ['required', 'email', 'unique:customers,email'],
             'termin' => 'required',
             'address' => 'required',
             'type_id' => 'required',
         ]);
+
+        // Cek apakah 'phone' tidak kosong, jika tidak kosong maka validasi akan diterapkan
+        if (!empty($request->input('phone'))) {
+            $validator->sometimes('phone', 'nullable', function ($input) {
+                return !empty($input->phone);
+            });
+        }
+
+        // Cek apakah 'email' tidak kosong, jika tidak kosong maka validasi akan diterapkan
+        if (!empty($request->input('email'))) {
+            $validator->sometimes('email', ['required', 'email', 'unique:customers,email'], function ($input) {
+                return !empty($input->email);
+            });
+        }
+
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -122,10 +135,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $customer->delete();
-
-        return redirect()->route('customer.index')
-            ->with('success', 'Customer deleted successfully');
+        // 
     }
 
     public function editCustomer($customerId)
@@ -149,12 +159,24 @@ class CustomerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nameedit' => 'required',
-            'phoneedit' => 'required',
-            'emailedit' => ['required', 'email', Rule::unique('customers', 'email')->ignore($customerId)],
             'terminedit' => 'required',
             'addressedit' => 'required',
             'type_id_edit' => 'required',
         ]);
+
+        // Cek apakah 'phoneedit' tidak kosong, jika tidak kosong maka validasi akan diterapkan
+        if (!empty($request->input('phoneedit'))) {
+            $validator->sometimes('phoneedit', 'nullable', function ($input) {
+                return !empty($input->phoneedit);
+            });
+        }
+
+        // Cek apakah 'emailedit' tidak kosong, jika tidak kosong maka validasi akan diterapkan
+        if (!empty($request->input('emailedit'))) {
+            $validator->sometimes('emailedit', ['required', 'email', Rule::unique('customers', 'email')->ignore($customerId)], function ($input) {
+                return !empty($input->emailedit);
+            });
+        }
 
         if ($validator->fails()) {
             return response()->json([

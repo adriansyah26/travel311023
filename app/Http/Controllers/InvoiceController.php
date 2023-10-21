@@ -230,10 +230,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        $invoice->delete();
-
-        return redirect()->route('invoice.index')
-            ->with('success', 'Invoice deleted successfully');
+        // 
     }
 
     // untuk menyimpan invoiceitem dihalaman create

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('type_id');
             $table->string('name');
-            $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('phone')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->string('termin');
             $table->string('address');
             $table->timestamps();

@@ -303,13 +303,16 @@
     function UpdateTable(customer) {
         const table = $('#table').DataTable(); // Dapatkan objek DataTable
         const typeName = typesData.find(type => type.id === parseInt(customer.type_id))?.name || 'types Tidak Tersedia';
+        // Tentukan nilai yang akan ditampilkan untuk "phone" dan "email" ketika null
+        const phoneValue = customer.phone || ''; // Ganti 'N/A' dengan teks yang sesuai
+        const emailValue = customer.email || ''; // Ganti 'N/A' dengan teks yang sesuai
         // Membuat HTML untuk satu baris tabel dengan data yang diterima
         const tableRowHTML = `
             <tr data-customer-id="${customer.id}">
                 <td></td> <!-- Selalu set nomor urutan ke 1 untuk data baru -->
                 <td>${customer.name}</td>
-                <td>${customer.phone}</td>
-                <td>${customer.email}</td>
+                <td>${phoneValue}</td>
+                <td>${emailValue}</td>
                 <td>${customer.termin}</td>
                 <td>${customer.address}</td>
                 <td>${typeName}</td>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="icon" href="{{ public_path('image/travellogo2.png') }}">
+    <link rel="icon" href="{{ public_path('image/titledanmenu.png') }}">
     <title>K - Tour & Travel</title>
     <link rel="stylesheet" href="{{ public_path('css/style.css') }}" media="all" />
 </head>
@@ -15,12 +15,11 @@
             <div>Casa Verde Building 4rd Floor</div>
             <div>Jl Mampang Prapatan Nomor 17 K</div>
             <div>Jakarta Selatan, 12790 Indonesia</div>
-            <!-- <div><a href="mailto:company@example.com">company@example.com</a></div> -->
         </div>
     </header>
     <div>
         <div id="logo" style="margin-top: -30px;">
-            <img src="{{ public_path('image/travellogo3.png') }}" alt="image invoice" style="width:150px;height:100px;">
+            <img src="{{ public_path('image/logopdf.png') }}" alt="image invoice" style="width:150px;height:100px;">
         </div>
     </div>
     <hr style="margin-left: 150px; margin-right: 100px; border: 1px solid black;">
@@ -57,7 +56,6 @@
             <div style="margin-left: 23px; margin-top: -12px;">: {{$formattanggal}}</div>
             <div style="margin-left: -15px">Termin </div>
             <div style="margin-left: 23px; margin-top: -12px;">: {{ $invoice->customer->termin }}</div>
-            <!-- <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> -->
         </div>
         <table style="table-layout: auto;">
             <thead>
@@ -73,29 +71,29 @@
             <tbody id="itemRows">
                 @foreach ($invoiceItems as $i => $item)
                 <tr style="font-family: Arial, Helvetica, sans-serif; margin:0;">
-                    <td style="text-align: center; border: 1px solid #000;">{{ $i + 1 }}</td>
-                    <td style="border: 1px solid #000;">{!! str_replace("\n", '
-                        <hr style="margin-left: -11px; margin-right: -11px; border: none; border-top: 1px solid #000;">', e($item->description)) !!}
+                    <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5);">{{ $i + 1 }}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0.5);">{!! str_replace("\n", '
+                        <hr style="margin-left: -6px; margin-right: -6px; border: none; border-top: 1px solid rgba(0, 0, 0, 0.5);">', e($item->description)) !!}
                     </td>
-                    <td style="border: 1px solid #000; font-weight: bold;">{{ $item->kode_booking }}</td>
-                    <td style="text-align: center; border: 1px solid #000;">{{ number_format($item->quantity, 0, ',', '.') }}</td>
-                    <td style="border: 1px solid #000;">{{ number_format($item->amount, 0, ',', '.') }}</td>
-                    <td style="border: 1px solid #000;">{{ number_format($item->total, 0, ',', '.') }}</td>
+                    <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5); font-weight: bold;">{{ $item->kode_booking }}</td>
+                    <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->quantity, 0, ',', '.') }}</td>
+                    <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->amount, 0, ',', '.') }}</td>
+                    <td style="padding-left: 20px; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->total, 0, ',', '.') }}</td>
                 </tr>
                 @endforeach
                 @if($servicefeeInvoice > 0)
                 <tr>
-                    <td colspan="5" style="text-align: right; font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">SUBTOTAL</td>
-                    <td style="font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($subtotalInvoice, 0, ',', '.') }}</td>
+                    <td colspan="5" style="text-align: right; border: none; font-weight: bold; font-family: Arial, Helvetica, sans-serif;">SUBTOTAL</td>
+                    <td style="font-weight: bold; border: 1px solid rgba(0, 0, 0, 0.5); font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($subtotalInvoice, 0, ',', '.') }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5" style="text-align: right; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif; font-style: italic;">Service Fee</td>
-                    <td style="font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($servicefeeInvoice, 0, ',', '.') }}</td>
+                    <td colspan="5" style="text-align: right; border: none; font-family: Arial, Helvetica, sans-serif; font-style: italic;">Service Fee</td>
+                    <td style="font-weight: bold; border: 1px solid rgba(0, 0, 0, 0.5); font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($servicefeeInvoice, 0, ',', '.') }}</td>
                 </tr>
                 @endif
                 <tr>
-                    <td colspan="5" style="text-align: right; font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">GRANDTOTAL</td>
-                    <td style="font-weight: bold; border: 1px solid #000000; font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($grandtotalInvoice, 0, ',', '.') }}</td>
+                    <td colspan="5" style="text-align: right; border: none; font-weight: bold; font-family: Arial, Helvetica, sans-serif;">GRANDTOTAL</td>
+                    <td style="font-weight: bold; border: 1px solid rgba(0, 0, 0, 0.5); font-family: Arial, Helvetica, sans-serif;">Rp {{ number_format($grandtotalInvoice, 0, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>
@@ -109,8 +107,14 @@
             </div>
             <div style="margin-left: 500px; margin-top: -110px; font-family: Arial, Helvetica, sans-serif; font-size: 10px;">
                 <div>Jakarta, {{$formattanggal}}</div>
-                <div style="margin-bottom: 130px;">Thank You for Your Payment</div>
-                <div style="margin-left: 30px;">RIZKY FAUZIA</div>
+                <div style="margin-bottom: 10px;">Thank You for Your Payment</div>
+                <div style="margin-left: -20px;">
+                    <img src="{{ public_path('image/stempel.png') }}" alt="image stempel" style="width:170px; height:60px;">
+                </div>
+                <div style="margin-left: 40px; margin-top: -60px">
+                    <img src="{{ public_path('image/ttd.png') }}" alt="image ttd" style="width:80px; height:60px;">
+                </div>
+                <div style="margin-left: 30px; margin-top: 10px;">RIZKY FAUZIA</div>
                 <div style="margin-left: 45px;">Direktur</div>
             </div>
         </div>
