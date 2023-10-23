@@ -20,12 +20,12 @@
         </div>
         <div class="card mb-4 mt-3 px-4">
             <div class="card-body" style="overflow-x: auto;">
-                <table id="table" class="table  table-striped table-bordered" style="table-layout: fixed;">
+                <table id="table" class="table table-striped table-bordered" style="table-layout: fixed;">
                     <thead>
                         <tr>
                             <th style="width: 30px;">No</th>
-                            <th>Code</th>
-                            <th>Name</th>
+                            <th style="width: 100px;">Code</th>
+                            <th style="width: 690px;">Name</th>
                             <th style="width: 50px;">Action</th>
                         </tr>
                     </thead>

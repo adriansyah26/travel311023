@@ -57,8 +57,8 @@
                                             <span id="togglePasswordConfirm" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; margin-left: 390px;"></span>
                                         </div>
 
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <button type="submit" class="btn btn-primary" style="margin-left: 284px;">Reset Password</button>
+                                        <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                                            <button type="submit" class="btn btn-primary">Reset Password</button>
                                         </div>
                                     </form>
                                 </div>

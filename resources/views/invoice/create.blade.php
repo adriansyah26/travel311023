@@ -5,22 +5,20 @@
         <div class="float-start mt-3">
             <h2>Add New Invoice</h2>
         </div>
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+
+        <div class="row container mt-1 px-4">
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success container mt-1 px-4">
+                <p>{{ $message }}</p>
+            </div>
+            @endif
         </div>
-        @endif
 
         <form data-action="{{ route('invoice.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="card mb-4 mt-3 px-4 col-lg-12 ">
-                <div class="card-body">
+            <div class="card mb-4 mt-3 px-4 col-lg-12">
+                <div class="card-body" style="overflow-x: auto;">
                     <div class="container-fluid">
                         <div class="row">
                             <input type="hidden" name="invoice_id" id="invoice_id">
@@ -60,7 +58,7 @@
                 </div>
             </div>
         </form>
-        <div class="card mb-4 mt-3 px-4 col-lg-12 ">
+        <div class="card mb-4 mt-3 px-4 col-lg-12">
             <button type="button" class="btn btn-primary mt-4" style="margin-left: 40px; margin-bottom: -15px; width: 80px" data-bs-toggle="modal" data-bs-target="#invoiceItemModal" disabled><i class="bi bi-file-earmark-plus"></i>Item</button>
             <div class="card-body" style="overflow-x: auto;">
                 <div class="container-fluid">

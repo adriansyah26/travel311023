@@ -135,7 +135,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        // 
+        //
     }
 
     public function editCustomer($customerId)

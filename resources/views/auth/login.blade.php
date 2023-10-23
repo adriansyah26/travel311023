@@ -55,8 +55,8 @@
                       <label for="inputPassword">Password</label>
                       <span id="togglePassword" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; margin-left: 390px;"></span>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                      <button type="submit" class="btn btn-primary" style="margin-left: 353px;">Login</button>
+                    <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                      <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                   </form>
                 </div>

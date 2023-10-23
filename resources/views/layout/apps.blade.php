@@ -26,7 +26,6 @@
 
     <!-- jquery -->
     <script src="{{ url('js/jquery-3.7.0.min.js') }}"></script>
-
 </head>
 
 <body class="sb-nav-fixed">
@@ -43,11 +42,13 @@
                 <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
             </div>
         </form> -->
-        <a class="navbar-brand ps-3" href="/dashboard">Welcome {{ auth()->user()->first_name }}</a>
+        <a class="d-none d-md-inline-block form-inline ms-auto navbar-brand ps-3" href="/dashboard">Welcome {{ auth()->user()->first_name }}</a>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 800px;"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle custom-navbar-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <!-- <li><a class="dropdown-item" href="#!">Settings</a></li> -->
                     <li><button type="button" data-bs-toggle="modal" data-bs-target="#changepassword" data-userid="{{ auth()->user()->id }}" class="dropdown-item"><i class="fa-solid fa-gear"></i> Change Password</button></li>
@@ -190,7 +191,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; PT KAMAIRA SOLUSI PRATAMA 2023, Casa Verde Building 4rd Floor, Jl Mampang Prapatan Nomor 17 K Jakarta Selatan, 12790 Indonesia</div>
+                        <div class="text-muted">Copyright &copy; PT KAMAIRA SOLUSI PRATAMA 2023, Casa Verde Building 4rd Floor, Jl Mampang Prapatan Nomor 17 K Jakarta Selatan, 12790 Indonesia</div>
                         <!-- <div>
                             <a href="#">Privacy Policy</a>
                             &middot;

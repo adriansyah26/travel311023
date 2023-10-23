@@ -47,8 +47,8 @@
                                             <label for="inputEmail">Email address</label>
                                         </div>
 
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <button type="submit" class="btn btn-primary" style="margin-left: 244px;">Send Reset Password</button>
+                                        <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                                            <button type="submit" class="btn btn-primary">Send Reset Password</button>
                                         </div>
                                     </form>
                                 </div>

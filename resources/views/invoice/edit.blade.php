@@ -5,16 +5,14 @@
         <div class="float-start mt-3">
             <h2>Edit New Invoice</h2>
         </div>
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+
+        <div class="row container mt-1 px-4">
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success container mt-1 px-4">
+                <p>{{ $message }}</p>
+            </div>
+            @endif
         </div>
-        @endif
 
         <form action="{{ route('invoice.update',$invoice->id) }}" method="POST" enctype="multipart/form-data">
             @csrf

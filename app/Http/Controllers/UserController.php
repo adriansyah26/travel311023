@@ -39,37 +39,6 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     $validateData = $request->validate([
-    //         'title' => 'required',
-    //         'first_name' => 'required',
-    //         'last_name' => 'required',
-    //         'phone' => 'required',
-    //         'email' => ['required', 'email', 'unique:users,email'],
-    //     ]);
-
-    //     // Pastikan validasi berhasil sebelum membuat entri user
-    //     if ($validateData) {
-    //         User::create([
-    //             'title' => $request->title,
-    //             'first_name' => $request->first_name,
-    //             'last_name' => $request->last_name,
-    //             'phone' => $request->phone,
-    //             'email' => $request->email,
-    //             'password' => Hash::make('admin123'), // Set password default di sini
-    //         ]);
-
-    //         return redirect()->route('user.index')
-    //             ->with('success', 'Users created successfully');
-    //     } else {
-    //         // Jika validasi gagal, Anda dapat mengarahkan user kembali ke halaman sebelumnya dengan pesan kesalahan.
-    //         return redirect()->back()
-    //             ->withErrors('Failed to create users')
-    //             ->withInput();
-    //     }
-    // }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
