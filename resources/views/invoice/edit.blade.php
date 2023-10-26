@@ -25,7 +25,7 @@
                                 <div class="form-group">
                                     <strong>Invoice Number</strong>
                                     <div class="input-group">
-                                        <input type="text" name="invoice_number" value="{{ $invoice->invoice_number }}" class="form-control" readonly>
+                                        <input type="text" name="invoice_number" value="{{ $invoice->invoice_number }}" class="form-control">
                                     </div>
                                 </div>
                             </div>

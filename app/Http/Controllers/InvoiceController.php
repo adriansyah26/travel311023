@@ -20,7 +20,6 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-
         $invoice = Invoice::latest()->get();
 
         return view('invoice.index', compact('invoice'));
@@ -133,7 +132,19 @@ class InvoiceController extends Controller
 
         $formattanggal = $tanggalInvoice->format('j') . $bulan[$tanggalInvoice->format('n')] . $tanggalInvoice->format('Y');
 
-        $pdf = FacadePdf::loadView('invoice.pdf', compact('invoice', 'invoiceItems', 'formattanggal', 'products', 'subtotalInvoice', 'servicefeeInvoice', 'grandtotalInvoice'));
+        // Dapatkan pilihan dari dropdown
+        $selectedPdf = request('pdf', 'rizkyksp'); // Dapatkan pilihan dari URL
+
+        // Load view sesuai dengan pilihan yang dipilih
+        if ($selectedPdf === 'rizkyksp') {
+            $pdf = FacadePdf::loadView('invoice.pdfrizkyksp', compact('invoice', 'invoiceItems', 'formattanggal', 'products', 'subtotalInvoice', 'servicefeeInvoice', 'grandtotalInvoice'));
+        } elseif ($selectedPdf === 'select') {
+            $pdf = FacadePdf::loadView('invoice.pdfrizkyksp', compact('invoice', 'invoiceItems', 'formattanggal', 'products', 'subtotalInvoice', 'servicefeeInvoice', 'grandtotalInvoice'));
+        } elseif ($selectedPdf === 'dickyksp') {
+            $pdf = FacadePdf::loadView('invoice.pdfdickyksp', compact('invoice', 'invoiceItems', 'formattanggal', 'products', 'subtotalInvoice', 'servicefeeInvoice', 'grandtotalInvoice'));
+        } elseif ($selectedPdf === 'dickymaxx') {
+            $pdf = FacadePdf::loadView('invoice.pdfdickymaxx', compact('invoice', 'invoiceItems', 'formattanggal', 'products', 'subtotalInvoice', 'servicefeeInvoice', 'grandtotalInvoice'));
+        }
         $pdf->setPaper('a4', 'portrait');
         return $pdf->stream();
 

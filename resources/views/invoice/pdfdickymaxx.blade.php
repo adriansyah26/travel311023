@@ -11,22 +11,22 @@
 <body>
     <header class="clearfix">
         <div id="company">
-            <div>PT KAMAIRA SOLUSI PRATAMA</div>
+            <div>MAXX TRAVEL</div>
             <div>Casa Verde Building 4rd Floor</div>
             <div>Jl Mampang Prapatan Nomor 17 K</div>
             <div>Jakarta Selatan, 12790 Indonesia</div>
         </div>
     </header>
     <div>
-        <div id="logo" style="margin-top: -30px;">
-            <img src="{{ public_path('image/logopdf.png') }}" alt="image invoice" style="width:150px;height:100px;">
+        <div id="logo" style="margin-top: -50px;">
+            <img src="{{ public_path('image/stempelmaxx.png') }}" alt="image invoice" style="width:120px; height:110px;">
         </div>
     </div>
     <hr style="margin-left: 150px; margin-right: 100px; border: 1px solid black;">
     <main>
         <div id="details" class="clearfix" style="margin-right: 100px;">
             <div id="invoice">
-                <div style="margin-top: 30px; margin-right: 60px;">INVOICE</div>
+                <div style="margin-top: 30px; margin-right: 30px;">INVOICE</div>
                 <div style="margin-left: 100px;">{{ $invoice->invoice_number }}</div>
             </div>
             <div style="border-top: 4px outset#0000FF; margin-right: 480px; margin-top: -20px;"> </div>
@@ -98,23 +98,23 @@
             </tbody>
         </table>
         <div style="page-break-inside: avoid; margin-top: 50px;">
-            <div id="rounded2" style="margin-bottom: 10px;">
+            <div id="rounded2" style="margin-bottom: 10px; width: 260px;">
                 <div style="margin-left: 70px; margin-top: -20px;">Payment Detail</div>
                 <div style="margin-left: -25px;">Silahkan melakukan pembayaran ke rekening bank berikut : </div>
-                <div style="margin-left: -25px; font-weight:bold;">Bank BRI (IDR Account) </div>
-                <div style="margin-left: -25px;">Nama Pemilik Rekening : PT KAMAIRA SOLUSI PRATAMA</div>
-                <div style="margin-left: -25px; margin-bottom: 10px; font-weight:bold;">Account No : 2020-01-000336-30-0</div>
+                <div style="margin-left: -25px; font-weight:bold;">Bank BRI (KCP Kementerian PU) (IDR Account) </div>
+                <div style="margin-left: -25px;">Nama Pemilik Rekening : PT. Maximize Information Technology</div>
+                <div style="margin-left: -25px; margin-bottom: 10px; font-weight:bold;">Account No : 2020-01-000163-30-9</div>
             </div>
             <div style="margin-left: 500px; margin-top: -110px; font-family: Arial, Helvetica, sans-serif; font-size: 10px;">
                 <div>Jakarta, {{$formattanggal}}</div>
                 <div style="margin-bottom: 10px;">Thank You for Your Payment</div>
-                <div style="margin-left: -20px;">
-                    <img src="{{ public_path('image/stempel.png') }}" alt="image stempel" style="width:170px; height:60px;">
+                <div style="margin-left: -10px;">
+                    <img src="{{ public_path('image/stempelmaxx.png') }}" alt="image stempelmaxx" style="width:150px; height:140px;">
                 </div>
-                <div style="margin-left: 40px; margin-top: -60px">
-                    <img src="{{ public_path('image/ttd.png') }}" alt="image ttd" style="width:80px; height:60px;">
-                </div>
-                <div style="margin-left: 30px; margin-top: 10px;">RIZKY FAUZIA</div>
+                <!-- <div style="margin-left: 40px; margin-top: -60px">
+                    <img src="{{ public_path('image/ttdrizky.png') }}" alt="image ttdrizky" style="width:80px; height:60px;">
+                </div> -->
+                <div style="margin-left: 0px; margin-top: 10px;">DICKY YOSUA SETIAWAN</div>
                 <div style="margin-left: 45px;">Direktur</div>
             </div>
         </div>

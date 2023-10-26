@@ -48,13 +48,13 @@
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="New Password" required autocomplete="new-password">
                                             <label for="inputPassword">New Password</label>
-                                            <span id="togglePassword" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; margin-left: 390px;"></span>
+                                            <span id="togglePassword" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; right: 10px;"></span>
                                         </div>
 
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Conform New Password" required autocomplete="new-password">
                                             <label for="inputPassword">Confirm New Password</label>
-                                            <span id="togglePasswordConfirm" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; margin-left: 390px;"></span>
+                                            <span id="togglePasswordConfirm" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; right: 10px;"></span>
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-end mt-4 mb-0">

@@ -53,7 +53,10 @@
                       </div>
                       @enderror
                       <label for="inputPassword">Password</label>
-                      <span id="togglePassword" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; margin-left: 390px;"></span>
+                      <!-- <span id="togglePassword" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; margin-left: 390px;"></span>
+                      <span id="togglePasswordConfirm" class="bi bi-eye" style="cursor: pointer; position: absolute; top: 50%; transform: translate(0, -50%); right: 10px;"></span> -->
+                      <span id="togglePassword" class="bi bi-eye position-absolute top-50 translate-middle-y" style="cursor: pointer; right: 10px;"></span>
+
                     </div>
                     <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                       <button type="submit" class="btn btn-primary">Login</button>

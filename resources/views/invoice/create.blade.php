@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <strong>Invoice Number</strong>
                                     <div class="input-group">
-                                        <input type="text" name="invoice_number" class="form-control" id="invoice_number" value="{{ $nextInvoiceNumberFull }}" readonly>
+                                        <input type="text" name="invoice_number" class="form-control" id="invoice_number" value="{{ $nextInvoiceNumberFull }}">
                                     </div>
                                 </div>
                             </div>
@@ -86,6 +86,7 @@
             </div>
         </div>
     </div>
+
     <!-- The Modal Create-->
     <div class="modal fade bd-example-modal-lg" id="invoiceItemModal">
         <div class="modal-dialog modal-lg" role="document">

@@ -40,11 +40,11 @@
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fa-solid fa-chart-pie"></i>
-                        Pie Chart Total Invoice Items
+                        <i class="fa-solid fa-chart-bar"></i>
+                        Bar Chart Total Invoice Items For the Last 6 Months
                     </div>
                     <div style="width: 100%;">
-                        <div class="card-body"><canvas id="piechart"></canvas></div>
+                        <div class="card-body"><canvas id="barchart"></canvas></div>
                         <div class="card-footer small text-muted">Updated {{ $formattedLastUpdated }}</div>
                     </div>
                 </div>
@@ -52,11 +52,11 @@
             <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fa-solid fa-chart-bar"></i>
-                        Bar Chart Total Invoice Items For the Last 6 Months
+                        <i class="fa-solid fa-chart-pie"></i>
+                        Pie Chart Total Invoice Items
                     </div>
                     <div style="width: 100%;">
-                        <div class="card-body"><canvas id="barchart"></canvas></div>
+                        <div class="card-body"><canvas id="piechart"></canvas></div>
                         <div class="card-footer small text-muted">Updated {{ $formattedLastUpdated }}</div>
                     </div>
                 </div>

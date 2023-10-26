@@ -29,7 +29,7 @@ class ForgotPasswordController extends Controller
             );
         } catch (\Exception) {
             // Handle the exception here
-            return redirect('/auth.forgot-password'); // Redirect to your error page
+            return redirect('/forgot-password'); // Redirect to your error page
         }
 
         return $status === Password::RESET_LINK_SENT
