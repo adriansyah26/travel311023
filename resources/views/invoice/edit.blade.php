@@ -3,7 +3,7 @@
 <main>
     <div class="container-fluid px-4">
         <div class="float-start mt-3">
-            <h2>Edit New Invoice</h2>
+            <h2>Edit Invoice</h2>
         </div>
 
         <div class="row container mt-1 px-4">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-4 mt-3 px-4 col-lg-12 ">
+            <div class="card mb-4 mt-3 px-4 col-lg-12">
                 <div class="card-body" style="overflow-x: auto;">
                     <div class="container-fluid">
                         <table id="itemTable" class="table table-bordered table-striped mt-3" style="margin-left: 10px; width: 950px; table-layout: fixed;">
@@ -116,11 +116,11 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="card col-lg-12 ">
+                    <div class="card col-lg-12">
                         <div class="card-body">
                             <div class="container-fluid">
-                                <div class="row mb-3">
-                                    <div class="col-lg-4 margin-tb">
+                                <div class="row">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Products</strong>
                                             <div class="input-group">
@@ -132,7 +132,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 margin-tb">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Item</strong>
                                             <div class="input-group">
@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 margin-tb">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Kode Booking</strong>
                                             <div class="input-group">
@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 margin-tb">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Markup</strong>
                                             <div class="input-group">
@@ -158,7 +158,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 margin-tb">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Quantity</strong>
                                             <div class="input-group">
@@ -166,7 +166,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 margin-tb">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Amount</strong>
                                             <div class="input-group">
@@ -176,7 +176,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 margin-tb mt-3">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Service Fee</strong>
                                             <div class="input-group">
@@ -184,7 +184,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 margin-tb mt-5">
+                                    <div class="col-lg-4 margin-tb mb-3 mt-4">
                                         <div class="form-check">
                                             <input class="form-check-input" name="service_fee_persen" type="checkbox" id="service_fee_persen" onchange="updateTotalWithServiceFee()">
                                             <strong class="form-check-label" for="service_fee_persen">
@@ -192,7 +192,7 @@
                                             </strong>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 margin-tb mt-3">
+                                    <div class="col-lg-4 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Total</strong>
                                             <div class="input-group">
@@ -202,7 +202,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12 margin-tb mt-3">
+                                    <div class="col-lg-12 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Description</strong>
                                             <div class="input-group">

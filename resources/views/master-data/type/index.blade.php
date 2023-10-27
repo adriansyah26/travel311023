@@ -60,24 +60,24 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="card col-lg-12 ">
+                    <div class="card col-lg-12">
                         <div class="card-body">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-lg-12 margin-tb">
+                                    <div class="col-lg-12 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Code</strong>
-                                            <div class="input-group mb-3">
+                                            <div class="input-group">
                                                 <input type="text" name="code" class="form-control" placeholder="Code 4 Characters" value="{{ old('code') }}" id="code" required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12 margin-tb">
+                                    <div class="col-lg-12 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Name</strong>
-                                            <div class="input-group mb-3">
+                                            <div class="input-group">
                                                 <input type="text" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}" id="name" required>
                                             </div>
                                         </div>
@@ -102,29 +102,29 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit New Type</h4>
+                    <h4 class="modal-title">Edit Type</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="card col-lg-12 ">
+                    <div class="card col-lg-12">
                         <div class="card-body">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-lg-12 margin-tb">
+                                    <div class="col-lg-12 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Code</strong>
-                                            <div class="input-group mb-3">
+                                            <div class="input-group">
                                                 <input type="text" name="codeedit" class="form-control" placeholder="Code 4 Characters" id="codeedit" required>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12 margin-tb">
+                                    <div class="col-lg-12 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Name</strong>
-                                            <div class="input-group mb-3">
+                                            <div class="input-group">
                                                 <input type="text" name="nameedit" class="form-control" placeholder="Name" id="nameedit" required>
                                             </div>
                                         </div>

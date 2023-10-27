@@ -68,11 +68,11 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="card col-lg-12 ">
+                    <div class="card col-lg-12">
                         <div class="card-body">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Name</strong>
                                             <div class="input-group">
@@ -80,7 +80,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Phone</strong>
                                             <div class="input-group">
@@ -89,8 +89,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-lg-6 margin-tb">
+                                <div class="row">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Email</strong>
                                             <div class="input-group">
@@ -103,7 +103,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Termin</strong>
                                             <div class="input-group">
@@ -112,8 +112,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3 mb-3">
-                                    <div class="col-lg-6 margin-tb">
+                                <div class="row">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Address</strong>
                                             <div class="input-group">
@@ -121,7 +121,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Type</strong>
                                             <div class="input-group">
@@ -153,16 +153,16 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit New Customers</h4>
+                    <h4 class="modal-title">Edit Customers</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="card col-lg-12 ">
+                    <div class="card col-lg-12">
                         <div class="card-body">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Name</strong>
                                             <div class="input-group">
@@ -170,7 +170,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Phone</strong>
                                             <div class="input-group">
@@ -179,8 +179,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-lg-6 margin-tb">
+                                <div class="row">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Email</strong>
                                             <div class="input-group">
@@ -193,7 +193,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Termin</strong>
                                             <div class="input-group">
@@ -202,8 +202,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3 mb-3">
-                                    <div class="col-lg-6 margin-tb">
+                                <div class="row">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Address</strong>
                                             <div class="input-group">
@@ -211,7 +211,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 margin-tb">
+                                    <div class="col-lg-6 margin-tb mb-3">
                                         <div class="form-group">
                                             <strong>Type</strong>
                                             <div class="input-group">
