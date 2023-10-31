@@ -15,13 +15,25 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'title' => 'Mr',
-            'first_name' => 'Adri',
-            'last_name' => 'ansyah',
-            'phone' => '088888888888',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('admin123'),
-        ]);
+        $data = [
+            [
+                'title' => 'Mrs',
+                'first_name' => 'Fenni',
+                'last_name' => 'Iren',
+                'phone' => '082232389408',
+                'email' => 'fenniirene04@gmail.com',
+                'password' => bcrypt('admin123'),
+            ],
+            [
+                'title' => 'Mrs',
+                'first_name' => 'Rizky',
+                'last_name' => 'Fauzia',
+                'phone' => '087788715681',
+                'email' => 'kamairafirst@gmail.com',
+                'password' => bcrypt('admin123'),
+            ]
+        ];
+
+        User::insert($data);
     }
 }

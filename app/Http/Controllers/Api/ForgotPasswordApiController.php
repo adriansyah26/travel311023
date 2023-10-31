@@ -20,18 +20,18 @@ class ForgotPasswordApiController extends Controller
 
             // Pastikan pengguna ada sebelum mencoba membuat token
             if ($user) {
-                $response = Password::createToken($user);
+                // Membuat token reset password
+                $token = Password::createToken($user);
 
-                if ($response) {
-                    return Api::json(['token' => $response], 200, 'Token created successfully', true);
-                } else {
-                    return Api::json([], 400, 'Unable to create token', false);
-                }
+                // Kirim email notifikasi
+                $user->sendPasswordResetNotification($token);
+
+                return Api::json(['message' => 'Token created and email sent successfully', 'token' => $token], 200, 'Token created successfully');
             } else {
-                return Api::json([], 404, 'User not found', false);
+                return Api::json([], 404, 'User not found');
             }
         } catch (\Exception $e) {
-            return Api::json([], 500, 'Failed to create token', false);
+            return Api::json([], 500, 'Failed to create token');
         }
     }
 }

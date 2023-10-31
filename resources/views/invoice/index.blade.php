@@ -5,7 +5,7 @@
         <div class="float-start mt-3">
             <h2>Invoice</h2>
             <div class="form-check col-lg-7" style="margin-left: 120px; margin-top: -40px;">
-                <select class="form-select" aria-label="Default select example" id="pdfDropdown">
+                <select class="form-select" aria-label="Default select example" id="pdfDropdown" style="cursor: pointer;">
                     <option value="select" id="select" selected>--Select PDF--</option>
                     <option value="rizkyksp" id="rizkyksp">RIZKY KSP</option>
                     <option value="dickyksp" id="dickyksp">DICKY KSP</option>

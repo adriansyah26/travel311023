@@ -19,7 +19,7 @@
     </header>
     <div>
         <div id="logo" style="margin-top: -50px;">
-            <img src="{{ public_path('image/stempelmaxx.png') }}" alt="image invoice" style="width:120px; height:110px;">
+            <img src="{{ public_path('image/stempelmaxx.png') }}" alt="image invoice" style="width:120px; height:120px;">
         </div>
     </div>
     <hr style="margin-left: 150px; margin-right: 100px; border: 1px solid black;">
@@ -61,10 +61,10 @@
             <thead>
                 <tr>
                     <th style="width: 10px; ">No</th>
-                    <th style="width: 370px;">Description</th>
+                    <th style="width: 340px;">Description</th>
                     <th style="width: 50px;">Kode Booking</th>
                     <th style="width: 20px;">Qty</th>
-                    <th style="width: 40px;">Amount</th>
+                    <th style="width: 70px;">Amount</th>
                     <th style="width: 70px;">Total</th>
                 </tr>
             </thead>
@@ -77,8 +77,8 @@
                     </td>
                     <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5); font-weight: bold;">{{ $item->kode_booking }}</td>
                     <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->quantity, 0, ',', '.') }}</td>
-                    <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->amount, 0, ',', '.') }}</td>
-                    <td style="padding-left: 20px; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->total, 0, ',', '.') }}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0.5);">Rp {{ number_format($item->amount, 0, ',', '.') }}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0.5);">Rp {{ number_format($item->total, 0, ',', '.') }}</td>
                 </tr>
                 @endforeach
                 @if($servicefeeInvoice > 0)
@@ -107,14 +107,14 @@
             </div>
             <div style="margin-left: 500px; margin-top: -110px; font-family: Arial, Helvetica, sans-serif; font-size: 10px;">
                 <div>Jakarta, {{$formattanggal}}</div>
-                <div style="margin-bottom: 10px;">Thank You for Your Payment</div>
+                <div style="margin-bottom: 0px;">Thank You for Your Payment</div>
                 <div style="margin-left: -10px;">
-                    <img src="{{ public_path('image/stempelmaxx.png') }}" alt="image stempelmaxx" style="width:150px; height:140px;">
+                    <img src="{{ public_path('image/stempelmaxx.png') }}" alt="image stempelmaxx" style="width:150px; height:150px;">
                 </div>
-                <!-- <div style="margin-left: 40px; margin-top: -60px">
-                    <img src="{{ public_path('image/ttdrizky.png') }}" alt="image ttdrizky" style="width:80px; height:60px;">
-                </div> -->
-                <div style="margin-left: 0px; margin-top: 10px;">DICKY YOSUA SETIAWAN</div>
+                <div style="margin-left: -30px;">
+                    <img src="{{ public_path('image/ttddicky.png') }}" alt="image ttddicky" style="width:170px; height:140px; margin-top: -150px;">
+                </div>
+                <div style="margin-left: 0px; margin-top: 0px;">DICKY YOSUA SETIAWAN</div>
                 <div style="margin-left: 45px;">Direktur</div>
             </div>
         </div>

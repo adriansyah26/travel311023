@@ -61,10 +61,10 @@
             <thead>
                 <tr>
                     <th style="width: 10px; ">No</th>
-                    <th style="width: 370px;">Description</th>
+                    <th style="width: 340px;">Description</th>
                     <th style="width: 50px;">Kode Booking</th>
                     <th style="width: 20px;">Qty</th>
-                    <th style="width: 40px;">Amount</th>
+                    <th style="width: 70px;">Amount</th>
                     <th style="width: 70px;">Total</th>
                 </tr>
             </thead>
@@ -77,8 +77,8 @@
                     </td>
                     <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5); font-weight: bold;">{{ $item->kode_booking }}</td>
                     <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->quantity, 0, ',', '.') }}</td>
-                    <td style="text-align: center; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->amount, 0, ',', '.') }}</td>
-                    <td style="padding-left: 20px; border: 1px solid rgba(0, 0, 0, 0.5);">{{ number_format($item->total, 0, ',', '.') }}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0.5);">Rp {{ number_format($item->amount, 0, ',', '.') }}</td>
+                    <td style="border: 1px solid rgba(0, 0, 0, 0.5);">Rp {{ number_format($item->total, 0, ',', '.') }}</td>
                 </tr>
                 @endforeach
                 @if($servicefeeInvoice > 0)
